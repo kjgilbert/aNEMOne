@@ -33,4 +33,4 @@ An [example script] shows how this package's functions may be used to produce a 
 
 The main function `make.input` takes all of the parameters that would normally appear in your input file with some defaults already set. See `?make.input` for details. This function really provides no advantage unless you use the additional functions to create large matrices and kernels that can now be automatically inserted into the input file without worry about copy and paste or bracket errors.
 
-See `?patch.cap` for details on making an array of patch capacities. Currently only two different K's may be set across the landscape, but more may easily be added, so feel free to request so. This function also works for male and female specific carrying capacities as well as temporally set capacities.
+See `?patch.cap` for details on making an array of patch capacities. Currently only two different *K*'s may be set across the landscape, but more may easily be added, so feel free to request so. This function also works for male and female specific carrying capacities as well as temporally set capacities.
