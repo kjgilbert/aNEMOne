@@ -113,6 +113,8 @@ make.input <- function(
 	gens=NULL,
 	num.patches=NULL,
 	patch.capacity=NULL,
+	patch.capacity.fem=NULL,
+	patch.capacity.mal=NULL,
 	LCE.order=NULL,
 	mating.system=NULL,
 	mean.fec=NULL,
@@ -126,7 +128,11 @@ make.input <- function(
 		row6 <- paste(c("replicates", reps), collapse=" ")
 		row7 <- paste(c("generations", gens), collapse=" ")
 		row8 <- paste(c("patch_number", num.patches), collapse=" ")
-		row9 <- paste(c("patch_capacity", patch.capacity), collapse=" ")
+		if(is.null(patch.capacity.fem)){
+			row9 <- paste(c("patch_capacity", patch.capacity), collapse=" ")
+		}else{
+			row9 <- paste(c(paste(c("patch_nbfem", patch.capacity.fem), collapse=" "), paste(c("patch_nbmal", patch.capacity.mal), collapse=" ")), collapse="\n")
+		}
 		row10 <- NULL
 		for(i in 1:length(LCE.order)){
 			temp <- paste(paste(c(LCE.order[i], i), collapse=" "), sep="\n")
@@ -134,7 +140,7 @@ make.input <- function(
 		}
 		
 		row11 <- paste(c("mating_system", mating.system), collapse=" ")
-		row12 <- paste(c("mean_fecundity", mean.fed), collapse=" ")
+		row12 <- paste(c("mean_fecundity", mean.fec), collapse=" ")
 		row13 <- paste(c(), collapse=" ")
 		row14 <- paste(c(), collapse=" ")
 		row15 <- paste(c(), collapse=" ")
@@ -166,7 +172,7 @@ make.input <- function(
 		
 		
 	
-	init.file <- paste(c(row1, row2, row3, row4, row5, row6, row7, row8, row9, row10, row11, row12), collapse="\n")
+	init.file <- paste(c(row1, row2, row3, row4, row5, "\n", row6, row7, row8, row9, row10, row11, row12), collapse="\n")
 	
 		
 	writeLines(init.file, paste(c(getwd(), "/", filename, ".ini"), collapse=""))
