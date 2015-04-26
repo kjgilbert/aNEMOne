@@ -193,6 +193,7 @@ make.input <- function(
 #'
 #'
 #'
+#' @examples
 #' 
 #' 
 #' @export read.output
