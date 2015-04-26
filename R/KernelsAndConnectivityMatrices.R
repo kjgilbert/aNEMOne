@@ -1,23 +1,42 @@
+# CREATE THE DISPERSAL (or breeding) MATRIX
 
 
-
-cell <- 50
-# landscape size
-land.x <- 1000	# 1000 km = 1,000,000 m
-land.y <- 2000		# 50 km = 50,000 m
-
-cells.x <- land.x/cell
-cells.y <- land.y/cell
-
-(total.cells <- cells.x * cells.y)
-
-
-# CREATE THE DISPERSAL MATRIX
-
-# dispersal kernel from 1 patch to surrounding patches
-#	want it to be Gaussian and vary to having more LDD (long distance dispersal)
-dist.mean <- 0		# mean should stay at zero as dispersal is centered around natal patch
-dist.sd <- 25		# this is sigma, one standard deviation, in meters
+#' @title Create dispersal or breeding window kernels and connectivity matrices
+#'
+#' @description Automatically create the dispersal and breeding window probability kernels and connectivity matrices of patch IDs based on the provided cell size, number of cells in the x and y directions on the landscape, and the mean and standard deviation of the dispersal kernel. Additionally, two distributions are able to be summed for creating the dispersal kernel.
+#'
+#'  @param cell.size The size in unites distance of a single patch (or cell), which based on the parameters given below will influence how large the landscape is and how many cells are within one unit sigma.
+#'
+#'  @param land.x The size of the landscape in the horizontal direction. Units are the same as cell.size.
+#' 
+#'  @param land.y The size of the landscape in the vertical direction. Units are the same as cell.size.
+#'
+#'  @param dist.mean The mean distance for the kernel's distribution. Default is zero (i.e. most dispersal occurs to the natal patch).
+#'
+#'  @param dist.sd Sigma (one standard deviation) for the distribution of dispersal distances.
+#'
+#'  @param breed.window A boolean parameter with default FALSE. Change to true if making a breeding window and not a dispersal kernel. This changes the ID of the patch that is at the absorbing boundary of the landscape.
+#'
+#'  @param two.kernels A boolean parameter with default FALSE. If two distributions are being summed to create the kernel, this should be TRUE.
+#'
+#'  @param second.dist.mean The mean of the second distribution being summed with the first distribution. The default is zero, as above, but should match the first distribution's mean if that is ever changed from zero.
+#'
+#'  @param second.dist.sd Sigma (one standard deviation) for the distribution of dispersal distances of the second distribution.
+#'
+#'  @return
+#'
+#' Returns the array of probabilities for the dispersal or breeding window kernels and prints the connectivity matrix to a file.
+#'
+#' @author Kimberly J Gilbert
+#'
+#' @references Gilbert KJ 
+#'
+#' @examples
+#'
+#' make.kernel.and.matrix(cell.size=50, land.x=1000, land.y=2000, dist.mean=0, dist.sd=25, breed.window=TRUE, two.kernels=FALSE, second.dist.mean=0, second.dist.sd=NULL)
+#' 
+#' 
+#' @export make.kernel.and.matrix
 
 
 make.kernel.and.matrix <- function(cell.size, land.x, land.y, dist.mean=0, dist.sd, breed.window=FALSE, two.kernels=FALSE, second.dist.mean=0, second.dist.sd=NULL){
@@ -280,8 +299,8 @@ make.kernel.and.matrix <- function(cell.size, land.x, land.y, dist.mean=0, dist.
 	with.commas$col1 <- "{"
 	with.commas$col.last <- "}"
 	final.connectivity.matrix <- cbind(with.commas$col1, paste(with.commas$V1), with.commas$col.last)
-	if(breed.window == FALSE) write.table(final.connectivity.matrix, file="Dispersal_ConnMatrix.txt", col.names=FALSE, row.names=FALSE, quote=FALSE)
-	if(breed.window == TRUE) write.table(final.connectivity.matrix, file="Breeding_ConnMatrix.txt", col.names=FALSE, row.names=FALSE, quote=FALSE)
+	if(breed.window == FALSE) write.table(final.connectivity.matrix, file=paste(c(getwd(), "/", "Dispersal_ConnMatrix.txt"), collapse=""), col.names=FALSE, row.names=FALSE, quote=FALSE)
+	if(breed.window == TRUE) write.table(final.connectivity.matrix, file=paste(c(getwd(), "/", "Breeding_ConnMatrix.txt"), collapse=""), col.names=FALSE, row.names=FALSE, quote=FALSE)
 	
 	return(kernel)
 }

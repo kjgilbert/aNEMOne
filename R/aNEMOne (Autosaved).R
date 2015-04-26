@@ -134,7 +134,7 @@ make.input <- function(
 		}
 		
 		row11 <- paste(c("mating_system", mating.system), collapse=" ")
-		row12 <- paste(c("mean_fecundity", mean.fed), collapse=" ")
+		row12 <- paste(c("mean_fecundity", mean.fec), collapse=" ")
 		row13 <- paste(c(), collapse=" ")
 		row14 <- paste(c(), collapse=" ")
 		row15 <- paste(c(), collapse=" ")
@@ -166,7 +166,7 @@ make.input <- function(
 		
 		
 	
-	init.file <- paste(c(row1, row2, row3, row4, row5, row6, row7, row8, row9, row10, row11, row12), collapse="\n")
+	init.file <- paste(c(row1, row2, row3, row4, row5, "\n", row6, row7, row8, row9, row10, row11, row12), collapse="\n")
 	
 		
 	writeLines(init.file, paste(c(getwd(), "/", filename, ".ini"), collapse=""))
