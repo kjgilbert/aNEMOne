@@ -6,7 +6,7 @@
 
 An R package to create input files for and analyze output files from [Nemo](http://nemo2.sourceforge.net/). 
 
-**CURRENTLY STILL IN PROGRESS**
+**PACKAGE CREATION CURRENTLY STILL IN PROGRESS**
 
 ## Documentation
 
