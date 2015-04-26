@@ -6,6 +6,8 @@
 
 An R package to create input files for and analyze output files from [Nemo](http://nemo2.sourceforge.net/). 
 
+**CURRENTLY STILL IN PROGRESS**
+
 ## Documentation
 
 Nemo is an individual-based forward-time simulation program created and maintained by Fred Guillaume. The latest release is available for download [here](http://nemo2.sourceforge.net/).
