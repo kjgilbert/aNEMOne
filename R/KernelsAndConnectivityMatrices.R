@@ -41,6 +41,8 @@
 
 make.kernel.and.matrix <- function(cell.size, land.x, land.y, dist.mean=0, dist.sd, breed.window=FALSE, two.kernels=FALSE, second.dist.mean=0, second.dist.sd=NULL){
 
+	cell <- cell.size
+	
 	cells.x <- land.x/cell
 	cells.y <- land.y/cell
 
@@ -72,6 +74,14 @@ make.kernel.and.matrix <- function(cell.size, land.x, land.y, dist.mean=0, dist.
 		# still need to renormalize because only have the cumulative within 4 sigma
 	normalized.kernel.1d <- kernel.1d/sum(kernel.1d)	# normalize the probabilities to sum to 1
 	plot(1:cells.in.1D.kernel, normalized.kernel.1d)
+	
+	middle.of.kernel <- center.cell
+		# ceiling(length(disp.kernel[,1])/2)	
+		# works because there are an odd number for the length/width
+	max.dist.include.natal <- middle.of.kernel	
+		# the maximum number of cells an individual might migrate including 1 as staying in natal patch
+	max.dist.exclude.natal <- middle.of.kernel - 1
+
 
 
 ########################################################################################################################
@@ -152,56 +162,57 @@ make.kernel.and.matrix <- function(cell.size, land.x, land.y, dist.mean=0, dist.
 		normalized.kernel.1d <- kernel.1d/sum(kernel.1d)	# normalize the probabilities to sum to 1
 		plot(1:cells.in.1D.kernel, normalized.kernel.1d)
 
-		# multiply it by itself to create the 2-D
-		horizontal.to.multiply <- matrix(NA, nrow=length(normalized.kernel.1d), ncol=length(normalized.kernel.1d))
-		vertical.to.multiply <- matrix(NA, nrow=length(normalized.kernel.1d), ncol=length(normalized.kernel.1d))
+	}
 
-		for(j in 1:length(normalized.kernel.1d)){
-			horizontal.to.multiply[j,] <- normalized.kernel.1d
-			vertical.to.multiply[,j] <- normalized.kernel.1d
-		}
+	# multiply it by itself to create the 2-D
+	horizontal.to.multiply <- matrix(NA, nrow=length(normalized.kernel.1d), ncol=length(normalized.kernel.1d))
+	vertical.to.multiply <- matrix(NA, nrow=length(normalized.kernel.1d), ncol=length(normalized.kernel.1d))
 
-		multiplied.kernels <- horizontal.to.multiply * vertical.to.multiply
+	for(j in 1:length(normalized.kernel.1d)){
+		horizontal.to.multiply[j,] <- normalized.kernel.1d
+		vertical.to.multiply[,j] <- normalized.kernel.1d
+	}
 
-
-		# plot the multiplied matrix
-		library(graphics)
-		contour(multiplied.kernels, asp=1, nlevels= four.sigma.units)
-
-		# find the cutoff value for distance travelled
-		#  i.e. which contours don't make the full circle around because they travel farther than the central column/row?
-		lower.cutoff <- multiplied.kernels[1, center.cell]
-		multiplied.kernels[multiplied.kernels < lower.cutoff] <- 0
-			# replace values lower than the cutoff with zero
-
-		# plot the multiplied matrix that's been cut off to circular distances
-		contour(multiplied.kernels, asp=1, nlevels= four.sigma.units)
+	multiplied.kernels <- horizontal.to.multiply * vertical.to.multiply
 
 
-		# restandardize so all sums to 1
-		restandardized.multiplied.kernels <- multiplied.kernels/sum(multiplied.kernels)
-		contour(restandardized.multiplied.kernels, asp=1, nlevels= four.sigma.units)
-		disp.kernel <- restandardized.multiplied.kernels
+	# plot the multiplied matrix
+	library(graphics)
+	contour(multiplied.kernels, asp=1, nlevels= four.sigma.units)
 
-		middle.of.kernel <- center.cell
-			# ceiling(length(disp.kernel[,1])/2)	
-			# works because there are an odd number for the length/width
-		max.dist.include.natal <- middle.of.kernel	
-			# the maximum number of cells an individual might migrate including 1 as staying in natal patch
-		max.dist.exclude.natal <- middle.of.kernel - 1
+	# find the cutoff value for distance travelled
+	#  i.e. which contours don't make the full circle around because they travel farther than the central column/row?
+	lower.cutoff <- multiplied.kernels[1, center.cell]
+	multiplied.kernels[multiplied.kernels < lower.cutoff] <- 0
+		# replace values lower than the cutoff with zero
+
+	# plot the multiplied matrix that's been cut off to circular distances
+	contour(multiplied.kernels, asp=1, nlevels= four.sigma.units)
 
 
-		# TRY AND MAKE A ROUNDED KERNEL THAT STILL SUMS TO 1:
-		for(i in 5:25){
-			#print(i)
-			if(sum(signif(disp.kernel, digits=i))==1){
-				disp.kernel <- signif(disp.kernel, digits=i)
-				print(i)
-				break	# exit the loop
-			}
+	# restandardize so all sums to 1
+	restandardized.multiplied.kernels <- multiplied.kernels/sum(multiplied.kernels)
+	contour(restandardized.multiplied.kernels, asp=1, nlevels= four.sigma.units)
+	disp.kernel <- restandardized.multiplied.kernels
+
+	middle.of.kernel <- center.cell
+		# ceiling(length(disp.kernel[,1])/2)	
+		# works because there are an odd number for the length/width
+	max.dist.include.natal <- middle.of.kernel	
+		# the maximum number of cells an individual might migrate including 1 as staying in natal patch
+	max.dist.exclude.natal <- middle.of.kernel - 1
+
+
+	# TRY AND MAKE A ROUNDED KERNEL THAT STILL SUMS TO 1:
+	for(i in 5:25){
+		#print(i)
+		if(sum(signif(disp.kernel, digits=i))==1){
+			disp.kernel <- signif(disp.kernel, digits=i)
+			print(i)
+			break	# exit the loop
 		}
 	}
-	
+
 #############################################################################################################################
 #
 #	NOW WE HAVE THE DISPERSAL KERNEL
