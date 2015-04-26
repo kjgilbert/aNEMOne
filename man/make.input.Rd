@@ -12,39 +12,39 @@ make.input(run.mode = "overwrite", random.seed = "12345",
   seln.trait = NULL, seln.model = NULL)
 }
 \arguments{
-\item{run.mode}{}
+\item{run.mode}{The mode to run the simulation in; default is "overwrite", for other options see the Nemo manual.}
 
 \item{random.seed}{Set the random seed for the run, default is 12345.}
 
 \item{log.file}{Name of the logfile to be output.}
 
-\item{root.dir}{}
+\item{root.dir}{Root directory to put run outputs.}
 
-\item{filename}{}
+\item{filename}{Base name of the simulation file.}
 
-\item{reps}{}
+\item{reps}{Number of replicates to perform.}
 
-\item{gens}{}
+\item{gens}{Number of generations to run the simulation.}
 
-\item{num.patches}{}
+\item{num.patches}{Number of patches on the landscape.}
 
-\item{patch.capacity}{}
+\item{patch.capacity}{The carrying capacity of each patch, can be specified by an integer value or an array of length num.patches.}
 
-\item{patch.capacity.fem}{}
+\item{patch.capacity.fem}{If sex-specific carrying capacity, this is the female carrying capacity per patch.}
 
-\item{patch.capacity.mal}{}
+\item{patch.capacity.mal}{If sex-specific carrying capacity, this is the male carrying capacity per patch.}
 
-\item{cap.temp}{}
+\item{cap.temp}{If carrying capacity changes at a given generation, this is the generation at which that occurs.}
 
-\item{LCE.order}{}
+\item{LCE.order}{The order of life cycle events in the simulation. Should be given as multiple character strings, in order.}
 
-\item{mating.system}{}
+\item{mating.system}{See the nemo manual for details, random mating is specified by a '1'.}
 
-\item{mean.fec}{}
+\item{mean.fec}{Mean fecundity per mother, may also be set to be patch-specific with an array. By default follows a Poisson distribution, see the Nemo manual for details.}
 
-\item{seln.trait}{}
+\item{seln.trait}{The trait(s) specified to be under selection.}
 
-\item{seln.model}{}
+\item{seln.model}{The model of selection to use.}
 }
 \value{
 Write the file specified into the working directory.

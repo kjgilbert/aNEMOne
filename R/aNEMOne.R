@@ -15,39 +15,39 @@
 #' @title Create Nemo input file
 #'
 #'
-#'  @param run.mode
+#'  @param run.mode The mode to run the simulation in; default is "overwrite", for other options see the Nemo manual. 
 #'
 #'  @param random.seed Set the random seed for the run, default is 12345.
 #'
 #'  @param log.file Name of the logfile to be output.
 #'
-#'  @param root.dir
+#'  @param root.dir Root directory to put run outputs.
 #'
-#'  @param filename 
+#'  @param filename Base name of the simulation file.
 #'
-#'  @param reps
+#'  @param reps Number of replicates to perform.
 #'
-#'  @param gens
+#'  @param gens Number of generations to run the simulation.
 #'
-#'  @param num.patches
+#'  @param num.patches Number of patches on the landscape.
 #'
-#'  @param patch.capacity
+#'  @param patch.capacity The carrying capacity of each patch, can be specified by an integer value or an array of length num.patches.
 #'
-#'  @param patch.capacity.fem
+#'  @param patch.capacity.fem If sex-specific carrying capacity, this is the female carrying capacity per patch.
 #'
-#'  @param patch.capacity.mal
+#'  @param patch.capacity.mal If sex-specific carrying capacity, this is the male carrying capacity per patch.
 #'
-#'  @param cap.temp
+#'  @param cap.temp If carrying capacity changes at a given generation, this is the generation at which that occurs.
 #'
-#'  @param LCE.order
+#'  @param LCE.order The order of life cycle events in the simulation. Should be given as multiple character strings, in order.
 #'
-#'  @param mating.system
+#'  @param mating.system See the nemo manual for details, random mating is specified by a '1'.
 #'
-#'  @param mean.fec
+#'  @param mean.fec Mean fecundity per mother, may also be set to be patch-specific with an array. By default follows a Poisson distribution, see the Nemo manual for details.
 #'
-#'  @param seln.trait
+#'  @param seln.trait The trait(s) specified to be under selection.
 #'
-#'  @param seln.model
+#'  @param seln.model The model of selection to use.
 #'
 #'  @return
 #'
