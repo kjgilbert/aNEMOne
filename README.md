@@ -2,11 +2,11 @@
 
 [![Build Status](https://travis-ci.org/kjgilbert/aNEMOne.png?branch=master)](https://travis-ci.org/kjgilbert/aNEMOne) 
 
-![aNEMOne logo](https://github.com/kjgilbert/aNEMOne/raw/master/extra/SeaAnemone.png)
-
 An R package to create input files for and analyze output files from [Nemo](http://nemo2.sourceforge.net/). 
 
 **PACKAGE CREATION CURRENTLY STILL IN PROGRESS**
+
+![aNEMOne logo](https://github.com/kjgilbert/aNEMOne/raw/master/extra/SeaAnemone.png)
 
 ## Documentation
 
