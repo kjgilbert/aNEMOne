@@ -5,12 +5,7 @@
 
 
 #'
-#' Compares the QST of a single phenotypic trait to the mean FST of series of marker loci. 
-#' It calculates the distribution of QST - FST under a model assuming neutrality of both 
-#' the phenotypic trait and the genetic markers from which FST is estimated.
-#' Returns the simulated estimates of Qst - Fst under neutrality following the procedure
-#' described in Gilbert and Whitlock (2014) and Whitlock & Guillaume (2009). Also returns 
-#' the simulated estimates of Fst and Qst used to compute the null distribution.
+#' Makes an input file of type .ini for \href{http://nemo2.sourceforge.net/index.html}{Nemo}, an individual-based, forward time simulation program created and maintained by Fred Guillaume.
 #'
 #' @title Create Nemo input file
 #'
@@ -111,7 +106,7 @@
 #'
 #' @author Kimberly J Gilbert
 #'
-#'
+#' @references \href{http://nemo2.sourceforge.net/index.html}{Nemo} is created and maintained by Fred Guillaume. The manual and source files are available online.
 #'
 #' @examples
 #'
