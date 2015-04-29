@@ -124,7 +124,6 @@ described in Gilbert and Whitlock (2014) and Whitlock & Guillaume (2009). Also r
 the simulated estimates of Fst and Qst used to compute the null distribution.
 }
 \examples{
-setwd("~/Desktop")
 # population
 cap <- patch.cap(6,1000, 0,2)
 num.patches <- 1002
@@ -133,16 +132,16 @@ life.cycles <- c("breed", "disperse", "selection", "aging")
 
 # mating
 breed.kernel <- make.kernel.and.matrix(cell.size=50, land.x=1000, land.y=2000, dist.mean=0, dist.sd=25, breed.window=TRUE, two.kernels=FALSE, second.dist.mean=0, second.dist.sd=NULL)
-breed.file <- "~/Desktop/Breeding_ConnMatrix.txt"
+breed.file <- "Breeding_ConnMatrix.txt"
 breeding.connectivity.matrix <- readChar(breed.file, file.info(breed.file)$size)
 
 # dispersal
 disp.kernel <- make.kernel.and.matrix(cell.size=50, land.x=1000, land.y=2000, dist.mean=0, dist.sd=25, breed.window=FALSE, two.kernels=FALSE, second.dist.mean=0, second.dist.sd=NULL)
-disp.file <- "~/Desktop/Dispersal_ConnMatrix.txt"
+disp.file <- "Dispersal_ConnMatrix.txt"
 dispersal.connectivity.matrix <- readChar(disp.file, file.info(disp.file)$size)
 
 make.input(
-	root.dir="test", filename="test3",
+	root.dir="test", filename="test",
 	reps=100, gens=1000, num.patches= num.patches, patch.capacity=cap,
 	LCE.order= life.cycles,
 	mating.system=1, mean.fec=7,
@@ -155,7 +154,7 @@ make.input(
 	num.ntrl.loci=100, num.ntrl.alleles=2, ntrl.mut.rate=0.001, ntrl.mut.model=1, ntrl.init.model=1,
 	save.ntrl=50, save.quanti=10, save.stats=10,
 	stats=c("demography", "fecundity", "migrants")
-	)
+)
 }
 \author{
 Kimberly J Gilbert
