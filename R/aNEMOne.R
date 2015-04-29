@@ -45,9 +45,65 @@
 #'
 #'  @param mean.fec Mean fecundity per mother, may also be set to be patch-specific with an array. By default follows a Poisson distribution, see the Nemo manual for details.
 #'
+#'  @param self.if.alone
+#'
+#'  @param always.breed.window
+#'
+#'  @param breeding.connectivity.matrix
+#'
+#'  @param breeding.kernel
+#'
+#'  @param dispersal.connectivity.matrix
+#'
+#'  @param dispersal.kernel
+#'
 #'  @param seln.trait The trait(s) specified to be under selection.
 #'
 #'  @param seln.model The model of selection to use.
+#'
+#'  @param seln.fitness.model Default is absolute.
+#'
+#'  @param seln.var
+#'
+#'  @param seln.trait.dim Default is 1.
+#'
+#'  @param seln.local.optima
+#'
+#'  @param quanti.init
+#'
+#'  @param num.quanti.traits Default is 1.
+#'
+#'  @param num.quanti.loci
+#'
+#'  @param quanti.mut.rate
+#'
+#'  @param quanti.mut.var
+#'
+#'  @param quanti.recomb.rate Default is freely recombining, 0.5.
+#'
+#'  @param quanti.init.model Default is 1.
+#'
+#'  @param quanti.env.var Default is 1.
+#'
+#'  @param num.ntrl.loci
+#'
+#'  @param num.ntrl.alleles
+#'
+#'  @param ntrl.mut.rate
+#'
+#'  @param ntrl.recomb.rate
+#'
+#'  @param ntrl.mut.model 1 = single step, 2 = K allele model
+#'
+#'  @param ntrl.init.model 0 = no initial variance, 1 = max. initial variance
+#'
+#'  @param save.ntrl
+#'
+#'  @param save.quanti
+#'
+#'  @param save.stats
+#'
+#'  @param stats
 #'
 #'  @return
 #'
@@ -126,12 +182,12 @@ make.input <- function(
 	num.ntrl.loci=NULL,
 	num.ntrl.alleles=NULL,
 	ntrl.mut.rate=NULL,
-	ntrl.recomb.rate=NULL,
+	ntrl.recomb.rate=0.5,
 	ntrl.mut.model=NULL,	# 1 = single step, 2 = K allele model
 	ntrl.init.model=NULL,	# 0 = no initial variance, 1 = max. initial variance
 	save.ntrl=NULL,
 	save.quanti=NULL,
-	save.stats=NULL
+	save.stats=NULL,
 	stats=NULL
 	){
 		row1 <- paste(c("run_mode", run.mode), collapse=" ")
@@ -199,8 +255,7 @@ make.input <- function(
 		if(!is.null(save.stats)){
 			row41 <- paste(c(
 			row41,
-			paste(
-				c("stat_dir stats", 
+			paste(c("stat_dir stats", 
 				paste(c("stat_logtime", save.stats), collapse=" "), 
 				paste(c("stat", stats), collapse=" ")), collapse="\n"),
 				collapse="\n"
@@ -209,34 +264,21 @@ make.input <- function(
 		if(!is.null(save.ntrl)){
 			row41 <- paste(c(
 			row41,
-			paste(
-				c("ntrl_save_genotype genotype", "ntrl_output_dir ntrl_geno", 
-				paste(c("ntrl_output_logtime", save.ntrl), collapse=" "), 
+			paste(c("ntrl_save_genotype genotype", "ntrl_output_dir ntrl_geno", 
+				paste(c("ntrl_output_logtime", save.ntrl), collapse=" ")), collapse="\n"), 
 				collapse="\n"
 			))
 		}
 		if(!is.null(save.quanti)){
 			row41 <- paste(c(
 			row41,
-			paste(
-				c("quanti_output genotypes", "quanti_dir quanti_geno", 
-				paste(c("quanti_logtime", save.ntrl), collapse=" "), 
+			paste(c("quanti_output genotypes", "quanti_dir quanti_geno", 
+				paste(c("quanti_logtime", save.ntrl), collapse=" ")), collapse="\n"), 
 				collapse="\n"
 			))
-		}
-		row41 <- paste(c(), collapse=" ")
-		row42 <- paste(c(), collapse=" ")
-		row43 <- paste(c(), collapse=" ")
-		row44 <- paste(c(), collapse=" ")
-		row45 <- paste(c(), collapse=" ")
-		row46 <- paste(c(), collapse=" ")
-		row47 <- paste(c(), collapse=" ")
-		row48 <- paste(c(), collapse=" ")
-		row49 <- paste(c(), collapse=" ")
-		row50 <- paste(c(), collapse=" ")
-			
+		}			
 	
-	init.file <- paste(c(row1, row2, row3, row4, row5, "\n", row6, row7, row8, row9, row10, row11, row12, row13, row14, row15, row16, row17, row18, row19, row20, row21, row22, row23, row24, row25, row26, row27, row28, row29, row30), collapse="\n")
+	init.file <- paste(c(row1, row2, row3, row4, row5, "\n", row6, row7, row8, row9, row10, row11, row12, row13, row14, row15, row16, row17, row18, row19, row20, row21, row22, row23, row24, row25, row26, row27, row28, row29, row30, row31, row32, row33, row34, row35, row36, row37, row38, row39, row40, row41), collapse="\n")
 	
 		
 	writeLines(init.file, paste(c(getwd(), "/", filename, ".ini"), collapse=""))
