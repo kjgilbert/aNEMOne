@@ -9,7 +9,17 @@ make.input(run.mode = "overwrite", random.seed = "12345",
   reps = NULL, gens = NULL, num.patches = NULL, patch.capacity = NULL,
   patch.capacity.fem = NULL, patch.capacity.mal = NULL, cap.temp = FALSE,
   LCE.order = NULL, mating.system = NULL, mean.fec = NULL,
-  seln.trait = NULL, seln.model = NULL)
+  self.if.alone = FALSE, always.breed.window = FALSE,
+  breeding.connectivity.matrix = NULL, breeding.kernel = NULL,
+  dispersal.connectivity.matrix = NULL, dispersal.kernel = NULL,
+  seln.trait = NULL, seln.model = NULL, seln.fitness.model = "absolute",
+  seln.var = NULL, seln.trait.dim = 1, seln.local.optima = NULL,
+  quanti.init = NULL, num.quanti.traits = 1, num.quanti.loci = NULL,
+  quanti.mut.rate = NULL, quanti.mut.var = NULL, quanti.recomb.rate = 0.5,
+  quanti.init.model = 1, quanti.env.var = 1, num.ntrl.loci = NULL,
+  num.ntrl.alleles = NULL, ntrl.mut.rate = NULL, ntrl.recomb.rate = 0.5,
+  ntrl.mut.model = NULL, ntrl.init.model = NULL, save.ntrl = NULL,
+  save.quanti = NULL, save.stats = NULL, stats = NULL)
 }
 \arguments{
 \item{run.mode}{The mode to run the simulation in; default is "overwrite", for other options see the Nemo manual.}
@@ -42,9 +52,65 @@ make.input(run.mode = "overwrite", random.seed = "12345",
 
 \item{mean.fec}{Mean fecundity per mother, may also be set to be patch-specific with an array. By default follows a Poisson distribution, see the Nemo manual for details.}
 
-\item{seln.trait}{The trait(s) specified to be under selection.}
+\item{self.if.alone}{Boolean, if true, an individual will self if it finds no mate.}
 
-\item{seln.model}{The model of selection to use.}
+\item{always.breed.window}{Boolean, if present, the breeding window is always used. Otherwise, the breeding window is only called if no mate can be found in the focal patch.}
+
+\item{breeding.connectivity.matrix}{The connectivity matrix of patches matched to the breeding kernel.}
+
+\item{breeding.kernel}{The array of probabilities of searching for a mate within a given patch.}
+
+\item{dispersal.connectivity.matrix}{The connectivity matrix of patches matched to the dispersal kernel.}
+
+\item{dispersal.kernel}{The array of dispersal probabilities for forward migration.}
+
+\item{seln.trait}{The trait(s) specified to be under selection. Either "quant" or "delet" for quantitative or deleterious traits.}
+
+\item{seln.model}{The model of selection to use. See Nemo manual section 4.7 for all details on selection.}
+
+\item{seln.fitness.model}{Options are absolute, relative_global, and relative_local. Default is absolute. See Nemo manual section 4.7 for all details on selection.}
+
+\item{seln.var}{Variance in selection.}
+
+\item{seln.trait.dim}{See Nemo manual section 4.7 for all details on selection. Default is 1.}
+
+\item{seln.local.optima}{Optimal trait value per patch or for the entire landscape}
+
+\item{quanti.init}{The initial QTL value to be set; see Nemo manual section 5.3 for all details on quantitative traits.}
+
+\item{num.quanti.traits}{How many QTL traits to model, default is 1.}
+
+\item{num.quanti.loci}{How many loci underly the quantitative trait.}
+
+\item{quanti.mut.rate}{Mutation rate per QTL.}
+
+\item{quanti.mut.var}{Variance in mutation rate per QTL.}
+
+\item{quanti.recomb.rate}{Recombination rate among QTL, default is freely recombining, 0.5.}
+
+\item{quanti.init.model}{See Nemo manual section 5.3 for all details on quantitative traits. Default is 1.}
+
+\item{quanti.env.var}{Environmental variance, default is 1.}
+
+\item{num.ntrl.loci}{The number of neutral loci to simulate. See Nemo manual section 5.2 for all details on neutral markers.}
+
+\item{num.ntrl.alleles}{The number of alleles per neutral locus.}
+
+\item{ntrl.mut.rate}{The mutation rate per neutral locus.}
+
+\item{ntrl.recomb.rate}{The recombination rate among neutral loci.}
+
+\item{ntrl.mut.model}{The mutation model for neutral loci: 1 = single step, 2 = K allele model. See Nemo manual section 5.2 for all details on neutral markers.}
+
+\item{ntrl.init.model}{How to initiate the neutral allele frequencies: 0 = no initial variance, 1 = maximum initial variance. See Nemo manual section 5.2 for all details on neutral markers.}
+
+\item{save.ntrl}{How often to save the neutral marke genotype files. Files are automatically output to subdirectory "ntrl_geno". If not present, no neutral genotype output is saved.}
+
+\item{save.quanti}{How often to save the quantitative trait genotype files. Files are automatically output to subdirectory "quanti_geno". If not present, no quantitative genotype output is saved.}
+
+\item{save.stats}{How often to save the values of the parameters defined by "stats". Files are automatically output to subdirectory "stats". *If this paramter is not present, no stats are output, even if "stats" is defined.}
+
+\item{stats}{Population and simlation parameters to return, see Nemo manual section 7 "Output Statistics".}
 }
 \value{
 Write the file specified into the working directory.
@@ -58,27 +124,37 @@ described in Gilbert and Whitlock (2014) and Whitlock & Guillaume (2009). Also r
 the simulated estimates of Fst and Qst used to compute the null distribution.
 }
 \examples{
+setwd("~/Desktop")
 # population
 cap <- patch.cap(6,1000, 0,2)
-num <- 1002
-
+num.patches <- 1002
 # simulation components
 life.cycles <- c("breed", "disperse", "selection", "aging")
 
-
 # mating
-
 breed.kernel <- make.kernel.and.matrix(cell.size=50, land.x=1000, land.y=2000, dist.mean=0, dist.sd=25, breed.window=TRUE, two.kernels=FALSE, second.dist.mean=0, second.dist.sd=NULL)
-
+breed.file <- "~/Desktop/Breeding_ConnMatrix.txt"
+breeding.connectivity.matrix <- readChar(breed.file, file.info(breed.file)$size)
 
 # dispersal
+disp.kernel <- make.kernel.and.matrix(cell.size=50, land.x=1000, land.y=2000, dist.mean=0, dist.sd=25, breed.window=FALSE, two.kernels=FALSE, second.dist.mean=0, second.dist.sd=NULL)
+disp.file <- "~/Desktop/Dispersal_ConnMatrix.txt"
+dispersal.connectivity.matrix <- readChar(disp.file, file.info(disp.file)$size)
 
-disp.kernel <- make.kernel.and.matrix <- function(cell.size=50, land.x=1000, land.y=2000, dist.mean=0, dist.sd=25, breed.window=FALSE, two.kernels=FALSE, second.dist.mean=0, second.dist.sd=NULL)
-
-
-make.input(root.dir="test", filename="test2",
-	reps=10, gens=100, num.patches=num, patch.capacity=cap,
-	LCE.order= life.cycles, mating.system=1, mean.fec=5
+make.input(
+	root.dir="test", filename="test3",
+	reps=100, gens=1000, num.patches= num.patches, patch.capacity=cap,
+	LCE.order= life.cycles,
+	mating.system=1, mean.fec=7,
+	breeding.connectivity.matrix= breeding.connectivity.matrix,
+	breeding.kernel= breed.kernel,
+	dispersal.connectivity.matrix= dispersal.connectivity.matrix,
+	dispersal.kernel= disp.kernel,
+	seln.trait="quanti", seln.model="gaussian",#'seln.var=7.5, seln.trait.dim=1,	seln.local.optima=0,
+	quanti.init=0, num.quanti.loci=100,#'quanti.mut.rate=0.001, quanti.mut.var=0.01,
+	num.ntrl.loci=100, num.ntrl.alleles=2, ntrl.mut.rate=0.001, ntrl.mut.model=1, ntrl.init.model=1,
+	save.ntrl=50, save.quanti=10, save.stats=10,
+	stats=c("demography", "fecundity", "migrants")
 	)
 }
 \author{

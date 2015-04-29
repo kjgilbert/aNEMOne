@@ -45,65 +45,65 @@
 #'
 #'  @param mean.fec Mean fecundity per mother, may also be set to be patch-specific with an array. By default follows a Poisson distribution, see the Nemo manual for details.
 #'
-#'  @param self.if.alone
+#'  @param self.if.alone Boolean, if true, an individual will self if it finds no mate.
 #'
-#'  @param always.breed.window
+#'  @param always.breed.window Boolean, if present, the breeding window is always used. Otherwise, the breeding window is only called if no mate can be found in the focal patch.
 #'
-#'  @param breeding.connectivity.matrix
+#'  @param breeding.connectivity.matrix The connectivity matrix of patches matched to the breeding kernel.
 #'
-#'  @param breeding.kernel
+#'  @param breeding.kernel The array of probabilities of searching for a mate within a given patch.
 #'
-#'  @param dispersal.connectivity.matrix
+#'  @param dispersal.connectivity.matrix The connectivity matrix of patches matched to the dispersal kernel.
 #'
-#'  @param dispersal.kernel
+#'  @param dispersal.kernel The array of dispersal probabilities for forward migration.
 #'
-#'  @param seln.trait The trait(s) specified to be under selection.
+#'  @param seln.trait The trait(s) specified to be under selection. Either "quant" or "delet" for quantitative or deleterious traits.
 #'
-#'  @param seln.model The model of selection to use.
+#'  @param seln.model The model of selection to use. See Nemo manual section 4.7 for all details on selection.
 #'
-#'  @param seln.fitness.model Default is absolute.
+#'  @param seln.fitness.model Options are absolute, relative_global, and relative_local. Default is absolute. See Nemo manual section 4.7 for all details on selection.
 #'
-#'  @param seln.var
+#'  @param seln.var Variance in selection.
 #'
-#'  @param seln.trait.dim Default is 1.
+#'  @param seln.trait.dim See Nemo manual section 4.7 for all details on selection. Default is 1.
 #'
-#'  @param seln.local.optima
+#'  @param seln.local.optima Optimal trait value per patch or for the entire landscape
 #'
-#'  @param quanti.init
+#'  @param quanti.init The initial QTL value to be set; see Nemo manual section 5.3 for all details on quantitative traits.
 #'
-#'  @param num.quanti.traits Default is 1.
+#'  @param num.quanti.traits How many QTL traits to model, default is 1.
 #'
-#'  @param num.quanti.loci
+#'  @param num.quanti.loci How many loci underly the quantitative trait.
 #'
-#'  @param quanti.mut.rate
+#'  @param quanti.mut.rate Mutation rate per QTL.
 #'
-#'  @param quanti.mut.var
+#'  @param quanti.mut.var Variance in mutation rate per QTL.
 #'
-#'  @param quanti.recomb.rate Default is freely recombining, 0.5.
+#'  @param quanti.recomb.rate Recombination rate among QTL, default is freely recombining, 0.5.
 #'
-#'  @param quanti.init.model Default is 1.
+#'  @param quanti.init.model See Nemo manual section 5.3 for all details on quantitative traits. Default is 1.
 #'
-#'  @param quanti.env.var Default is 1.
+#'  @param quanti.env.var Environmental variance, default is 1.
 #'
-#'  @param num.ntrl.loci
+#'  @param num.ntrl.loci The number of neutral loci to simulate. See Nemo manual section 5.2 for all details on neutral markers.
 #'
-#'  @param num.ntrl.alleles
+#'  @param num.ntrl.alleles The number of alleles per neutral locus.
 #'
-#'  @param ntrl.mut.rate
+#'  @param ntrl.mut.rate The mutation rate per neutral locus.
 #'
-#'  @param ntrl.recomb.rate
+#'  @param ntrl.recomb.rate The recombination rate among neutral loci.
 #'
-#'  @param ntrl.mut.model 1 = single step, 2 = K allele model
+#'  @param ntrl.mut.model The mutation model for neutral loci: 1 = single step, 2 = K allele model. See Nemo manual section 5.2 for all details on neutral markers.
 #'
-#'  @param ntrl.init.model 0 = no initial variance, 1 = max. initial variance
+#'  @param ntrl.init.model How to initiate the neutral allele frequencies: 0 = no initial variance, 1 = maximum initial variance. See Nemo manual section 5.2 for all details on neutral markers.
 #'
-#'  @param save.ntrl
+#'  @param save.ntrl How often to save the neutral marke genotype files. Files are automatically output to subdirectory "ntrl_geno". If not present, no neutral genotype output is saved.
 #'
-#'  @param save.quanti
+#'  @param save.quanti How often to save the quantitative trait genotype files. Files are automatically output to subdirectory "quanti_geno". If not present, no quantitative genotype output is saved.
 #'
-#'  @param save.stats
+#'  @param save.stats How often to save the values of the parameters defined by "stats". Files are automatically output to subdirectory "stats". *If this paramter is not present, no stats are output, even if "stats" is defined.
 #'
-#'  @param stats
+#'  @param stats Population and simlation parameters to return, see Nemo manual section 7 "Output Statistics".
 #'
 #'  @return
 #'
@@ -115,28 +115,38 @@
 #'
 #' @examples
 #'
+#' setwd("~/Desktop")
 #' # population
 #' cap <- patch.cap(6,1000, 0,2)
-#' num <- 1002
-#' 
+#' num.patches <- 1002
 #' # simulation components
 #' life.cycles <- c("breed", "disperse", "selection", "aging")
-#' 
-#' 
+#'
 #' # mating
-#' 
 #' breed.kernel <- make.kernel.and.matrix(cell.size=50, land.x=1000, land.y=2000, dist.mean=0, dist.sd=25, breed.window=TRUE, two.kernels=FALSE, second.dist.mean=0, second.dist.sd=NULL)
-#' 
-#' 
+#' breed.file <- "~/Desktop/Breeding_ConnMatrix.txt"
+#' breeding.connectivity.matrix <- readChar(breed.file, file.info(breed.file)$size)
+#'
 #' # dispersal
-#' 
-#' disp.kernel <- make.kernel.and.matrix <- function(cell.size=50, land.x=1000, land.y=2000, dist.mean=0, dist.sd=25, breed.window=FALSE, two.kernels=FALSE, second.dist.mean=0, second.dist.sd=NULL)
-#' 
-#' 
-#' make.input(root.dir="test", filename="test2", 
-#' 	reps=10, gens=100, num.patches=num, patch.capacity=cap, 
-#' 	LCE.order= life.cycles, mating.system=1, mean.fec=5
-#' 	)
+#' disp.kernel <- make.kernel.and.matrix(cell.size=50, land.x=1000, land.y=2000, dist.mean=0, dist.sd=25, breed.window=FALSE, two.kernels=FALSE, second.dist.mean=0, second.dist.sd=NULL)
+#' disp.file <- "~/Desktop/Dispersal_ConnMatrix.txt"
+#' dispersal.connectivity.matrix <- readChar(disp.file, file.info(disp.file)$size)
+#'
+#' make.input(
+#'	root.dir="test", filename="test3",
+#'	reps=100, gens=1000, num.patches= num.patches, patch.capacity=cap,
+#'	LCE.order= life.cycles,	
+#'	mating.system=1, mean.fec=7,
+#'	breeding.connectivity.matrix= breeding.connectivity.matrix,
+#'	breeding.kernel= breed.kernel,
+#'	dispersal.connectivity.matrix= dispersal.connectivity.matrix,
+#'	dispersal.kernel= disp.kernel,
+#'	seln.trait="quanti", seln.model="gaussian",#'seln.var=7.5, seln.trait.dim=1,	seln.local.optima=0, 
+#'	quanti.init=0, num.quanti.loci=100,#'quanti.mut.rate=0.001, quanti.mut.var=0.01,
+#'	num.ntrl.loci=100, num.ntrl.alleles=2, ntrl.mut.rate=0.001, ntrl.mut.model=1, ntrl.init.model=1, 
+#'	save.ntrl=50, save.quanti=10, save.stats=10,
+#'	stats=c("demography", "fecundity", "migrants")
+#'	)
 #'  
 #' 
 #' @export
