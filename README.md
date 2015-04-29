@@ -4,8 +4,6 @@
 
 An R package to create input files for and analyze output files from [Nemo](http://nemo2.sourceforge.net/). 
 
-**PACKAGE CREATION CURRENTLY STILL IN PROGRESS**
-
 ![aNEMOne logo](https://github.com/kjgilbert/aNEMOne/raw/master/extra/SeaAnemone.png)
 
 ## Documentation
@@ -30,6 +28,8 @@ library(aNEMOne)
 and the package will be installed and open.
 
 #### Functions
+
+**PACKAGE CREATION IS CURRENTLY STILL IN PROGRESS** The functions outlined here are those currently tested to work properly.
 
 An [example script] shows how this package's functions may be used to produce a .ini input file for Nemo.
 
