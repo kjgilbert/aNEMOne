@@ -103,8 +103,36 @@ make.input <- function(
 	LCE.order=NULL,
 	mating.system=NULL,
 	mean.fec=NULL,
+	self.if.alone=FALSE,
+	always.breed.window=FALSE,
+	breeding.connectivity.matrix=NULL,
+	breeding.kernel=NULL,
+	dispersal.connectivity.matrix=NULL,
+	dispersal.kernel=NULL,
 	seln.trait=NULL,
-	seln.model=NULL
+	seln.model=NULL,
+	seln.fitness.model="absolute",
+	seln.var=NULL,
+	seln.trait.dim=1,
+	seln.local.optima=NULL,
+	quanti.init=NULL,
+	num.quanti.traits=1,
+	num.quanti.loci=NULL,
+	quanti.mut.rate=NULL,
+	quanti.mut.var=NULL,
+	quanti.recomb.rate=0.5,
+	quanti.init.model=1,
+	quanti.env.var=1,
+	num.ntrl.loci=NULL,
+	num.ntrl.alleles=NULL,
+	ntrl.mut.rate=NULL,
+	ntrl.recomb.rate=NULL,
+	ntrl.mut.model=NULL,	# 1 = single step, 2 = K allele model
+	ntrl.init.model=NULL,	# 0 = no initial variance, 1 = max. initial variance
+	save.ntrl=NULL,
+	save.quanti=NULL,
+	save.stats=NULL
+	stats=NULL
 	){
 		row1 <- paste(c("run_mode", run.mode), collapse=" ")
 		row2 <- paste(c("random_seed", random.seed), collapse=" ")
@@ -129,38 +157,86 @@ make.input <- function(
 		
 		row11 <- paste(c("mating_system", mating.system), collapse=" ")
 		row12 <- paste(c("mean_fecundity", mean.fec), collapse=" ")
-		row13 <- paste(c("selection_trait", seln.trait), collapse=" ")
-		row14 <- paste(c("selection_model", seln.model), collapse=" ")
-		row15 <- paste(c("selection_fitness_model"), collapse=" ")
-		row16 <- paste(c("selection_variance"), collapse=" ")
-		row17 <- paste(c("selection_trait_dimension"), collapse=" ")
-		row18 <- paste(c("selection_local_optima"), collapse=" ")
-		row19 <- paste(c("quanti_init_trait_values"), collapse=" ")
-		row20 <- paste(c("ntrl_init_patch_freq"), collapse=" ")
-		row21 <- paste(c(), collapse=" ")
-		row22 <- paste(c(), collapse=" ")
-		row23 <- paste(c(), collapse=" ")
-		row24 <- paste(c(), collapse=" ")
-		row25 <- paste(c(), collapse=" ")
-		row26 <- paste(c(), collapse=" ")
-		row27 <- paste(c(), collapse=" ")
-		row28 <- paste(c(), collapse=" ")
-		row29 <- paste(c(), collapse=" ")
-		row30 <- paste(c(), collapse=" ")
-		row31 <- paste(c(), collapse=" ")
-		row32 <- paste(c(), collapse=" ")
-		row33 <- paste(c(), collapse=" ")
-		row34 <- paste(c(), collapse=" ")
-		row35 <- paste(c(), collapse=" ")
-		row36 <- paste(c(), collapse=" ")
-		row37 <- paste(c(), collapse=" ")
-		row38 <- paste(c(), collapse=" ")
-		row39 <- paste(c(), collapse=" ")
-		row40 <- paste(c(), collapse=" ")
-		
-		
+		if(self.if.alone==TRUE){
+			row12 <- paste(c(row12, paste("self_if_alone")), collapse="\n")
+		}
+		if(always.breed.window ==TRUE){
+			row12 <- paste(c(row12, paste("always_breed_window")), collapse="\n")
+		}
+		row13 <- paste(c("breeding_connectivity_matrix {", breeding.connectivity.matrix, "}"), collapse=" ")
+		row14 <- paste(c("breeding_kernel {", breeding.kernel, "}"), collapse=" ")
+		row15 <- paste(c("dispersal_connectivity_matrix {", dispersal.connectivity.matrix, " }"), collapse=" ")
+		row16 <- paste(c("dispersal_kernel {", dispersal.kernel, "}"), collapse=" ")
 	
-	init.file <- paste(c(row1, row2, row3, row4, row5, "\n", row6, row7, row8, row9, row10, row11, row12), collapse="\n")
+		row17 <- paste("\n## SELECTION TRAITS")
+		row18 <- paste(c("selection_trait", seln.trait), collapse=" ")
+		row19 <- paste(c("selection_model", seln.model), collapse=" ")
+		row20 <- paste(c("selection_fitness_model", seln.fitness.model), collapse=" ")
+		row21 <- paste(c("selection_variance", seln.var), collapse=" ")
+		row22 <- paste(c("selection_trait_dimension", seln.trait.dim), collapse=" ")
+		row23 <- paste(c("selection_local_optima {", seln.local.optima, "}"), collapse=" ")
+	
+		row24 <- paste("\n## QUANTI TRAITS")
+		row25 <- paste(c("quanti_init_trait_values {{", quanti.init, "}}"), collapse=" ")
+		row26 <- paste(c("quanti_traits", num.quanti.traits), collapse=" ")
+		row27 <- paste(c("quanti_loci", num.quanti.loci), collapse=" ")
+		row28 <- paste(c("quanti_mutation_rate", quanti.mut.rate), collapse=" ")
+		row29 <- paste(c("quanti_mutation_variance", quanti.mut.var), collapse=" ")
+		row30 <- paste(c("quanti_recombination_rate", quanti.recomb.rate), collapse=" ")
+		row31 <- paste(c("quanti_init_model", quanti.init.model), collapse=" ")
+		row32 <- paste(c("quanti_environmental_variance", quanti.env.var), collapse=" ")
+	
+		row33 <- paste("\n## NEUTRAL TRAITS")
+		row34 <- paste(c("ntrl_loci", num.ntrl.loci), collapse=" ")
+		row35 <- paste(c("ntrl_all", num.ntrl.alleles), collapse=" ")
+		row36 <- paste(c("ntrl_mutation_rate", ntrl.mut.rate), collapse=" ")
+		row37 <- paste(c("ntrl_recombination_rate", ntrl.recomb.rate), collapse=" ")
+		row38 <- paste(c("ntrl_mutation_model", ntrl.mut.model), collapse=" ")
+		row39 <- paste(c("ntrl_init_model", ntrl.init.model), collapse=" ")
+
+		row40 <- paste("\n## OUTPUT")
+		row41 <- NULL
+		if(!is.null(save.stats)){
+			row41 <- paste(c(
+			row41,
+			paste(
+				c("stat_dir stats", 
+				paste(c("stat_logtime", save.stats), collapse=" "), 
+				paste(c("stat", stats), collapse=" ")), collapse="\n"),
+				collapse="\n"
+			))
+		}
+		if(!is.null(save.ntrl)){
+			row41 <- paste(c(
+			row41,
+			paste(
+				c("ntrl_save_genotype genotype", "ntrl_output_dir ntrl_geno", 
+				paste(c("ntrl_output_logtime", save.ntrl), collapse=" "), 
+				collapse="\n"
+			))
+		}
+		if(!is.null(save.quanti)){
+			row41 <- paste(c(
+			row41,
+			paste(
+				c("quanti_output genotypes", "quanti_dir quanti_geno", 
+				paste(c("quanti_logtime", save.ntrl), collapse=" "), 
+				collapse="\n"
+			))
+		}
+		row41 <- paste(c(), collapse=" ")
+		row42 <- paste(c(), collapse=" ")
+		row43 <- paste(c(), collapse=" ")
+		row44 <- paste(c(), collapse=" ")
+		row45 <- paste(c(), collapse=" ")
+		row46 <- paste(c(), collapse=" ")
+		row47 <- paste(c(), collapse=" ")
+		row48 <- paste(c(), collapse=" ")
+		row49 <- paste(c(), collapse=" ")
+		row50 <- paste(c(), collapse=" ")
+			
+	
+	init.file <- paste(c(row1, row2, row3, row4, row5, "\n", row6, row7, row8, row9, row10, row11, row12, row13, row14, row15, row16, row17, row18, row19, row20, row21, row22, row23, row24, row25, row26, row27, row28, row29, row30), collapse="\n")
 	
 		
 	writeLines(init.file, paste(c(getwd(), "/", filename, ".ini"), collapse=""))

@@ -292,7 +292,7 @@ make.kernel.and.matrix <- function(cell.size, land.x, land.y, dist.mean=0, dist.
 
 	# if making a breed window instead of a dispersal kernel, change the absorbing cell to the ghost.cell
 	if(breed.window == TRUE){
-		conn.mat[conn.mat== absorbing.cell] <- ghost.cell
+		conn.mat[conn.mat == absorbing.cell] <- ghost.cell
 	}
 	
 	kernel <- paste(c("{", paste(sorted.disp.frame$dispersal.prob, collapse=","), "}"), collapse=" ")
