@@ -4,16 +4,16 @@
 \alias{make.kernel.and.matrix}
 \title{Create dispersal or breeding window kernels and connectivity matrices}
 \usage{
-make.kernel.and.matrix(cell.size, land.x, land.y, dist.mean = 0, dist.sd,
-  breed.window = FALSE, two.kernels = FALSE, second.dist.mean = 0,
-  second.dist.sd = NULL)
+make.kernel.and.matrix(cell.size, horizontal.land, vertical.land,
+  dist.mean = 0, dist.sd, breed.window = FALSE, two.kernels = FALSE,
+  second.dist.mean = 0, second.dist.sd = NULL)
 }
 \arguments{
 \item{cell.size}{The size in unites distance of a single patch (or cell), which based on the parameters given below will influence how large the landscape is and how many cells are within one unit sigma.}
 
-\item{land.x}{The size of the landscape in the horizontal direction. Units are the same as cell.size.}
+\item{horizontal.land}{The size of the landscape in the horizontal direction. Units are the same as cell.size.}
 
-\item{land.y}{The size of the landscape in the vertical direction. Units are the same as cell.size.}
+\item{vertical.land}{The size of the landscape in the vertical direction. Units are the same as cell.size.}
 
 \item{dist.mean}{The mean distance for the kernel's distribution. Default is zero (i.e. most dispersal occurs to the natal patch).}
 
@@ -34,7 +34,7 @@ Returns the array of probabilities for the dispersal or breeding window kernels 
 Automatically create the dispersal and breeding window probability kernels and connectivity matrices of patch IDs based on the provided cell size, number of cells in the x and y directions on the landscape, and the mean and standard deviation of the dispersal kernel. Additionally, two distributions are able to be summed for creating the dispersal kernel.
 }
 \examples{
-make.kernel.and.matrix(cell.size=50, land.x=1000, land.y=2000, dist.mean=0, dist.sd=25, breed.window=TRUE, two.kernels=FALSE, second.dist.mean=0, second.dist.sd=NULL)
+make.kernel.and.matrix(cell.size=50, horizontal.land=1000, vertical.land=2000, dist.mean=0, dist.sd=25, breed.window=TRUE, two.kernels=FALSE, second.dist.mean=0, second.dist.sd=NULL)
 }
 \author{
 Kimberly J Gilbert

@@ -120,20 +120,35 @@ Makes an input file of type .ini for \href{http://nemo2.sourceforge.net/index.ht
 }
 \examples{
 # population
+horiz.patches <- 100
+vert.patches <- 20
+num.patches <- (horiz.patches*vert.patches) + 2	# plus two for the ghost and absorbing patches
+cell.size <- 50
+sigma <- 25
+
+land.x <- cell.size*horiz.patches
+land.y <- cell.size* vert.patches
+
 cap <- patch.cap(6,1000, 0,2)
-num.patches <- 1002
+
 # simulation components
 life.cycles <- c("breed", "disperse", "selection", "aging")
 
 # mating
-breed.kernel <- make.kernel.and.matrix(cell.size=50, land.x=1000, land.y=2000, dist.mean=0, dist.sd=25, breed.window=TRUE, two.kernels=FALSE, second.dist.mean=0, second.dist.sd=NULL)
+breed.kernel <- make.kernel.and.matrix(cell.size= cell.size, horizontal.land= land.x, vertical.land= land.y, dist.mean=0, dist.sd= sigma, breed.window=TRUE, two.kernels=FALSE, second.dist.mean=0, second.dist.sd=NULL)
 breed.file <- "Breeding_ConnMatrix.txt"
 breeding.connectivity.matrix <- readChar(breed.file, file.info(breed.file)$size)
 
 # dispersal
-disp.kernel <- make.kernel.and.matrix(cell.size=50, land.x=1000, land.y=2000, dist.mean=0, dist.sd=25, breed.window=FALSE, two.kernels=FALSE, second.dist.mean=0, second.dist.sd=NULL)
+disp.kernel <- make.kernel.and.matrix(cell.size= cell.size, horizontal.land= land.x, vertical.land= land.y, dist.mean=0, dist.sd= sigma, breed.window=FALSE, two.kernels=FALSE, second.dist.mean=0, second.dist.sd=NULL)
 disp.file <- "Dispersal_ConnMatrix.txt"
 dispersal.connectivity.matrix <- readChar(disp.file, file.info(disp.file)$size)
+
+# landscape
+landscape.init.optima <- make.landscape(horizontal.patches= horiz.patches, vertical.patches= vert.patches, range=5)
+landscape.file <- "Landscape.txt"
+landscape <- readChar(landscape.file, file.info(landscape.file)$size)
+
 
 make.input(
 	root.dir="test", filename="test",
@@ -144,8 +159,8 @@ make.input(
 	breeding.kernel= breed.kernel,
 	dispersal.connectivity.matrix= dispersal.connectivity.matrix,
 	dispersal.kernel= disp.kernel,
-	seln.trait="quanti", seln.model="gaussian",#'seln.var=7.5, seln.trait.dim=1,	seln.local.optima=0,
-	quanti.init=0, num.quanti.loci=100,#'quanti.mut.rate=0.001, quanti.mut.var=0.01,
+	seln.trait="quanti", seln.model="gaussian", seln.var=7.5, seln.trait.dim=1,	seln.local.optima= landscape,
+	quanti.init= landscape.init.optima, num.quanti.loci=100, quanti.mut.rate=0.001, quanti.mut.var=0.01,
 	num.ntrl.loci=100, num.ntrl.alleles=2, ntrl.mut.rate=0.001, ntrl.mut.model=1, ntrl.init.model=1,
 	save.ntrl=50, save.quanti=10, save.stats=10,
 	stats=c("demography", "fecundity", "migrants")

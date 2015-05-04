@@ -7,9 +7,9 @@
 #'
 #'  @param cell.size The size in unites distance of a single patch (or cell), which based on the parameters given below will influence how large the landscape is and how many cells are within one unit sigma.
 #'
-#'  @param land.x The size of the landscape in the horizontal direction. Units are the same as cell.size.
+#'  @param horizontal.land The size of the landscape in the horizontal direction. Units are the same as cell.size.
 #' 
-#'  @param land.y The size of the landscape in the vertical direction. Units are the same as cell.size.
+#'  @param vertical.land The size of the landscape in the vertical direction. Units are the same as cell.size.
 #'
 #'  @param dist.mean The mean distance for the kernel's distribution. Default is zero (i.e. most dispersal occurs to the natal patch).
 #'
@@ -33,18 +33,18 @@
 #'
 #' @examples
 #'
-#' make.kernel.and.matrix(cell.size=50, land.x=1000, land.y=2000, dist.mean=0, dist.sd=25, breed.window=TRUE, two.kernels=FALSE, second.dist.mean=0, second.dist.sd=NULL)
+#' make.kernel.and.matrix(cell.size=50, horizontal.land=1000, vertical.land=2000, dist.mean=0, dist.sd=25, breed.window=TRUE, two.kernels=FALSE, second.dist.mean=0, second.dist.sd=NULL)
 #' 
 #' 
 #' @export make.kernel.and.matrix
 
 
-make.kernel.and.matrix <- function(cell.size, land.x, land.y, dist.mean=0, dist.sd, breed.window=FALSE, two.kernels=FALSE, second.dist.mean=0, second.dist.sd=NULL){
+make.kernel.and.matrix <- function(cell.size, horizontal.land, vertical.land, dist.mean=0, dist.sd, breed.window=FALSE, two.kernels=FALSE, second.dist.mean=0, second.dist.sd=NULL){
 
 	cell <- cell.size
 	
-	cells.x <- land.x/cell
-	cells.y <- land.y/cell
+	cells.x <- vertical.land/cell
+	cells.y <- horizontal.land/cell
 
 	total.cells <- cells.x * cells.y
 

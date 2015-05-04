@@ -4,7 +4,7 @@
 \alias{make.landscape}
 \title{Create the landscape of optimal phenotypic values}
 \usage{
-make.landscape(horizontal.patches, vertical.patches, range, sill,
+make.landscape(horizontal.patches, vertical.patches, range, sill = 1,
   magnitude = 0, directionality = 1, nearest.obs = 20, cylinder = FALSE)
 }
 \arguments{
@@ -14,7 +14,7 @@ make.landscape(horizontal.patches, vertical.patches, range, sill,
 
 \item{range}{The distance at which covariance between patches goes to zero, i.e. how similar is each grain to the next. A larger value makes the landscape smoother.}
 
-\item{sill}{The scale of the variance. See ?vgm, this is the sill of the variogram model component. A larger value makes the landscape more patchy.}
+\item{sill}{The scale of the variance. See ?vgm, this is the sill of the variogram model component. A larger value makes the landscape more patchy. Default value is 1.}
 
 \item{magnitude}{The first beta parameter for simple kriging in the gstat function. Default is zero.}
 

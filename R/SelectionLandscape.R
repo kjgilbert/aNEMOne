@@ -11,7 +11,7 @@
 #' 
 #'  @param range The distance at which covariance between patches goes to zero, i.e. how similar is each grain to the next. A larger value makes the landscape smoother.
 #'
-#'  @param sill The scale of the variance. See ?vgm, this is the sill of the variogram model component. A larger value makes the landscape more patchy.
+#'  @param sill The scale of the variance. See ?vgm, this is the sill of the variogram model component. A larger value makes the landscape more patchy. Default value is 1.
 #'
 #'  @param magnitude The first beta parameter for simple kriging in the gstat function. Default is zero.
 #'
@@ -36,7 +36,7 @@
 #' 
 #' @export make.landscape
 
-make.landscape <- function(horizontal.patches, vertical.patches, range, sill, magnitude=0, directionality=1, nearest.obs=20, cylinder=FALSE){
+make.landscape <- function(horizontal.patches, vertical.patches, range, sill=1, magnitude=0, directionality=1, nearest.obs=20, cylinder=FALSE){
 	
 	# make the color palette for the visualization
 	blues <- function(n){
