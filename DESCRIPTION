@@ -7,7 +7,9 @@ Maintainer: Kimberly J. Gilbert <kgilbert@zoology.ubc.ca>
 Description: Contains functions to create a Nemo .init file from specified parameters, including creating of dispersal kernels and connectivity matrices based on landscape size and the sigma value of the kernel. Additional functions allow quick analyses of Nemo stat outputs.
 License: GPL-2
 Depends:
-    graphics
+    graphics,
+    gstat,
+    fields
 Suggests:
     testthat
 Roxygen: list(wrap = FALSE)
