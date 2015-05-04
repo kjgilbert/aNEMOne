@@ -38,3 +38,5 @@ The main function `make.input` takes all of the parameters that would normally a
 See `?patch.cap` for details on making an array of patch capacities. Currently only two different *K*'s may be set across the landscape, but more may easily be added, so feel free to request so. This function also works for male and female specific carrying capacities as well as temporally set capacities.
 
 See `?make.kernel.and.matrix` for details on making connectivity matrices and probability kernels for dispersal and breeding windows. The function returns the array for the kernel and prints the connectivity matrix to file.
+
+See `?make.landscape` for details on making the landscape of phenotypic optima for Nemo's `selection_local_optima` input parameter. The function returns the mean optimum value for the first column of landscape patches, visualizes the landscape, and write to file the matrix to be fed in for input.
