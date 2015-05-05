@@ -38,6 +38,8 @@
 #'
 #'  @param mating.system See the nemo manual for details, random mating is specified by a '1'.
 #'
+#'  @param mating.proportion See the nemo manual for details, sets the proportion of non-random mating.
+#'
 #'  @param mean.fec Mean fecundity per mother, may also be set to be patch-specific with an array. By default follows a Poisson distribution, see the Nemo manual for details.
 #'
 #'  @param self.if.alone Boolean, if true, an individual will self if it finds no mate.
@@ -177,6 +179,7 @@ make.input <- function(
 	cap.temp=FALSE,
 	LCE.order=NULL,
 	mating.system=NULL,
+	mating.proportion=NULL,
 	mean.fec=NULL,
 	self.if.alone=FALSE,
 	always.breed.window=FALSE,
@@ -231,6 +234,12 @@ make.input <- function(
 		}
 		
 		row11 <- paste(c("mating_system", mating.system), collapse=" ")
+
+		if(is.null(mating.proportion)){
+			row11 <- paste(c("mating_system", mating.system), collapse=" ")
+		}else{
+			row11 <- paste(c(paste(c("mating_system", mating.system), collapse=" "), paste(c("mating_proportion", mating.proportion), collapse=" ")), collapse="\n")
+		}
 		row12 <- paste(c("mean_fecundity", mean.fec), collapse=" ")
 		if(self.if.alone==TRUE){
 			row12 <- paste(c(row12, paste("self_if_alone")), collapse="\n")

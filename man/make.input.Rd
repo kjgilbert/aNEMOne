@@ -8,8 +8,8 @@ make.input(run.mode = "overwrite", random.seed = "12345",
   log.file = "logfile.log", root.dir = NULL, filename = NULL,
   reps = NULL, gens = NULL, num.patches = NULL, patch.capacity = NULL,
   patch.capacity.fem = NULL, patch.capacity.mal = NULL, cap.temp = FALSE,
-  LCE.order = NULL, mating.system = NULL, mean.fec = NULL,
-  self.if.alone = FALSE, always.breed.window = FALSE,
+  LCE.order = NULL, mating.system = NULL, mating.proportion = NULL,
+  mean.fec = NULL, self.if.alone = FALSE, always.breed.window = FALSE,
   breeding.connectivity.matrix = NULL, breeding.kernel = NULL,
   dispersal.connectivity.matrix = NULL, dispersal.kernel = NULL,
   seln.trait = NULL, seln.model = NULL, seln.fitness.model = "absolute",
@@ -49,6 +49,8 @@ make.input(run.mode = "overwrite", random.seed = "12345",
 \item{LCE.order}{The order of life cycle events in the simulation. Should be given as multiple character strings, in order.}
 
 \item{mating.system}{See the nemo manual for details, random mating is specified by a '1'.}
+
+\item{mating.proportion}{See the nemo manual for details, sets the proportion of non-random mating.}
 
 \item{mean.fec}{Mean fecundity per mother, may also be set to be patch-specific with an array. By default follows a Poisson distribution, see the Nemo manual for details.}
 
