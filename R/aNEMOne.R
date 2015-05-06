@@ -292,7 +292,7 @@ make.input <- function(
 		if(!is.null(save.ntrl)){
 			row41 <- paste(c(
 			row41,
-			paste(c("ntrl_save_genotype genotype", "ntrl_output_dir ntrl_geno", 
+			paste(c("ntrl_save_genotype FSTAT", "ntrl_output_dir ntrl_geno", 
 				paste(c("ntrl_output_logtime", save.ntrl), collapse=" ")), collapse="\n"), 
 				collapse="\n"
 			))
