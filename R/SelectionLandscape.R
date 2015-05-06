@@ -88,7 +88,7 @@ make.landscape <- function(horizontal.patches, vertical.patches, range, sill=1, 
 	# make it a data frame so can paste to file for other analyses
 	frame.mat.env <- data.frame(t.mat.env)
 	
-	write.table(frame.mat.env, file="Landscape.txt", sep=",", col.names=FALSE, row.names=FALSE)
+	write.table(frame.mat.env, file="Landscape_Matrix.txt", sep=",", col.names=FALSE, row.names=FALSE)
 
 	array.mat.env <- NULL
 	for(i in 1:(dim(t.mat.env)[2])){
