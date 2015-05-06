@@ -258,7 +258,7 @@ make.input <- function(
 		row20 <- paste(c("selection_fitness_model", seln.fitness.model), collapse=" ")
 		row21 <- paste(c("selection_variance", seln.var), collapse=" ")
 		row22 <- paste(c("selection_trait_dimension", seln.trait.dim), collapse=" ")
-		row23 <- paste(c("selection_local_optima {", seln.local.optima, "}"), collapse=" ")
+		row23 <- paste(c("selection_local_optima", seln.local.optima), collapse=" ")
 	
 		row24 <- paste("\n## QUANTI TRAITS")
 		row25 <- paste(c("quanti_init_trait_values {{", quanti.init, "}}"), collapse=" ")
