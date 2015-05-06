@@ -36,6 +36,7 @@
 #' 
 #' @export make.landscape
 
+
 make.landscape <- function(horizontal.patches, vertical.patches, range, sill=1, magnitude=0, directionality=1, nearest.obs=20, cylinder=FALSE){
 	
 	# make the color palette for the visualization
@@ -84,16 +85,20 @@ make.landscape <- function(horizontal.patches, vertical.patches, range, sill=1, 
 		error("Rows did not properly become columns.")
 	}
 	
-	# make it a data frame so can add commas between and brakets around rows for Nemo input
+	# make it a data frame so can paste to file for other analyses
 	frame.mat.env <- data.frame(t.mat.env)
 	
 	write.table(frame.mat.env, file="Landscape.txt", sep=",", col.names=FALSE, row.names=FALSE)
 
-	with.commas <- read.table("Landscape.txt")
-	with.commas$col1 <- "{"
-	with.commas$col.last <- "}"
-	final.landscape.matrix <- cbind(with.commas$col1, paste(with.commas$V1), with.commas$col.last)
-	write.table(final.landscape.matrix, file=paste(c(getwd(), "/", "Landscape.txt"), collapse=""), col.names=FALSE, row.names=FALSE, quote=FALSE)
+	array.mat.env <- NULL
+	for(i in 1:(dim(t.mat.env)[2])){
+		temp.array.mat.env <- unlist(t.mat.env[,i])
+		array.mat.env <- c(array.mat.env, temp.array.mat.env)
+	}
+	
+	with.commas <- paste(array.mat.env, collapse=",")
+	final.landscape.array <- paste(c("{{", with.commas, "}}"), collapse="")	
+	write.table(final.landscape.array, file=paste(c(getwd(), "/", "Landscape.txt"), collapse=""), col.names=FALSE, row.names=FALSE, quote=FALSE)
 		
 	
 	return(first.column.mean)
