@@ -96,7 +96,7 @@ make.landscape <- function(horizontal.patches, vertical.patches, range, sill=1, 
 		array.mat.env <- c(array.mat.env, temp.array.mat.env)
 	}
 	
-	with.commas <- paste(array.mat.env, collapse=",")
+	with.commas <- paste(array.mat.env, collapse="}{")
 	final.landscape.array <- paste(c("{{", with.commas, "}}"), collapse="")	
 	write.table(final.landscape.array, file=paste(c(getwd(), "/", "Landscape.txt"), collapse=""), col.names=FALSE, row.names=FALSE, quote=FALSE)
 		
