@@ -284,7 +284,7 @@ make.input <- function(
 			row41 <- paste(c(
 			row41,
 			paste(c("stat_dir stats", 
-				paste(c("stat_logtime", save.stats), collapse=" "), 
+				paste(c("stat_log_time", save.stats), collapse=" "), 
 				paste(c("stat", stats), collapse=" ")), collapse="\n"),
 				collapse="\n"
 			))
