@@ -19,6 +19,8 @@
 #'
 #'  @param nearest.obs Used for local kriging, see ?gstat: the number of nearest observations that should be used for a kriging prediction or simulation. Default is 20. 
 #'
+#'  @param scale.to Value to scale down the magnitude of change in optima over the total landscape. Default is 1, which scales the total change to approximately -1 to 1 across the full landscape, whereas, e.g. a value of 5 allows a higher degree of change across the landscape, approximately -5 to 5.
+#'
 #'  @param cylinder If the landscape is meant to be simulated as a cylinder, where the horizontal edges match up for individuals to disperse across, this should be set to true. This will halve the vertical length and mirror the landscape so that to horizontal edges match where they meet. Currently this capability is not yet coded in.
 #'
 #'  @return
@@ -37,7 +39,7 @@
 #' @export make.landscape
 
 
-make.landscape <- function(horizontal.patches, vertical.patches, range, sill=1, magnitude=0, directionality=1, nearest.obs=20, cylinder=FALSE){
+make.landscape <- function(horizontal.patches, vertical.patches, range, sill=1, magnitude=0, directionality=1, nearest.obs=20, scale.to=1, cylinder=FALSE){
 	
 	# make the color palette for the visualization
 	blues <- function(n){
@@ -73,13 +75,16 @@ make.landscape <- function(horizontal.patches, vertical.patches, range, sill=1, 
 
 	first.column.mean <- mean(mat.env[1,]) # yes it is still actually the mean of the column because of how they got put into rows
 
+	mat.env.scaled <- mat.env/(abs(first.column.mean)/scale.to)
+	scaled.first.column.mean <- mean(mat.env.scaled[1,])
 	# visualize 
-	image.plot(1: horizontal.patches, 1: vertical.patches, mat.env, col=blues(100))
+	# UNSCALED PLOT # image.plot(1: horizontal.patches, 1: vertical.patches, mat.env, col=blues(100))
+	image.plot(1: horizontal.patches, 1: vertical.patches, mat.env.scaled, col=blues(100))
 	
 	# transpose it so that what is actually a column (currently a row) becomes a column fo the nemo file
-	t.mat.env <- t(mat.env)
+	t.mat.env <- t(mat.env.scaled)
 	
-	if(first.column.mean != mean(t.mat.env[,1])){
+	if(scaled.first.column.mean != mean(t.mat.env[,1])){
 		#then the transpose didn't work properly because what was a row has not now become a column
 		print("Transpose did not work properly.")
 		error("Rows did not properly become columns.")
@@ -101,5 +106,5 @@ make.landscape <- function(horizontal.patches, vertical.patches, range, sill=1, 
 	write.table(final.landscape.array, file=paste(c(getwd(), "/", "Landscape.txt"), collapse=""), col.names=FALSE, row.names=FALSE, quote=FALSE)
 		
 	
-	return(first.column.mean)
+	return(scaled.first.column.mean)
 }
