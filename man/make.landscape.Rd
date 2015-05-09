@@ -5,7 +5,8 @@
 \title{Create the landscape of optimal phenotypic values}
 \usage{
 make.landscape(horizontal.patches, vertical.patches, range, sill = 1,
-  magnitude = 0, directionality = 1, nearest.obs = 20, cylinder = FALSE)
+  magnitude = 0, directionality = 1, nearest.obs = 20, scale.to = 1,
+  cylinder = FALSE)
 }
 \arguments{
 \item{horizontal.patches}{Number of patches in the horizontal, x direction.}
@@ -21,6 +22,8 @@ make.landscape(horizontal.patches, vertical.patches, range, sill = 1,
 \item{directionality}{The second beta parameter for simple kriging in the gstat function. Default is 1. Larger values smooth the change in the direction of change.}
 
 \item{nearest.obs}{Used for local kriging, see ?gstat: the number of nearest observations that should be used for a kriging prediction or simulation. Default is 20.}
+
+\item{scale.to}{Value to scale down the magnitude of change in optima over the total landscape. Default is 1, which scales the total change to approximately -1 to 1 across the full landscape, whereas, e.g. a value of 5 allows a higher degree of change across the landscape, approximately -5 to 5.}
 
 \item{cylinder}{If the landscape is meant to be simulated as a cylinder, where the horizontal edges match up for individuals to disperse across, this should be set to true. This will halve the vertical length and mirror the landscape so that to horizontal edges match where they meet. Currently this capability is not yet coded in.}
 }
