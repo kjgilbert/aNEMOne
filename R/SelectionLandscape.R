@@ -79,7 +79,7 @@ make.landscape <- function(horizontal.patches, vertical.patches, range, sill=1, 
 	scaled.first.column.mean <- mean(mat.env.scaled[1,])
 	# visualize 
 	# UNSCALED PLOT # image.plot(1: horizontal.patches, 1: vertical.patches, mat.env, col=blues(100))
-	image.plot(1: horizontal.patches, 1: vertical.patches, mat.env.scaled, col=blues(100))
+	image.plot(1: horizontal.patches, 1: vertical.patches, mat.env.scaled, col=blues(100), ylab="Vertical Patches", xlab="Horizontal Patches")
 	
 	# transpose it so that what is actually a column (currently a row) becomes a column fo the nemo file
 	t.mat.env <- t(mat.env.scaled)
@@ -87,7 +87,7 @@ make.landscape <- function(horizontal.patches, vertical.patches, range, sill=1, 
 	if(scaled.first.column.mean != mean(t.mat.env[,1])){
 		#then the transpose didn't work properly because what was a row has not now become a column
 		print("Transpose did not work properly.")
-		error("Rows did not properly become columns.")
+		stop("Rows did not properly become columns.")
 	}
 	
 	# make it a data frame so can paste to file for other analyses
@@ -107,4 +107,93 @@ make.landscape <- function(horizontal.patches, vertical.patches, range, sill=1, 
 		
 	
 	return(scaled.first.column.mean)
+}
+
+
+
+
+
+
+
+#' @title Create the landscape of optimal phenotypic values that change at an equal and constant pace over space
+#'
+#' @description Create the landscape of optimal phenotypic values over which the patches will exist. Size should match the number of cells in the x and y directions on the landscape. A figure is created to visualize the landscape as well as the matrix of values output to a file for use in the make.input function.
+#'
+#'  @param horizontal.patches Number of patches in the horizontal, x direction.
+#'
+#'  @param vertical.patches Number of patches in the vertical, y direction.
+#'
+#' @param step.width The number of patches that horizontally make up the width of "steps" of equal optimal phenotype to create the landscape. At most can equal the number of vertical columns in the landscape to create a uniform landscape, or at minimum can equal 1 for the landscape to change every single column of patches. This number must equally divide into the total number of horizontal patches.
+#'
+#'  @param scale.to Value to scale down the magnitude of change in optima over the total landscape. Default is 1, which scales the total change to approximately -1 to 1 across the full landscape, whereas, e.g. a value of 5 allows a higher degree of change across the landscape, approximately -5 to 5.
+#'
+#'
+#'
+#'
+#'  @return
+#'
+#' Returns the value of the first column of patches at the leftmost end of the landscape. Also prints to a file the matrix of values for the landscape, to be uses as "selection_local_optima" in Nemo, and additionally visualizes the landscape.
+#'
+#' @author Kimberly J Gilbert
+#'
+#' @import fields
+#'
+#' @examples
+#'
+#' step.landscape(horizontal.patches=100, vertical.patches=25, step.width=10)
+#' 
+#' 
+#' @export step.landscape
+
+
+step.landscape <- function(horizontal.patches, vertical.patches, step.width, scale.to=1){
+	# make the color palette for the visualization
+	blues <- function(n){
+		hsv(h=0.65,	#blue
+		s=c(seq(1,0,length.out=(n))),
+		v=c(seq(0,1,length.out=(n/2)), rep(1,(n/2)))
+		)
+	}
+
+	first.col <- -scale.to
+	last.col <- scale.to
+	
+	num.steps <- horizontal.patches/step.width
+	
+	step.values <- seq(first.col, last.col, length.out= num.steps)
+	
+	total.num.patches <- horizontal.patches*vertical.patches
+	
+	patches.per.step <- total.num.patches/num.steps
+	
+	env <- NULL
+	for(i in 1:num.steps){
+		one.step <- rep(step.values[i], patches.per.step)
+		env <- c(env, one.step)
+	}
+	
+	mat.env <- matrix(env, ncol= vertical.patches, byrow=TRUE)
+	image.plot(1: horizontal.patches, 1: vertical.patches, mat.env, col=blues(100), ylab="Vertical Patches", xlab="Horizontal Patches")
+
+	# transpose it to have rows and columns right way round for looking at text
+	t.mat.env <- t(mat.env)
+	
+	if(first.col != mean(t.mat.env[,1])){
+		#then the transpose didn't work properly because what was a row has not now become a column
+		print("Transpose did not work properly.")
+		stop("Rows did not properly become columns.")
+	}
+	
+	# make it a data frame so can paste to file for other analyses
+	frame.mat.env <- data.frame(t.mat.env)
+
+	write.table(frame.mat.env, file="Landscape_Matrix.txt", sep=",", col.names=FALSE, row.names=FALSE)
+
+
+	array.env <- paste(env, collapse="}{")
+	final.landscape.array <- paste(c("{{", array.env, "}}"), collapse="")	
+	write.table(final.landscape.array, file=paste(c(getwd(), "/", "Landscape.txt"), collapse=""), col.names=FALSE, row.names=FALSE, quote=FALSE)
+		
+	
+	return(first.col)
 }
