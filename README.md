@@ -40,3 +40,5 @@ See `?patch.cap` for details on making an array of patch capacities. Currently o
 See `?make.kernel.and.matrix` for details on making connectivity matrices and probability kernels for dispersal and breeding windows. The function returns the array for the kernel and prints the connectivity matrix to file.
 
 See `?make.landscape` for details on making the landscape of phenotypic optima for Nemo's `selection_local_optima` input parameter. The function returns the mean optimum value for the first column of landscape patches, visualizes the landscape, and write to file the matrix to be fed in for input.
+
+See `?step.landscape` for details on making a stepwise gradient landscape of phenotypic optima for Nemo's `selection_local_optima` input parameter. The function returns the optimum value for the first column of landscape patches, visualizes the landscape, and write to file the matrix to be fed in for input.
