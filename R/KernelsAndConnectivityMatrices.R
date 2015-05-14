@@ -33,7 +33,8 @@
 #'
 #' @examples
 #'
-#' make.kernel.and.matrix(cell.size=50, horizontal.land=1000, vertical.land=2000, dist.mean=0, dist.sd=25, breed.window=TRUE, two.kernels=FALSE, second.dist.mean=0, second.dist.sd=NULL)
+#' make.kernel.and.matrix(cell.size=50, horizontal.land=1000, vertical.land=2000, dist.mean=0,
+#'   dist.sd=25, breed.window=TRUE, two.kernels=FALSE, second.dist.mean=0, second.dist.sd=NULL)
 #' 
 #' 
 #' @export make.kernel.and.matrix
@@ -177,7 +178,7 @@ make.kernel.and.matrix <- function(cell.size, horizontal.land, vertical.land, di
 
 
 	# plot the multiplied matrix
-	library(graphics)
+	#library(graphics) # can be removed because brought in by 'depends'
 	contour(multiplied.kernels, asp=1, nlevels= four.sigma.units)
 
 	# find the cutoff value for distance travelled

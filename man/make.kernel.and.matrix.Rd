@@ -34,7 +34,8 @@ Returns the array of probabilities for the dispersal or breeding window kernels 
 Automatically create the dispersal and breeding window probability kernels and connectivity matrices of patch IDs based on the provided cell size, number of cells in the x and y directions on the landscape, and the mean and standard deviation of the dispersal kernel. Additionally, two distributions are able to be summed for creating the dispersal kernel.
 }
 \examples{
-make.kernel.and.matrix(cell.size=50, horizontal.land=1000, vertical.land=2000, dist.mean=0, dist.sd=25, breed.window=TRUE, two.kernels=FALSE, second.dist.mean=0, second.dist.sd=NULL)
+make.kernel.and.matrix(cell.size=50, horizontal.land=1000, vertical.land=2000, dist.mean=0,
+  dist.sd=25, breed.window=TRUE, two.kernels=FALSE, second.dist.mean=0, second.dist.sd=NULL)
 }
 \author{
 Kimberly J Gilbert

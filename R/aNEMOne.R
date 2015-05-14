@@ -128,17 +128,22 @@
 #' life.cycles <- c("breed", "disperse", "selection", "aging")
 #'
 #' # mating
-#' breed.kernel <- make.kernel.and.matrix(cell.size= cell.size, horizontal.land= land.x, vertical.land= land.y, dist.mean=0, dist.sd= sigma, breed.window=TRUE, two.kernels=FALSE, second.dist.mean=0, second.dist.sd=NULL)
+#' breed.kernel <- make.kernel.and.matrix(cell.size= cell.size, horizontal.land= land.x,
+#'  vertical.land= land.y, dist.mean=0, dist.sd= sigma, breed.window=TRUE, two.kernels=FALSE,
+#'  second.dist.mean=0, second.dist.sd=NULL)
 #' breed.file <- "Breeding_ConnMatrix.txt"
 #' breeding.connectivity.matrix <- readChar(breed.file, file.info(breed.file)$size)
 #'
 #' # dispersal
-#' disp.kernel <- make.kernel.and.matrix(cell.size= cell.size, horizontal.land= land.x, vertical.land= land.y, dist.mean=0, dist.sd= sigma, breed.window=FALSE, two.kernels=FALSE, second.dist.mean=0, second.dist.sd=NULL)
+#' disp.kernel <- make.kernel.and.matrix(cell.size= cell.size, horizontal.land= land.x,
+#'  vertical.land= land.y, dist.mean=0, dist.sd= sigma, breed.window=FALSE, two.kernels=FALSE,
+#'  second.dist.mean=0, second.dist.sd=NULL)
 #' disp.file <- "Dispersal_ConnMatrix.txt"
 #' dispersal.connectivity.matrix <- readChar(disp.file, file.info(disp.file)$size)
 #'
 #' # landscape
-#' landscape.init.optima <- make.landscape(horizontal.patches= horiz.patches, vertical.patches= vert.patches, range=5)
+#' landscape.init.optima <- make.landscape(horizontal.patches= horiz.patches,
+#'  vertical.patches= vert.patches, range=5)
 #' landscape.file <- "Landscape.txt"
 #' landscape <- readChar(landscape.file, file.info(landscape.file)$size)
 #' 
