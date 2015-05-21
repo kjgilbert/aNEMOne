@@ -411,7 +411,7 @@ changing.landscape <- function(horizontal.patches, vertical.patches, split.lands
 		write.table(frame.mat.env.final, file="Landscape_Matrix.txt", sep=",", col.names=FALSE, row.names=FALSE)
 
 
-		array.env <- paste(env, collapse="}{")
+		array.env <- paste(unlist(frame.mat.env.final), collapse="}{")
 		final.landscape.array <- paste(c("{{", array.env, "}}"), collapse="")	
 		write.table(final.landscape.array, file=paste(c(getwd(), "/", "Landscape.txt"), collapse=""), col.names=FALSE, row.names=FALSE, quote=FALSE)	
 		
@@ -466,13 +466,7 @@ changing.landscape <- function(horizontal.patches, vertical.patches, split.lands
 
 		write.table(frame.mat.env.final, file="Landscape_Matrix.txt", sep=",", col.names=FALSE, row.names=FALSE)
 
-		array.mat.env <- NULL
-		for(i in 1:(dim(t.mat.env)[2])){
-			temp.array.mat.env <- unlist(t.mat.env[,i])
-			array.mat.env <- c(array.mat.env, temp.array.mat.env)
-		}
-	
-		with.brackets <- paste(array.mat.env, collapse="}{")
+		with.brackets <- paste(unlist(frame.mat.env.final), collapse="}{")
 		final.landscape.array <- paste(c("{{", with.brackets, "}}"), collapse="")	
 		write.table(final.landscape.array, file=paste(c(getwd(), "/", "Landscape.txt"), collapse=""), col.names=FALSE, row.names=FALSE, quote=FALSE)			
 	
