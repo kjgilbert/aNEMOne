@@ -286,6 +286,9 @@ changing.landscape <- function(horizontal.patches, vertical.patches, split.lands
 	horizontal.patches1 <- split.landscape
 	horizontal.patches2 <- horizontal.patches - split.landscape
 	
+	# add the optima for the 2 extra patches:
+	ghost.pop <- -5000
+	absorbing.pop <- -5000
 	
 	if(!is.null(step.width1)){	# then the first landscape is a step landscape
 		
@@ -410,8 +413,7 @@ changing.landscape <- function(horizontal.patches, vertical.patches, split.lands
 
 		write.table(frame.mat.env.final, file="Landscape_Matrix.txt", sep=",", col.names=FALSE, row.names=FALSE)
 
-
-		array.env <- paste(unlist(frame.mat.env.final), collapse="}{")
+		array.env <- paste(c(unlist(frame.mat.env.final), ghost.pop, absorbing.pop), collapse="}{")
 		final.landscape.array <- paste(c("{{", array.env, "}}"), collapse="")	
 		write.table(final.landscape.array, file=paste(c(getwd(), "/", "Landscape.txt"), collapse=""), col.names=FALSE, row.names=FALSE, quote=FALSE)	
 		
@@ -466,7 +468,7 @@ changing.landscape <- function(horizontal.patches, vertical.patches, split.lands
 
 		write.table(frame.mat.env.final, file="Landscape_Matrix.txt", sep=",", col.names=FALSE, row.names=FALSE)
 
-		with.brackets <- paste(unlist(frame.mat.env.final), collapse="}{")
+		with.brackets <- paste(c(unlist(frame.mat.env.final), ghost.pop, absorbing.pop), collapse="}{")
 		final.landscape.array <- paste(c("{{", with.brackets, "}}"), collapse="")	
 		write.table(final.landscape.array, file=paste(c(getwd(), "/", "Landscape.txt"), collapse=""), col.names=FALSE, row.names=FALSE, quote=FALSE)			
 	
