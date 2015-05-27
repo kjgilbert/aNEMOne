@@ -233,7 +233,7 @@ make.input <- function(
 		if(cap.temp==TRUE) row9 <- paste("(", row9, ")")
 		
 		row10 <- NULL
-		if(!is.null(quanti.init)) row10 <- paste("quanti_init 0")
+		#if(!is.null(quanti.init)) row10 <- paste("quanti_init 0")
 		for(i in 1:length(LCE.order)){
 			temp <- paste(paste(c(LCE.order[i], i), collapse=" "), sep="\n")
 			row10 <- paste(c(paste(row10), paste(temp), sep="\n"))
