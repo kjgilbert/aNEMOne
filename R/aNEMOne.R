@@ -267,7 +267,7 @@ make.input <- function(
 		row23 <- paste(c("selection_local_optima", seln.local.optima), collapse=" ")
 	
 		row24 <- paste("\n## QUANTI TRAITS")
-		row25 <- paste(c("quanti_init_trait_values {{", quanti.init, "}}"), collapse=" ")
+		row25 <- paste(c("quanti_init_value {{", quanti.init, "}}"), collapse=" ")
 		row26 <- paste(c("quanti_traits", num.quanti.traits), collapse=" ")
 		row27 <- paste(c("quanti_loci", num.quanti.loci), collapse=" ")
 		row28 <- paste(c("quanti_mutation_rate", quanti.mut.rate), collapse=" ")
