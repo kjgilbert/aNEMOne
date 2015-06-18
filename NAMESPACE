@@ -2,6 +2,7 @@
 
 export(changing.landscape)
 export(dist.delet.effects)
+export(make.delet.input)
 export(make.input)
 export(make.kernel.and.matrix)
 export(make.landscape)
