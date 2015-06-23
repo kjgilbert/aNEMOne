@@ -132,7 +132,7 @@ make.pbs <- function(filename, input.directory=NULL, nemo.directory=NULL, RAM, w
 #' @export multi.pbs
 
 
-multi.pbs <- function(ini.file.directory, RAM, walltime, server, input.directory=NULL, nemo.directory=NULL){
+multi.pbs <- function(ini.file.directory, RAM, walltime=NULL, server, input.directory=NULL, nemo.directory=NULL){
 	
 	setwd(ini.file.directory)
 	files.in.folder <- system("ls", intern=TRUE)
