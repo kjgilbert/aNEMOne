@@ -4,8 +4,8 @@
 \alias{multi.pbs}
 \title{Make Westgrid PBS files}
 \usage{
-multi.pbs(ini.file.directory, RAM, walltime, server, input.directory = NULL,
-  nemo.directory = NULL)
+multi.pbs(ini.file.directory, RAM, walltime = NULL, server,
+  input.directory = NULL, nemo.directory = NULL)
 }
 \arguments{
 \item{ini.file.directory}{The directory containing .ini files for which PBS scripts will be made. Any file in this directory with the expression ".ini" in its name will be used to make a PBS file.}

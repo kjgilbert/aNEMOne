@@ -10,16 +10,16 @@ make.input(run.mode = "overwrite", random.seed = "12345",
   patch.capacity.fem = NULL, patch.capacity.mal = NULL, cap.temp = FALSE,
   LCE.order = NULL, mating.system = NULL, mating.proportion = NULL,
   mean.fec = NULL, self.if.alone = FALSE, always.breed.window = FALSE,
-  breeding.connectivity.matrix = NULL, breeding.kernel = NULL,
-  dispersal.connectivity.matrix = NULL, dispersal.kernel = NULL,
-  seln.trait = NULL, seln.model = NULL, seln.fitness.model = "absolute",
-  seln.var = NULL, seln.trait.dim = 1, seln.local.optima = NULL,
-  quanti.init = NULL, num.quanti.traits = 1, num.quanti.loci = NULL,
-  quanti.mut.rate = NULL, quanti.mut.var = NULL, quanti.recomb.rate = 0.5,
-  quanti.init.model = 1, quanti.env.var = 1, num.ntrl.loci = NULL,
-  num.ntrl.alleles = NULL, ntrl.mut.rate = NULL, ntrl.recomb.rate = 0.5,
-  ntrl.mut.model = NULL, ntrl.init.model = NULL, save.ntrl = NULL,
-  save.quanti = NULL, save.stats = NULL, stats = NULL)
+  large.kernels = FALSE, breeding.connectivity.matrix = NULL,
+  breeding.kernel = NULL, dispersal.connectivity.matrix = NULL,
+  dispersal.kernel = NULL, seln.trait = NULL, seln.model = NULL,
+  seln.fitness.model = "absolute", seln.var = NULL, seln.trait.dim = 1,
+  seln.local.optima = NULL, quanti.init = NULL, num.quanti.traits = 1,
+  num.quanti.loci = NULL, quanti.mut.rate = NULL, quanti.mut.var = NULL,
+  quanti.recomb.rate = 0.5, quanti.init.model = 1, quanti.env.var = 1,
+  num.ntrl.loci = NULL, num.ntrl.alleles = NULL, ntrl.mut.rate = NULL,
+  ntrl.recomb.rate = 0.5, ntrl.mut.model = NULL, ntrl.init.model = NULL,
+  save.ntrl = NULL, save.quanti = NULL, save.stats = NULL, stats = NULL)
 }
 \arguments{
 \item{run.mode}{The mode to run the simulation in; default is "overwrite", for other options see the Nemo manual.}
@@ -57,6 +57,8 @@ make.input(run.mode = "overwrite", random.seed = "12345",
 \item{self.if.alone}{Boolean, if true, an individual will self if it finds no mate.}
 
 \item{always.breed.window}{Boolean, if present, the breeding window is always used. Otherwise, the breeding window is only called if no mate can be found in the focal patch.}
+
+\item{large.kernels}{Set to true if using a dispersal or breeding kernel of large size, default is false. When true, it will not hold the full matrix in R's memory and instead send to the command line to concatenate files.}
 
 \item{breeding.connectivity.matrix}{The connectivity matrix of patches matched to the breeding kernel.}
 

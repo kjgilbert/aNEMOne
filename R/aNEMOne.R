@@ -46,6 +46,8 @@
 #'
 #'  @param always.breed.window Boolean, if present, the breeding window is always used. Otherwise, the breeding window is only called if no mate can be found in the focal patch.
 #'
+#'	@param large.kernels Set to true if using a dispersal or breeding kernel of large size, default is false. When true, it will not hold the full matrix in R's memory and instead send to the command line to concatenate files.
+#'
 #'  @param breeding.connectivity.matrix The connectivity matrix of patches matched to the breeding kernel.
 #'
 #'  @param breeding.kernel The array of probabilities of searching for a mate within a given patch.
@@ -188,6 +190,7 @@ make.input <- function(
 	mean.fec=NULL,
 	self.if.alone=FALSE,
 	always.breed.window=FALSE,
+	large.kernels=FALSE,
 	breeding.connectivity.matrix=NULL,
 	breeding.kernel=NULL,
 	dispersal.connectivity.matrix=NULL,
@@ -253,9 +256,19 @@ make.input <- function(
 		if(always.breed.window ==TRUE){
 			row12 <- paste(c(row12, paste("always_breed_window")), collapse="\n")
 		}
-		row13 <- paste(c("breeding_connectivity_matrix {", breeding.connectivity.matrix, "}"), collapse=" ")
+		if(large.kernels==TRUE){
+			row13 <- paste("breeding_connectivity_matrix {")
+			end13 <- paste("}")
+		}else{
+			row13 <- paste(c("breeding_connectivity_matrix {", breeding.connectivity.matrix, "}"), collapse=" ")
+		}
 		row14 <- paste(c("breeding_kernel {", breeding.kernel, "}"), collapse=" ")
-		row15 <- paste(c("dispersal_connectivity_matrix {", dispersal.connectivity.matrix, " }"), collapse=" ")
+		if(large.kernels==TRUE){
+			row15 <- paste("dispersal_connectivity_matrix {")
+			end15 <- paste("}")
+		}else{
+			row15 <- paste(c("dispersal_connectivity_matrix {", dispersal.connectivity.matrix, " }"), collapse=" ")
+		}
 		row16 <- paste(c("dispersal_kernel {", dispersal.kernel, "}"), collapse=" ")
 	
 		row17 <- paste("\n## SELECTION TRAITS")
@@ -316,10 +329,32 @@ make.input <- function(
 			))
 		}
 			
-	init.file <- paste(c(row1, row2, row3, row4, row5, "\n", row6, row7, row8, row9, row10, row11, row12, row13, row14, row15, row16, row17, row18, row19, row20, row21, row22, row23, row24, row25, row26, row27, row28, row29, row30, row31, row32, row33, row34, row35, row36, row37, row38, row39, row40, row41), collapse="\n")
+		# create file as normal if not using large kernels	
+	if(large.kernels==FALSE){
+		 init.file <- paste(c(row1, row2, row3, row4, row5, "\n", row6, row7, row8, row9, row10, row11, row12, row13, row14, row15, row16, row17, row18, row19, row20, row21, row22, row23, row24, row25, row26, row27, row28, row29, row30, row31, row32, row33, row34, row35, row36, row37, row38, row39, row40, row41), collapse="\n")
 	
+		writeLines(init.file, paste(c(getwd(), "/", filename, ".ini"), collapse=""))
+	}
+	
+	# add the dispersal and breeding kernel connectivity matrices at the end via the command line:
+	if(large.kernels==TRUE){
 		
-	writeLines(init.file, paste(c(getwd(), "/", filename, ".ini"), collapse=""))
+		# write the init file with breeding connectivity matrix at the end (row 13)
+		init.file <- paste(c(row1, row2, row3, row4, row5, "\n", row6, row7, row8, row9, row10, row11, row12, row14, row16, row17, row18, row19, row20, row21, row22, row23, row24, row25, row26, row27, row28, row29, row30, row31, row32, row33, row34, row35, row36, row37, row38, row39, row40, row41, row13), collapse="\n")
+		
+		writeLines(init.file, paste(c(getwd(), "/", filename, ".temp"), collapse=""))
+
+		# write the part of the init file that ends the breeding connectivity matrix and starts the dispersal conectivity matrix
+		file.between.breed.disp <- paste(c(end13, row15), collapse="\n")
+		writeLines(file.between.breed.disp, paste(c(getwd(), "/BetweenBreedDisperse.txt"), collapse=""))
+
+		# write the part of the init file that ends the dispersal connectivity matrix 
+		file.after.disp <- paste(end15, collapse="\n")
+		writeLines(file.after.disp, paste(c(getwd(), "/AfterDisperse.txt"), collapse=""))
+
+		system(paste(c("cat ", filename, ".temp Breeding_ConnMatrix.txt BetweenBreedDisperse.txt Dispersal_ConnMatrix.txt AfterDisperse.txt > ", filename, ".ini"), collapse=""))		
+
+	}
 		
 	return(paste(c("File written to ", getwd(), "/", filename, ".ini"), collapse=""))
 }
@@ -367,6 +402,8 @@ make.input <- function(
 #'  @param self.if.alone Boolean, if true, an individual will self if it finds no mate.
 #'
 #'  @param always.breed.window Boolean, if present, the breeding window is always used. Otherwise, the breeding window is only called if no mate can be found in the focal patch.
+#'
+#'	@param large.kernels Set to true if using a dispersal or breeding kernel of large size, default is false. When true, it will not hold the full matrix in R's memory and instead send to the command line to concatenate files.
 #'
 #'  @param breeding.connectivity.matrix The connectivity matrix of patches matched to the breeding kernel.
 #'
@@ -479,6 +516,7 @@ make.delet.input <- function(
 	mean.fec=NULL,
 	self.if.alone=FALSE,
 	always.breed.window=FALSE,
+	large.kernels=FALSE,
 	breeding.connectivity.matrix=NULL,
 	breeding.kernel=NULL,
 	dispersal.connectivity.matrix=NULL,
@@ -556,9 +594,19 @@ make.delet.input <- function(
 		if(always.breed.window ==TRUE){
 			row12 <- paste(c(row12, paste("always_breed_window")), collapse="\n")
 		}
-		row13 <- paste(c("breeding_connectivity_matrix {", breeding.connectivity.matrix, "}"), collapse=" ")
+		if(large.kernels==TRUE){
+			row13 <- paste("breeding_connectivity_matrix {")
+			end13 <- paste("}")
+		}else{
+			row13 <- paste(c("breeding_connectivity_matrix {", breeding.connectivity.matrix, "}"), collapse=" ")
+		}
 		row14 <- paste(c("breeding_kernel {", breeding.kernel, "}"), collapse=" ")
-		row15 <- paste(c("dispersal_connectivity_matrix {", dispersal.connectivity.matrix, " }"), collapse=" ")
+		if(large.kernels==TRUE){
+			row15 <- paste("dispersal_connectivity_matrix {")
+			end15 <- paste("}")
+		}else{
+			row15 <- paste(c("dispersal_connectivity_matrix {", dispersal.connectivity.matrix, " }"), collapse=" ")
+		}
 		row16 <- paste(c("dispersal_kernel {", dispersal.kernel, "}"), collapse=" ")
 	
 		row17 <- paste("\n## SELECTION TRAITS")
@@ -655,42 +703,36 @@ make.delet.input <- function(
 			))
 		}
 			
+		# create file as normal if not using large kernels	
+	if(large.kernels==FALSE){
+		 init.file <- paste(c(row1, row2, row3, row4, row5, "\n", row6, row7, row8, row9, row10, row11, row12, row13, row14, row15, row16, row17, row18, row19, row20, row21, row22, row23, row24, row25, row26, row27, row28, row29, row30, row31, row32, row33, row34, row35, row36, row37, row38, row39, row40, row41), collapse="\n")
 	
-	init.file <- paste(c(row1, row2, row3, row4, row5, "\n", row6, row7, row8, row9, row10, row11, row12, row13, row14, row15, row16, row17, row18, row19, row20, row21, row22, row23, row24, row25, row26, row27, row28, row29, row30, row31, row32, row33, row34, row35, row36, row37, row38, row39, row40, row41), collapse="\n")
+		writeLines(init.file, paste(c(getwd(), "/", filename, ".ini"), collapse=""))
+	}
 	
+	# add the dispersal and breeding kernel connectivity matrices at the end via the command line:
+	if(large.kernels==TRUE){
 		
-	writeLines(init.file, paste(c(getwd(), "/", filename, ".ini"), collapse=""))	
+		# write the init file with breeding connectivity matrix at the end (row 13)
+		init.file <- paste(c(row1, row2, row3, row4, row5, "\n", row6, row7, row8, row9, row10, row11, row12, row14, row16, row17, row18, row19, row20, row21, row22, row23, row24, row25, row26, row27, row28, row29, row30, row31, row32, row33, row34, row35, row36, row37, row38, row39, row40, row41, row13), collapse="\n")
+		
+		writeLines(init.file, paste(c(getwd(), "/", filename, ".temp"), collapse=""))
+
+		# write the part of the init file that ends the breeding connectivity matrix and starts the dispersal conectivity matrix
+		file.between.breed.disp <- paste(c(end13, row15), collapse="\n")
+		writeLines(file.between.breed.disp, paste(c(getwd(), "/BetweenBreedDisperse.txt"), collapse=""))
+
+		# write the part of the init file that ends the dispersal connectivity matrix 
+		file.after.disp <- paste(end15, collapse="\n")
+		writeLines(file.after.disp, paste(c(getwd(), "/AfterDisperse.txt"), collapse=""))
+
+		system(paste(c("cat ", filename, ".temp Breeding_ConnMatrix.txt BetweenBreedDisperse.txt Dispersal_ConnMatrix.txt AfterDisperse.txt > ", filename, ".ini"), collapse=""))		
+
+	}
+		
 	return(paste(c("File written to ", getwd(), "/", filename, ".ini"), collapse=""))
 }
 
 
-#'
-#' @title Analyze a Nemo stat output file
-#'
-#' @description Analyze output from Nemo specified by the stat options from a Nemo .init file 
-#'
-#'
-#'  @param filename The name and path to the file to be analyzed.
-#'
-#'  @param params.set A lsit of parameters that were set to be included in the stat output file
-#'
-#'
-#'
-#'  @return
-#'
-#' Returns either a concise list of a subset of results or a full list with all possible results. Both output
-#'
-#' @author Kimberly J Gilbert
-#'
-#'
-#'
-#'
-#'
-#' 
-#' 
-#' @export read.output
 
-read.output <- function(filename, params.set){
-	if("test" %in% params.set) print("do things with that output statistic")
-	print("foo")
-}
+
