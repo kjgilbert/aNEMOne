@@ -59,6 +59,4 @@ See `?changing.landscape` for details on how to combine landscapes of two types 
 
 `dist.delet.effects` Plots histograms of the effect sizes of deleterious mutations from a .del file.
 
-`read.output` IN PROGRESS (aNEMOne.R)
-
 `sim.results.pop` IN PROGRESS (SimResults_Pop.R)
