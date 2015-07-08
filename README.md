@@ -29,7 +29,7 @@ and the package will be installed and open.
 
 #### Functions
 
-An [example script] shows how this package's functions may be used to produce a .ini input file for Nemo.
+An [example script](https://github.com/kjgilbert/aNEMOne/blob/master/extra/Example_MakeInputs.R) shows how this package's functions may be used to produce a .ini input file for Nemo.
 
 The main function `make.input` takes all of the parameters that would normally appear in your input file with some defaults already set. See `?make.input` for details. This function really provides no advantage unless you use the additional functions to create large matrices and kernels that can now be automatically inserted into the input file without worry about copy and paste or bracket errors.
 
