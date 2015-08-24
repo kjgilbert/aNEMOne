@@ -102,6 +102,8 @@
 #'
 #'  @param save.stats How often to save the values of the parameters defined by "stats". Files are automatically output to subdirectory "stats". *If this paramter is not present, no stats are output, even if "stats" is defined.
 #'
+#'  @param save.seln.inds How often to save the data from "selection_output". Files are automatically output to subdirectory "ind_seln". *If this paramter is not present, no selection data are output.
+#'
 #'  @param stats Population and simlation parameters to return, see Nemo manual section 7 "Output Statistics".
 #'
 #'  @return
@@ -218,6 +220,7 @@ make.input <- function(
 	save.ntrl=NULL,
 	save.quanti=NULL,
 	save.stats=NULL,
+	save.seln.inds=NULL,
 	stats=NULL
 	){
 		row1 <- paste(c("run_mode", run.mode), collapse=" ")
@@ -328,7 +331,15 @@ make.input <- function(
 				collapse="\n"
 			))
 		}
-			
+		if(!is.null(save.seln.inds)){
+			row41 <- paste(c(
+			row41,
+			paste(c("selection_output", "selection_output_dir ind_seln", 
+				paste(c("selection_output_logtime", save.seln.inds), collapse=" ")), collapse="\n"), 
+				collapse="\n"
+			))
+		}
+				
 		# create file as normal if not using large kernels	
 	if(large.kernels==FALSE){
 		 init.file <- paste(c(row1, row2, row3, row4, row5, "\n", row6, row7, row8, row9, row10, row11, row12, row13, row14, row15, row16, row17, row18, row19, row20, row21, row22, row23, row24, row25, row26, row27, row28, row29, row30, row31, row32, row33, row34, row35, row36, row37, row38, row39, row40, row41), collapse="\n")
@@ -483,6 +494,8 @@ make.input <- function(
 #'
 #'  @param save.stats How often to save the values of the parameters defined by "stats". Files are automatically output to subdirectory "stats". *If this paramter is not present, no stats are output, even if "stats" is defined.
 #'
+#'  @param save.seln.inds How often to save the data from "selection_output". Files are automatically output to subdirectory "ind_seln". *If this paramter is not present, no selection data are output.
+#'
 #'  @param stats Population and simlation parameters to return, see Nemo manual section 7 "Output Statistics".
 #'
 #'  @return
@@ -556,6 +569,7 @@ make.delet.input <- function(
 	save.quanti=NULL,
 	save.delet=NULL,
 	save.stats=NULL,
+	save.seln.inds=NULL,
 	stats=NULL
 	){
 		row1 <- paste(c("run_mode", run.mode), collapse=" ")
@@ -702,6 +716,14 @@ make.delet.input <- function(
 				collapse="\n"
 			))
 		}
+		if(!is.null(save.seln.inds)){
+			row41 <- paste(c(
+			row41,
+			paste(c("selection_output", "selection_output_dir ind_seln", 
+				paste(c("selection_output_logtime", save.seln.inds), collapse=" ")), collapse="\n"), 
+				collapse="\n"
+			))
+		}			
 			
 		# create file as normal if not using large kernels	
 	if(large.kernels==FALSE){
