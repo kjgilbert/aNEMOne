@@ -19,7 +19,8 @@ make.input(run.mode = "overwrite", random.seed = "12345",
   quanti.recomb.rate = 0.5, quanti.init.model = 1, quanti.env.var = 1,
   num.ntrl.loci = NULL, num.ntrl.alleles = NULL, ntrl.mut.rate = NULL,
   ntrl.recomb.rate = 0.5, ntrl.mut.model = NULL, ntrl.init.model = NULL,
-  save.ntrl = NULL, save.quanti = NULL, save.stats = NULL, stats = NULL)
+  save.ntrl = NULL, save.quanti = NULL, save.stats = NULL,
+  save.seln.inds = NULL, stats = NULL)
 }
 \arguments{
 \item{run.mode}{The mode to run the simulation in; default is "overwrite", for other options see the Nemo manual.}
@@ -113,6 +114,8 @@ make.input(run.mode = "overwrite", random.seed = "12345",
 \item{save.quanti}{How often to save the quantitative trait genotype files. Files are automatically output to subdirectory "quanti_geno". If not present, no quantitative genotype output is saved.}
 
 \item{save.stats}{How often to save the values of the parameters defined by "stats". Files are automatically output to subdirectory "stats". *If this paramter is not present, no stats are output, even if "stats" is defined.}
+
+\item{save.seln.inds}{How often to save the data from "selection_output". Files are automatically output to subdirectory "ind_seln". *If this paramter is not present, no selection data are output.}
 
 \item{stats}{Population and simlation parameters to return, see Nemo manual section 7 "Output Statistics".}
 }
