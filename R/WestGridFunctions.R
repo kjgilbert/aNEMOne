@@ -52,7 +52,7 @@ make.pbs <- function(filename, input.directory=NULL, nemo.directory=NULL, RAM, w
 		}	
 		if(westgrid.server=="orcinus"){
 			nemo.directory <- "/home/kgilbert/Nemo2.3/bin/nemo2.3.38"
-			if(is.null(input.directory)) input.directory <- "/home/kgilbert/NemoRuns/MyRangeExpansionProject/"
+			if(is.null(input.directory)) input.directory <- "/home/kgilbert/RangeExpansion/MyRangeExpansionProject/"
 		}
 	}
 	if(westgrid.server=="grex"){
