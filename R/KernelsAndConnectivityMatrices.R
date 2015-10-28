@@ -19,6 +19,8 @@
 #'
 #'  @param two.kernels A boolean parameter with default FALSE. If two distributions are being summed to create the kernel, this should be TRUE.
 #'
+#'  @param kernel.weighting The weighting of the first distribution for creating the summed kernels (the second distribution will be one minus this).
+#'
 #'  @param second.dist.mean The mean of the second distribution being summed with the first distribution. The default is zero, as above, but should match the first distribution's mean if that is ever changed from zero.
 #'
 #'  @param second.dist.sd Sigma (one standard deviation) for the distribution of dispersal distances of the second distribution.
@@ -40,7 +42,7 @@
 #' @export make.kernel.and.matrix
 
 
-make.kernel.and.matrix <- function(cell.size, horizontal.land, vertical.land, dist.mean=0, dist.sd, breed.window=FALSE, two.kernels=FALSE, second.dist.mean=0, second.dist.sd=NULL){
+make.kernel.and.matrix <- function(cell.size, horizontal.land, vertical.land, dist.mean=0, dist.sd, breed.window=FALSE, two.kernels=FALSE, kernel.weighting=0.9, second.dist.mean=0, second.dist.sd=NULL){
 
 	cell <- cell.size
 	
@@ -148,7 +150,7 @@ make.kernel.and.matrix <- function(cell.size, horizontal.land, vertical.land, di
 			points(-four.sigma.units:four.sigma.units, second.normalized.kernel.1d, col="blue")
 		}
 
-		prop.first.kernel <- 0.5
+		prop.first.kernel <- kernel.weighting
 		prop.second.kernel <- 1 - prop.first.kernel
 		summed.1d.kernels <- (long.normalized.kernel.1d * prop.first.kernel) + (second.normalized.kernel.1d * prop.second.kernel)
 
