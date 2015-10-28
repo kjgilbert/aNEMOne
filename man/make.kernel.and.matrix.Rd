@@ -6,7 +6,7 @@
 \usage{
 make.kernel.and.matrix(cell.size, horizontal.land, vertical.land,
   dist.mean = 0, dist.sd, breed.window = FALSE, two.kernels = FALSE,
-  second.dist.mean = 0, second.dist.sd = NULL)
+  kernel.weighting = 0.9, second.dist.mean = 0, second.dist.sd = NULL)
 }
 \arguments{
 \item{cell.size}{The size in unites distance of a single patch (or cell), which based on the parameters given below will influence how large the landscape is and how many cells are within one unit sigma.}
@@ -22,6 +22,8 @@ make.kernel.and.matrix(cell.size, horizontal.land, vertical.land,
 \item{breed.window}{A boolean parameter with default FALSE. Change to true if making a breeding window and not a dispersal kernel. This changes the ID of the patch that is at the absorbing boundary of the landscape.}
 
 \item{two.kernels}{A boolean parameter with default FALSE. If two distributions are being summed to create the kernel, this should be TRUE.}
+
+\item{kernel.weighting}{The weighting of the first distribution for creating the summed kernels (the second distribution will be one minus this).}
 
 \item{second.dist.mean}{The mean of the second distribution being summed with the first distribution. The default is zero, as above, but should match the first distribution's mean if that is ever changed from zero.}
 
