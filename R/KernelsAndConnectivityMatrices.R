@@ -163,7 +163,7 @@ make.kernel.and.matrix <- function(cell.size, horizontal.land, vertical.land, di
 
 		normalized.kernel.1d <- summed.1d.kernels
 		normalized.kernel.1d <- summed.1d.kernels/sum(summed.1d.kernels)	# normalize the probabilities to sum to 1
-		quartz()
+
 		if(second.shorter==FALSE){
 			plot(1:second.cells.in.1D.kernel, normalized.kernel.1d, main="Final Summed 1-D Dispersal Kernel")
 		}else{
