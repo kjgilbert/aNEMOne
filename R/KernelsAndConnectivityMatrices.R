@@ -189,7 +189,7 @@ make.kernel.and.matrix <- function(cell.size, horizontal.land, vertical.land, di
 	#library(graphics) # can be removed because brought in by 'depends'
 	contour(multiplied.kernels, asp=1, nlevels= four.sigma.units, main="Contour plot of 2-D kernel from multiplying")
 	if(two.kernels==TRUE & !is.null(second.four.sigma.units)){
-		contour(multiplied.kernels, asp=1, nlevels= second.four.sigma.units/4, main="Contour plot of 2-D kernel from multiplying summed kernels")
+		contour(multiplied.kernels, asp=1, nlevels= second.four.sigma.units, main="Contour plot of 2-D kernel from multiplying summed kernels")
 		center.cell <- second.four.sigma.units + 1		## DO NOT DELETE THIS LINE, NEEDED FOR THE SUMMING OF KERNELS TO CORRECTLY DRAW CUTOFF
 	}	
 
@@ -202,13 +202,13 @@ make.kernel.and.matrix <- function(cell.size, horizontal.land, vertical.land, di
 
 	# plot the multiplied matrix that's been cut off to circular distances
 	if(two.kernels==FALSE) contour(multiplied.kernels, asp=1, nlevels= four.sigma.units, main="Contour plot of 2-D kernel from multiplying after cutoff to 4 sigma")
-	if(two.kernels==TRUE & !is.null(second.four.sigma.units))	contour(multiplied.kernels, asp=1, nlevels= second.four.sigma.units/4, main="Contour plot of 2-D kernel from multiplying after cutoff to 4 sigma")
+	if(two.kernels==TRUE & !is.null(second.four.sigma.units))	contour(multiplied.kernels, asp=1, nlevels= second.four.sigma.units, main="Contour plot of 2-D kernel from multiplying after cutoff to 4 sigma")
 
 
 	# restandardize so all sums to 1
 	restandardized.multiplied.kernels <- multiplied.kernels/sum(multiplied.kernels)
 	contour(restandardized.multiplied.kernels, asp=1, nlevels= four.sigma.units, main="Contour plot of restandardized 2-D kernel")
-	if(two.kernels==TRUE & !is.null(second.four.sigma.units))	contour(restandardized.multiplied.kernels, asp=1, nlevels= second.four.sigma.units/4, main="Contour plot of restandardized 2-D kernel (from summed kernels)")
+	if(two.kernels==TRUE & !is.null(second.four.sigma.units))	contour(restandardized.multiplied.kernels, asp=1, nlevels= second.four.sigma.units, main="Contour plot of restandardized 2-D kernel (from summed kernels)")
 	disp.kernel <- restandardized.multiplied.kernels
 
 	middle.of.kernel <- center.cell
