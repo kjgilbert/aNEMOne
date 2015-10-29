@@ -139,14 +139,14 @@ make.kernel.and.matrix <- function(cell.size, horizontal.land, vertical.land, di
 			# then first kernel is shorter, add to it's length
 			second.shorter <- FALSE
 			long.normalized.kernel.1d <- c(rep(0, each.end.diff), normalized.kernel.1d, rep(0, each.end.diff))
-			plot(-second.four.sigma.units:second.four.sigma.units, second.normalized.kernel.1d, ylim=c(0,0.5), col="red")
+			plot(-second.four.sigma.units:second.four.sigma.units, second.normalized.kernel.1d, ylim=c(0,0.5), col="red", main="Summing weighted 1-D Dispersal Kernels")
 			points(-second.four.sigma.units:second.four.sigma.units, long.normalized.kernel.1d, col="blue")
 		}
 		if((length(normalized.kernel.1d) - length(second.normalized.kernel.1d)) > 0){
 			# then second kernel is shorter, add to it's length
 			second.shorter <- TRUE
 			second.normalized.kernel.1d <- c(rep(0, each.end.diff), second.normalized.kernel.1d, rep(0, each.end.diff))
-			plot(-four.sigma.units:four.sigma.units, normalized.kernel.1d, ylim=c(0,0.5), col="red")
+			plot(-four.sigma.units:four.sigma.units, normalized.kernel.1d, ylim=c(0,0.5), col="red", main="Summing weighted 1-D Dispersal Kernels")
 			points(-four.sigma.units:four.sigma.units, second.normalized.kernel.1d, col="blue")
 		}
 
@@ -162,8 +162,13 @@ make.kernel.and.matrix <- function(cell.size, horizontal.land, vertical.land, di
 		}
 
 		normalized.kernel.1d <- summed.1d.kernels
-		normalized.kernel.1d <- kernel.1d/sum(kernel.1d)	# normalize the probabilities to sum to 1
-		plot(1:cells.in.1D.kernel, normalized.kernel.1d)
+		normalized.kernel.1d <- summed.1d.kernels/sum(summed.1d.kernels)	# normalize the probabilities to sum to 1
+		quartz()
+		if(second.shorter==FALSE){
+			plot(1:second.cells.in.1D.kernel, normalized.kernel.1d, main="Final Summed 1-D Dispersal Kernel")
+		}else{
+			plot(1:cells.in.1D.kernel, normalized.kernel.1d, main="Final Summed 1-D Dispersal Kernel")
+		}
 
 	}
 
@@ -175,13 +180,19 @@ make.kernel.and.matrix <- function(cell.size, horizontal.land, vertical.land, di
 		horizontal.to.multiply[j,] <- normalized.kernel.1d
 		vertical.to.multiply[,j] <- normalized.kernel.1d
 	}
+	if(two.kernels==FALSE){second.four.sigma.units <- NULL}
 
 	multiplied.kernels <- horizontal.to.multiply * vertical.to.multiply
 
 
 	# plot the multiplied matrix
 	#library(graphics) # can be removed because brought in by 'depends'
-	contour(multiplied.kernels, asp=1, nlevels= four.sigma.units)
+	contour(multiplied.kernels, asp=1, nlevels= four.sigma.units, main="Contour plot of 2-D kernel from multiplying")
+	if(two.kernels==TRUE & !is.null(second.four.sigma.units)){
+		contour(multiplied.kernels, asp=1, nlevels= second.four.sigma.units/4, main="Contour plot of 2-D kernel from multiplying summed kernels")
+		center.cell <- second.four.sigma.units + 1		## DO NOT DELETE THIS LINE, NEEDED FOR THE SUMMING OF KERNELS TO CORRECTLY DRAW CUTOFF
+	}	
+
 
 	# find the cutoff value for distance travelled
 	#  i.e. which contours don't make the full circle around because they travel farther than the central column/row?
@@ -190,12 +201,14 @@ make.kernel.and.matrix <- function(cell.size, horizontal.land, vertical.land, di
 		# replace values lower than the cutoff with zero
 
 	# plot the multiplied matrix that's been cut off to circular distances
-	contour(multiplied.kernels, asp=1, nlevels= four.sigma.units)
+	if(two.kernels==FALSE) contour(multiplied.kernels, asp=1, nlevels= four.sigma.units, main="Contour plot of 2-D kernel from multiplying after cutoff to 4 sigma")
+	if(two.kernels==TRUE & !is.null(second.four.sigma.units))	contour(multiplied.kernels, asp=1, nlevels= second.four.sigma.units/4, main="Contour plot of 2-D kernel from multiplying after cutoff to 4 sigma")
 
 
 	# restandardize so all sums to 1
 	restandardized.multiplied.kernels <- multiplied.kernels/sum(multiplied.kernels)
-	contour(restandardized.multiplied.kernels, asp=1, nlevels= four.sigma.units)
+	contour(restandardized.multiplied.kernels, asp=1, nlevels= four.sigma.units, main="Contour plot of restandardized 2-D kernel")
+	if(two.kernels==TRUE & !is.null(second.four.sigma.units))	contour(restandardized.multiplied.kernels, asp=1, nlevels= second.four.sigma.units/4, main="Contour plot of restandardized 2-D kernel (from summed kernels)")
 	disp.kernel <- restandardized.multiplied.kernels
 
 	middle.of.kernel <- center.cell
