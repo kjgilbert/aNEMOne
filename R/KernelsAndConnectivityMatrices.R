@@ -391,6 +391,7 @@ make.kernel.and.matrix.8sigma <- function(cell.size, horizontal.land, vertical.l
 	# scale the landscape, and want to cut off at 4 sigma, so how many cells (in 1-D) are there within 4 sigma:
 	units <- dist.sd/cell		# number of cells per one sigma
 	eight.sigma.units <- 8*units	# number of cells per four sigma IN ONE DIRECTION
+	if(two.kernels==TRUE) sigma.units <- eight.sigma.units
 
 	center.cell <- eight.sigma.units + 1
 	cells.in.1D.kernel <- eight.sigma.units + eight.sigma.units + 1
@@ -422,6 +423,33 @@ make.kernel.and.matrix.8sigma <- function(cell.size, horizontal.land, vertical.l
 		# the maximum number of cells an individual might migrate including 1 as staying in natal patch
 	max.dist.exclude.natal <- middle.of.kernel - 1
 
+	# multiply it by itself to create the 2-D
+	horizontal.to.multiply <- matrix(NA, nrow=length(normalized.kernel.1d), ncol=length(normalized.kernel.1d))
+	vertical.to.multiply <- matrix(NA, nrow=length(normalized.kernel.1d), ncol=length(normalized.kernel.1d))
+
+	for(j in 1:length(normalized.kernel.1d)){
+		horizontal.to.multiply[j,] <- normalized.kernel.1d
+		vertical.to.multiply[,j] <- normalized.kernel.1d
+	}
+
+	multiplied.kernels <- horizontal.to.multiply * vertical.to.multiply
+
+
+	# plot the multiplied matrix
+	#library(graphics) # can be removed because brought in by 'depends'
+	contour(multiplied.kernels, asp=1, nlevels= 2*eight.sigma.units, main="Contour plot of 2-D kernel from multiplying")	
+
+
+	# find the cutoff value for distance travelled
+	#  i.e. which contours don't make the full circle around because they travel farther than the central column/row?
+	lower.cutoff <- multiplied.kernels[1, center.cell]
+	multiplied.kernels[multiplied.kernels < lower.cutoff] <- 0
+		# replace values lower than the cutoff with zero
+
+	# plot the multiplied matrix that's been cut off to circular distances
+	contour(multiplied.kernels, asp=1, nlevels= 2*eight.sigma.units, main="Contour plot of 2-D kernel from multiplying after cutoff to 8 sigma")
+
+
 
 
 ########################################################################################################################
@@ -443,7 +471,7 @@ make.kernel.and.matrix.8sigma <- function(cell.size, horizontal.land, vertical.l
 
 		# scale the landscape, and want to cut off at 4 sigma, so how many cells (in 1-D) are there within 4 sigma:
 		second.units <- second.dist.sd/cell		# number of cells per one sigma
-		second.eight.sigma.units <- 8*second.units	# number of cells per four sigma IN ONE DIRECTION
+		second.eight.sigma.units <- sigma.units	# number of cells per four sigma IN ONE DIRECTION
 
 		second.center.cell <- second.eight.sigma.units + 1
 		second.cells.in.1D.kernel <- second.eight.sigma.units + second.eight.sigma.units + 1
@@ -469,83 +497,60 @@ make.kernel.and.matrix.8sigma <- function(cell.size, horizontal.land, vertical.l
 			# still need to renormalize because only have the cumulative within 4 sigma
 		second.normalized.kernel.1d <- second.kernel.1d/sum(second.kernel.1d)	# normalize the probabilities to sum to 1
 
-		diff.in.length <- abs(length(normalized.kernel.1d) - length(second.normalized.kernel.1d))
-		each.end.diff <- diff.in.length/2
-		# which is the shorter one:
-		if((length(normalized.kernel.1d) - length(second.normalized.kernel.1d)) < 0){	
-			# then first kernel is shorter, add to it's length
-			second.shorter <- FALSE
-			long.normalized.kernel.1d <- c(rep(0, each.end.diff), normalized.kernel.1d, rep(0, each.end.diff))
-			plot(-second.eight.sigma.units:second.eight.sigma.units, second.normalized.kernel.1d, ylim=c(0,0.5), col="red", main="Summing weighted 1-D Dispersal Kernels")
-			points(-second.eight.sigma.units:second.eight.sigma.units, long.normalized.kernel.1d, col="blue")
-		}
-		if((length(normalized.kernel.1d) - length(second.normalized.kernel.1d)) > 0){
-			# then second kernel is shorter, add to it's length
-			second.shorter <- TRUE
-			second.normalized.kernel.1d <- c(rep(0, each.end.diff), second.normalized.kernel.1d, rep(0, each.end.diff))
-			plot(-eight.sigma.units:eight.sigma.units, normalized.kernel.1d, ylim=c(0,0.5), col="red", main="Summing weighted 1-D Dispersal Kernels")
-			points(-eight.sigma.units:eight.sigma.units, second.normalized.kernel.1d, col="blue")
-		}
+		plot(second.normalized.kernel.1d, main="Second 1-D Dispersal Kernel, Normalized")
 
+
+	#	DON'T SUM KERNELS UNTIL LATER, FIRST MAKE 2-D TO CORRECT FOR LEPTOKURTIC DIST
+	#	prop.first.kernel <- kernel.weighting
+	#	prop.second.kernel <- 1 - prop.first.kernel
+	#	summed.1d.kernels <- (long.normalized.kernel.1d * prop.first.kernel) + (second.normalized.kernel.1d * prop.second.kernel)
+		
+		# multiply it by itself to create the 2-D
+		horizontal.to.multiply <- matrix(NA, nrow=length(second.normalized.kernel.1d), ncol=length(second.normalized.kernel.1d))
+		vertical.to.multiply <- matrix(NA, nrow=length(second.normalized.kernel.1d), ncol=length(second.normalized.kernel.1d))
+	
+		for(j in 1:length(second.normalized.kernel.1d)){
+			horizontal.to.multiply[j,] <- second.normalized.kernel.1d
+			vertical.to.multiply[,j] <- second.normalized.kernel.1d
+		}
+	
+		second.multiplied.kernels <- horizontal.to.multiply * vertical.to.multiply
+	
+	
+		# plot the multiplied matrix
+		#library(graphics) # can be removed because brought in by 'depends'
+		contour(second.multiplied.kernels, asp=1, nlevels= 2*second.eight.sigma.units, main="Contour plot of 2-D kernel from second distribution")
+		center.cell <- second.eight.sigma.units + 1		## DO NOT DELETE THIS LINE, NEEDED FOR THE SUMMING OF KERNELS TO CORRECTLY DRAW CUTOFF	
+	
+		# find the cutoff value for distance travelled
+		#  i.e. which contours don't make the full circle around because they travel farther than the central column/row?
+		lower.cutoff <- second.multiplied.kernels[1, center.cell]
+		second.multiplied.kernels[second.multiplied.kernels < lower.cutoff] <- 0
+			# replace values lower than the cutoff with zero
+	
+		# plot the multiplied matrix that's been cut off to circular distances
+		filled.contour(second.multiplied.kernels, asp=1, nlevels= 2*second.eight.sigma.units, main="Contour plot of 2-D kernel from second distribution after trimming small values", zlim=c(0,(max(second.multiplied.kernels)-max(second.multiplied.kernels)*.1)))
+	
+	#	prop.first.kernel <- kernel.weighting
+	#	prop.second.kernel <- 1 - prop.first.kernel
+	#	summed.1d.kernels <- (long.normalized.kernel.1d * prop.first.kernel) + (second.normalized.kernel.1d * prop.second.kernel)
+
+		# NOW SUM THE KERNELS AFTER WEIGHTING THEM
 		prop.first.kernel <- kernel.weighting
 		prop.second.kernel <- 1 - prop.first.kernel
-		summed.1d.kernels <- (long.normalized.kernel.1d * prop.first.kernel) + (second.normalized.kernel.1d * prop.second.kernel)
+		
+		first.kernel <- prop.first.kernel * multiplied.kernels
+		second.kernel <- prop.second.kernel * second.multiplied.kernels
 
-		# just for the plot, to know which x values to use
-		if(second.shorter==FALSE){
-			points(-second.eight.sigma.units: second.eight.sigma.units, summed.1d.kernels, pch=20, cex=0.75)
-		}else{
-			points(-eight.sigma.units:eight.sigma.units, summed.1d.kernels, pch=20, cex=0.75)
-		}
-
-		normalized.kernel.1d <- summed.1d.kernels
-		normalized.kernel.1d <- summed.1d.kernels/sum(summed.1d.kernels)	# normalize the probabilities to sum to 1
-
-		if(second.shorter==FALSE){
-			plot(1:second.cells.in.1D.kernel, normalized.kernel.1d, main="Final Summed 1-D Dispersal Kernel")
-		}else{
-			plot(1:cells.in.1D.kernel, normalized.kernel.1d, main="Final Summed 1-D Dispersal Kernel")
-		}
-
+		multiplied.kernels <- first.kernel + second.kernel
 	}
-
-	# multiply it by itself to create the 2-D
-	horizontal.to.multiply <- matrix(NA, nrow=length(normalized.kernel.1d), ncol=length(normalized.kernel.1d))
-	vertical.to.multiply <- matrix(NA, nrow=length(normalized.kernel.1d), ncol=length(normalized.kernel.1d))
-
-	for(j in 1:length(normalized.kernel.1d)){
-		horizontal.to.multiply[j,] <- normalized.kernel.1d
-		vertical.to.multiply[,j] <- normalized.kernel.1d
-	}
-	if(two.kernels==FALSE){second.eight.sigma.units <- NULL}
-
-	multiplied.kernels <- horizontal.to.multiply * vertical.to.multiply
-
-
-	# plot the multiplied matrix
-	#library(graphics) # can be removed because brought in by 'depends'
-	contour(multiplied.kernels, asp=1, nlevels= eight.sigma.units, main="Contour plot of 2-D kernel from multiplying")
-	if(two.kernels==TRUE & !is.null(second.eight.sigma.units)){
-		contour(multiplied.kernels, asp=1, nlevels= second.eight.sigma.units, main="Contour plot of 2-D kernel from multiplying summed kernels")
-		center.cell <- second.eight.sigma.units + 1		## DO NOT DELETE THIS LINE, NEEDED FOR THE SUMMING OF KERNELS TO CORRECTLY DRAW CUTOFF
-	}	
-
-
-	# find the cutoff value for distance travelled
-	#  i.e. which contours don't make the full circle around because they travel farther than the central column/row?
-	lower.cutoff <- multiplied.kernels[1, center.cell]
-	multiplied.kernels[multiplied.kernels < lower.cutoff] <- 0
-		# replace values lower than the cutoff with zero
-
-	# plot the multiplied matrix that's been cut off to circular distances
-	if(two.kernels==FALSE) contour(multiplied.kernels, asp=1, nlevels= eight.sigma.units, main="Contour plot of 2-D kernel from multiplying after cutoff to 4 sigma")
-	if(two.kernels==TRUE & !is.null(second.eight.sigma.units))	contour(multiplied.kernels, asp=1, nlevels= second.eight.sigma.units, main="Contour plot of 2-D kernel from multiplying after cutoff to 4 sigma")
-
+	
+	
 
 	# restandardize so all sums to 1
 	restandardized.multiplied.kernels <- multiplied.kernels/sum(multiplied.kernels)
-	contour(restandardized.multiplied.kernels, asp=1, nlevels= eight.sigma.units, main="Contour plot of restandardized 2-D kernel")
-	if(two.kernels==TRUE & !is.null(second.eight.sigma.units))	contour(restandardized.multiplied.kernels, asp=1, nlevels= second.eight.sigma.units, main="Contour plot of restandardized 2-D kernel (from summed kernels)")
+	contour(restandardized.multiplied.kernels, asp=1, nlevels= 2*eight.sigma.units, main="Contour plot of restandardized 2-D kernel")
+
 	disp.kernel <- restandardized.multiplied.kernels
 
 	middle.of.kernel <- center.cell
