@@ -35,6 +35,8 @@ The main function `make.input` takes all of the parameters that would normally a
 
 `make.delet.input` does the same as above except has deleterious loci instead of neutral loci.
 
+`make.nemo.input` makes inputs with deleterious loci and a quantitative trait for the newest release of Nemo, v2.3.46, and hence has no breeding window functionality.
+
 ##### Miscellaneous functions used for making inputs
 
 See `?patch.cap` for details on making an array of patch capacities. Currently only two different *K*'s may be set across the landscape, but more may easily be added, so feel free to request so. This function also works for male and female specific carrying capacities as well as temporally set capacities.
