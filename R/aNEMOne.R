@@ -801,7 +801,7 @@ make.delet.input <- function(
 #'
 #'	@param large.kernels Set to true if using a dispersal or breeding kernel of large size, default is false. When true, it will not hold the full matrix in R's memory and instead send to the command line to concatenate files.
 #'
-#'  @param dispersal.kernel The array of dispersal probabilities for forward migration. (parameter in Nemo is dispersal_reduced_matrix)
+#'  @param dispersal.kernel The matrix of dispersal probabilities for forward migration. (parameter in Nemo is dispersal_reduced_matrix)
 #'
 #'  @param dispersal.connectivity.matrix The connectivity matrix of patches matched to the dispersal kernel.
 #'
@@ -891,9 +891,9 @@ make.delet.input <- function(
 #'
 #'  
 #' 
-#' @export make.delet.input
+#' @export make.nemo.input
 
-make.delet.input <- function(
+make.nemo.input <- function(
   run.mode="overwrite",
   random.seed="12345",
   log.file="logfile.log",
@@ -910,19 +910,16 @@ make.delet.input <- function(
   mating.system=NULL,
   mating.proportion=NULL,
   mean.fec=NULL,
-  self.if.alone=FALSE,
-  always.breed.window=FALSE,
   large.kernels=FALSE,
-  breeding.connectivity.matrix=NULL,
-  breeding.kernel=NULL,
-  dispersal.connectivity.matrix=NULL,
   dispersal.kernel=NULL,
+  dispersal.connectivity.matrix=NULL,
   seln.trait=NULL,
   seln.model=NULL,
   seln.fitness.model="absolute",
   seln.var=NULL,
   seln.trait.dim=1,
   seln.local.optima=NULL,
+  seln.optima.rate.change=NULL,
   quanti.init=NULL,
   num.quanti.traits=1,
   num.quanti.loci=NULL,
@@ -985,34 +982,23 @@ make.delet.input <- function(
     row11 <- paste(c(paste(c("mating_system", mating.system), collapse=" "), paste(c("mating_proportion", mating.proportion), collapse=" ")), collapse="\n")
   }
   row12 <- paste(c("mean_fecundity", mean.fec), collapse=" ")
-  if(self.if.alone==TRUE){
-    row12 <- paste(c(row12, paste("self_if_alone")), collapse="\n")
-  }
-  if(always.breed.window ==TRUE){
-    row12 <- paste(c(row12, paste("always_breed_window")), collapse="\n")
-  }
   if(large.kernels==TRUE){
-    row13 <- paste("breeding_connectivity_matrix {")
+    row13 <- paste("dispersal_connectivity_matrix {")
     end13 <- paste("}")
   }else{
-    row13 <- paste(c("breeding_connectivity_matrix {", breeding.connectivity.matrix, "}"), collapse=" ")
+    row13 <- paste(c("dispersal_connectivity_matrix {", dispersal.connectivity.matrix, " }"), collapse=" ")
   }
-  row14 <- paste(c("breeding_kernel {", breeding.kernel, "}"), collapse=" ")
-  if(large.kernels==TRUE){
-    row15 <- paste("dispersal_connectivity_matrix {")
-    end15 <- paste("}")
-  }else{
-    row15 <- paste(c("dispersal_connectivity_matrix {", dispersal.connectivity.matrix, " }"), collapse=" ")
-  }
-  row16 <- paste(c("dispersal_kernel {", dispersal.kernel, "}"), collapse=" ")
+  row14 <- paste(c("dispersal_reduced_matrix {", dispersal.kernel, "}"), collapse=" ")
   
-  row17 <- paste("\n## SELECTION TRAITS")
-  row18 <- paste(c("selection_trait", seln.trait), collapse=" ")
-  row19 <- paste(c("selection_model", seln.model), collapse=" ")
-  row20 <- paste(c("selection_fitness_model", seln.fitness.model), collapse=" ")
-  row21 <- paste(c("selection_variance", seln.var), collapse=" ")
-  row22 <- paste(c("selection_trait_dimension", seln.trait.dim), collapse=" ")
-  row23 <- paste(c("selection_local_optima", seln.local.optima), collapse=" ")
+  row15 <- paste("\n## SELECTION TRAITS")
+  row16 <- paste(c("selection_trait", seln.trait), collapse=" ")
+  row17 <- paste(c("selection_model", seln.model), collapse=" ")
+  row18 <- paste(c("selection_fitness_model", seln.fitness.model), collapse=" ")
+  row19 <- paste(c("selection_variance", seln.var), collapse=" ")
+  row20 <- paste(c("selection_trait_dimension", seln.trait.dim), collapse=" ")
+  row21 <- paste(c("selection_local_optima", seln.local.optima), collapse=" ")
+  row22 <- paste(c("selection_rate_environmental_change {{", seln.optima.rate.change, "}}"), collapse=" ")
+  row23 <- " "
   
   row24 <- paste("\n## QUANTI TRAITS")
   row25 <- paste(c("quanti_init_value {{", quanti.init, "}}"), collapse=" ")
