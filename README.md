@@ -62,3 +62,7 @@ See `?changing.landscape` for details on how to combine landscapes of two types 
 `dist.delet.effects` Plots histograms of the effect sizes of deleterious mutations from a .del file.
 
 `sim.results.pop` IN PROGRESS (SimResults_Pop.R)
+
+#### Developer Notes
+
+For sanity's sake, remember that the latest version of roxygen2 is not compatible for its method of creating .Rd documentation files. Current version is using roxygen2 v4.1.0, installed via `install_version("roxygen2", version = "4.1.0", repos = "http://cran.us.r-project.org")`. I think it is most likely just me that has not kept up with the latest R package development tools.
