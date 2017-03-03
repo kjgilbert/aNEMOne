@@ -690,8 +690,6 @@ make.kernel.and.matrix.8sigma <- function(cell.size, horizontal.land, vertical.l
 #'
 #'  @param dist.sd Sigma (one standard deviation) for the distribution of dispersal distances.
 #'
-#'  @param breed.window A boolean parameter with default FALSE. Change to true if making a breeding window and not a dispersal kernel. This changes the ID of the patch that is at the absorbing boundary of the landscape.
-#'
 #'  @param two.kernels A boolean parameter with default FALSE. If two distributions are being summed to create the kernel, this should be TRUE.
 #'
 #'  @param kernel.weighting The weighting of the first distribution for creating the summed kernels (the second distribution will be one minus this).
@@ -711,13 +709,13 @@ make.kernel.and.matrix.8sigma <- function(cell.size, horizontal.land, vertical.l
 #' @examples
 #'
 #' make.kernel.and.matrix(cell.size=50, horizontal.land=1000, vertical.land=2000, dist.mean=0,
-#'   dist.sd=25, breed.window=TRUE, two.kernels=FALSE, second.dist.mean=0, second.dist.sd=NULL)
+#'   dist.sd=25, two.kernels=FALSE, second.dist.mean=0, second.dist.sd=NULL)
 #' 
 #' 
-#' @export disp.kern8sigma.mat.new.nemo
+#' @export disp.kern.new.nemo.sig8
 
 
-disp.kern8sigma.mat.new.nemo <- function(cell.size, horizontal.land, vertical.land, dist.mean=0, dist.sd, two.kernels=FALSE, kernel.weighting=0.9, second.dist.mean=0, second.dist.sd=NULL){
+disp.kern.new.nemo.sig8 <- function(cell.size, horizontal.land, vertical.land, dist.mean=0, dist.sd, two.kernels=FALSE, kernel.weighting=0.9, second.dist.mean=0, second.dist.sd=NULL){
 
 	cell <- cell.size
 	
