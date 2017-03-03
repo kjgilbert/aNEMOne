@@ -5,8 +5,8 @@
 \title{Create dispersal or breeding window kernels and connectivity matrices that don't cut off at 4 sigma, but instead at 8, and creates the full matrix for the new version of nemo, so is patch number by patch number in size.}
 \usage{
 disp.kern8sigma.mat.new.nemo(cell.size, horizontal.land, vertical.land,
-  dist.mean = 0, dist.sd, breed.window = FALSE, two.kernels = FALSE,
-  kernel.weighting = 0.9, second.dist.mean = 0, second.dist.sd = NULL)
+  dist.mean = 0, dist.sd, two.kernels = FALSE, kernel.weighting = 0.9,
+  second.dist.mean = 0, second.dist.sd = NULL)
 }
 \arguments{
 \item{cell.size}{The size in unites distance of a single patch (or cell), which based on the parameters given below will influence how large the landscape is and how many cells are within one unit sigma.}
@@ -19,8 +19,6 @@ disp.kern8sigma.mat.new.nemo(cell.size, horizontal.land, vertical.land,
 
 \item{dist.sd}{Sigma (one standard deviation) for the distribution of dispersal distances.}
 
-\item{breed.window}{A boolean parameter with default FALSE. Change to true if making a breeding window and not a dispersal kernel. This changes the ID of the patch that is at the absorbing boundary of the landscape.}
-
 \item{two.kernels}{A boolean parameter with default FALSE. If two distributions are being summed to create the kernel, this should be TRUE.}
 
 \item{kernel.weighting}{The weighting of the first distribution for creating the summed kernels (the second distribution will be one minus this).}
@@ -28,6 +26,8 @@ disp.kern8sigma.mat.new.nemo(cell.size, horizontal.land, vertical.land,
 \item{second.dist.mean}{The mean of the second distribution being summed with the first distribution. The default is zero, as above, but should match the first distribution's mean if that is ever changed from zero.}
 
 \item{second.dist.sd}{Sigma (one standard deviation) for the distribution of dispersal distances of the second distribution.}
+
+\item{breed.window}{A boolean parameter with default FALSE. Change to true if making a breeding window and not a dispersal kernel. This changes the ID of the patch that is at the absorbing boundary of the landscape.}
 }
 \value{
 Returns the array of probabilities for the dispersal or breeding window kernels and prints the connectivity matrix to a file.
