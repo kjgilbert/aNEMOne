@@ -714,7 +714,7 @@ make.kernel.and.matrix.8sigma <- function(cell.size, horizontal.land, vertical.l
 #'   dist.sd=25, breed.window=TRUE, two.kernels=FALSE, second.dist.mean=0, second.dist.sd=NULL)
 #' 
 #' 
-#' @export make.kernel.and.matrix.8sigma
+#' @export disp.kern8sigma.mat.new.nemo
 
 
 disp.kern8sigma.mat.new.nemo <- function(cell.size, horizontal.land, vertical.land, dist.mean=0, dist.sd, breed.window=FALSE, two.kernels=FALSE, kernel.weighting=0.9, second.dist.mean=0, second.dist.sd=NULL){
