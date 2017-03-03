@@ -1003,8 +1003,7 @@ disp.kern8sigma.mat.new.nemo <- function(cell.size, horizontal.land, vertical.la
 	with.commas$col1 <- "{"
 	with.commas$col.last <- "}"
 	final.connectivity.matrix <- cbind(with.commas$col1, paste(with.commas$V1), with.commas$col.last)
-	if(breed.window == FALSE) write.table(final.connectivity.matrix, file=paste(c(getwd(), "/", "Dispersal_ConnMatrix.txt"), collapse=""), col.names=FALSE, row.names=FALSE, quote=FALSE)
-	if(breed.window == TRUE) write.table(final.connectivity.matrix, file=paste(c(getwd(), "/", "Breeding_ConnMatrix.txt"), collapse=""), col.names=FALSE, row.names=FALSE, quote=FALSE)
+	write.table(final.connectivity.matrix, file=paste(c(getwd(), "/", "Dispersal_ConnMatrix.txt"), collapse=""), col.names=FALSE, row.names=FALSE, quote=FALSE)
 	
 	return(kernel)
 }
