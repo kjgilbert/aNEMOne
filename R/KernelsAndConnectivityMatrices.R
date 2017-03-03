@@ -717,7 +717,7 @@ make.kernel.and.matrix.8sigma <- function(cell.size, horizontal.land, vertical.l
 #' @export disp.kern8sigma.mat.new.nemo
 
 
-disp.kern8sigma.mat.new.nemo <- function(cell.size, horizontal.land, vertical.land, dist.mean=0, dist.sd, breed.window=FALSE, two.kernels=FALSE, kernel.weighting=0.9, second.dist.mean=0, second.dist.sd=NULL){
+disp.kern8sigma.mat.new.nemo <- function(cell.size, horizontal.land, vertical.land, dist.mean=0, dist.sd, two.kernels=FALSE, kernel.weighting=0.9, second.dist.mean=0, second.dist.sd=NULL){
 
 	cell <- cell.size
 	
@@ -985,13 +985,10 @@ disp.kern8sigma.mat.new.nemo <- function(cell.size, horizontal.land, vertical.la
 			}
 		}
 	}
-
-	# if making a breed window instead of a dispersal kernel, change the absorbing cell to the ghost.cell
-	if(breed.window == TRUE){
-		conn.mat[conn.mat == absorbing.cell] <- ghost.cell
-	}
 	
-	kernel <- paste(rep(c("{", paste(sorted.disp.frame$dispersal.prob, collapse=","), "}"), times=total.cells), collapse=" ")
+	kernel <- paste(c("{", paste(sorted.disp.frame$dispersal.prob, collapse=","), "}"), collapse=" ")
+	expanded.kernel <- paste(c("{", rep(kernel, times=total.cells+2), "}"), collapse="\n")
+	write.table(expanded.kernel, file="ExpandedDispKernel.txt", sep=",", col.names=FALSE, row.names=FALSE)
 
 
 	# add on the extra rows for the ghost and absorbing patches
