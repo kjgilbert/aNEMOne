@@ -988,7 +988,7 @@ make.nemo.input <- function(
   }else{
     row13 <- paste(c("dispersal_connectivity_matrix {", dispersal.connectivity.matrix, " }"), collapse=" ")
   }
-  row14 <- paste(c("dispersal_reduced_matrix {", dispersal.kernel, "}"), collapse=" ")
+  row14 <- paste(c("dispersal_reduced_matrix ", dispersal.kernel), collapse=" ")
   
   row15 <- paste("\n## SELECTION TRAITS")
   row16 <- paste(c("selection_trait", seln.trait), collapse=" ")
