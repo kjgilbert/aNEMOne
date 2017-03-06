@@ -10,7 +10,7 @@ An R package to create input files for and analyze output files from [Nemo](http
 
 Nemo is an individual-based forward-time simulation program created and maintained by Fred Guillaume. The latest release is available for download [here](http://nemo2.sourceforge.net/).
 
-This package is meant to aid in writing input files for Nemo, particularly when dealing with large landscapes consisting of many patches that require large range-wide matrices for specifying dispersal distances or distances within which breeding can happen from a focal patch. See additions to the Nemo code [documented here](https://github.com/kjgilbert/NemoDispersalKernel) for some of the capabilities that this packages is meant to deal with. Future updates will include functions for analyzing stat file outputs and other output files.
+This package is meant to aid in writing input files for Nemo, particularly when dealing with large landscapes consisting of many patches that require large range-wide matrices for specifying dispersal distances or distances within which breeding can happen from a focal patch. See additions to the Nemo code [documented here](https://github.com/kjgilbert/NemoDispersalKernel) for some of the capabilities that this package is meant to deal with. Future updates will include functions for analyzing stat file outputs and other output files.
 
 The package can be installed using [devtools](https://github.com/hadley/devtools), which itself can be installed from CRAN with
 
@@ -61,7 +61,11 @@ See `?changing.landscape` for details on how to combine landscapes of two types 
 
 `dist.delet.effects` Plots histograms of the effect sizes of deleterious mutations from a .del file.
 
-`sim.results.pop` IN PROGRESS (SimResults_Pop.R)
+`delet.muts.over.landscape` Plots heat maps of the numbers of homozygous, heterozygous, or total mutations over the landscape from a .del file.
+
+`sim.results.pop` Plots the desired summary statistics from the output .stat file over all generations specified for saving data.
+
+`fit.results.landscape` Plots heat maps of total fitness, or fitness for just the quantitative trait or just deleterious mutations, across the landscape from a .fit file.
 
 #### Developer Notes
 
