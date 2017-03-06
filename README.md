@@ -51,11 +51,15 @@ See `?step.landscape` for details on making a stepwise gradient landscape of phe
 
 See `?changing.landscape` for details on how to combine landscapes of two types or steepnesses.
 
-##### Useful for running analyses on [Westgrid](https://www.westgrid.ca/)
+##### Useful for running analyses on [Westgrid](https://www.westgrid.ca/) or other similar Grid Engine clusters
 
 `make.pbs` creates a PBS file for the provided .ini file. It is important that [GrexLine.txt, MiddleLine.txt, and LastLine.txt](https://github.com/kjgilbert/aNEMOne/tree/master/extra) are in the same directory as the .ini file (and the same holds for multi.pbs below).
 
 `multi.pbs` creates PBS files for all .ini files in a directory.
+
+##### Useful for running analyses on [Ubelix](https://docs.id.unibe.ch/ubelix) or other similar slurm clusters
+
+*forthcoming*
 
 ##### Handle outputs
 
