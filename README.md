@@ -27,7 +27,7 @@ library(aNEMOne)
 ```
 and the package will be installed and open.
 
-#### Functions
+### Functions
 
 An [example script](https://github.com/kjgilbert/aNEMOne/blob/master/extra/Example_MakeInputs.R) shows how this package's functions may be used to produce a .ini input file for Nemo.
 
