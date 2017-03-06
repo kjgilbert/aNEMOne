@@ -33,29 +33,29 @@ An [example script](https://github.com/kjgilbert/aNEMOne/blob/master/extra/Examp
 
 The main function `make.input` takes all of the parameters that would normally appear in your input file with some defaults already set. See `?make.input` for details. This function really provides no advantage unless you use the additional functions to create large matrices and kernels that can now be automatically inserted into the input file without worry about copy and paste or bracket errors.
 
-`make.delet.input` does the same as above except has deleterious loci instead of neutral loci.
+* `make.delet.input` does the same as above except has deleterious loci instead of neutral loci.
 
-`make.nemo.input` makes inputs with deleterious loci and a quantitative trait for the newest release of Nemo, v2.3.46, and hence has no breeding window functionality.
+* `make.nemo.input` makes inputs with deleterious loci and a quantitative trait for the newest release of Nemo, v2.3.46, and hence has no breeding window functionality.
 
 #### Miscellaneous functions used for making inputs
 
-See `?patch.cap` for details on making an array of patch capacities. Currently only two different *K*'s may be set across the landscape, but more may easily be added, so feel free to request so. This function also works for male and female specific carrying capacities as well as temporally set capacities.
+* See `?patch.cap` for details on making an array of patch capacities. Currently only two different *K*'s may be set across the landscape, but more may easily be added, so feel free to request so. This function also works for male and female specific carrying capacities as well as temporally set capacities.
 
-See `?make.kernel.and.matrix` for details on making connectivity matrices and probability kernels for dispersal and breeding windows. The function returns the array for the kernel and prints the connectivity matrix to file.
+* See `?make.kernel.and.matrix` for details on making connectivity matrices and probability kernels for dispersal and breeding windows. The function returns the array for the kernel and prints the connectivity matrix to file.
 
 #### Selection landscape
 
-See `?make.landscape` for details on making the landscape of phenotypic optima for Nemo's `selection_local_optima` input parameter. The function returns the mean optimum value for the first column of landscape patches, visualizes the landscape, and write to file the matrix to be fed in for input.
+* See `?make.landscape` for details on making the landscape of phenotypic optima for Nemo's `selection_local_optima` input parameter. The function returns the mean optimum value for the first column of landscape patches, visualizes the landscape, and write to file the matrix to be fed in for input.
 
-See `?step.landscape` for details on making a stepwise gradient landscape of phenotypic optima for Nemo's `selection_local_optima` input parameter. The function returns the optimum value for the first column of landscape patches, visualizes the landscape, and write to file the matrix to be fed in for input.
+* See `?step.landscape` for details on making a stepwise gradient landscape of phenotypic optima for Nemo's `selection_local_optima` input parameter. The function returns the optimum value for the first column of landscape patches, visualizes the landscape, and write to file the matrix to be fed in for input.
 
-See `?changing.landscape` for details on how to combine landscapes of two types or steepnesses.
+* See `?changing.landscape` for details on how to combine landscapes of two types or steepnesses.
 
 #### Useful for running analyses on [Westgrid](https://www.westgrid.ca/) or other similar Grid Engine clusters
 
-`make.pbs` creates a PBS file for the provided .ini file. It is important that [GrexLine.txt, MiddleLine.txt, and LastLine.txt](https://github.com/kjgilbert/aNEMOne/tree/master/extra) are in the same directory as the .ini file (and the same holds for multi.pbs below).
+* `make.pbs` creates a PBS file for the provided .ini file. It is important that [GrexLine.txt, MiddleLine.txt, and LastLine.txt](https://github.com/kjgilbert/aNEMOne/tree/master/extra) are in the same directory as the .ini file (and the same holds for multi.pbs below).
 
-`multi.pbs` creates PBS files for all .ini files in a directory.
+* `multi.pbs` creates PBS files for all .ini files in a directory.
 
 #### Useful for running analyses on [Ubelix](https://docs.id.unibe.ch/ubelix) or other similar slurm clusters
 
@@ -63,13 +63,13 @@ See `?changing.landscape` for details on how to combine landscapes of two types 
 
 #### Handle outputs
 
-`dist.delet.effects` Plots histograms of the effect sizes of deleterious mutations from a .del file.
+* `dist.delet.effects` Plots histograms of the effect sizes of deleterious mutations from a .del file.
 
-`delet.muts.over.landscape` Plots heat maps of the numbers of homozygous, heterozygous, or total mutations over the landscape from a .del file.
+* `delet.muts.over.landscape` Plots heat maps of the numbers of homozygous, heterozygous, or total mutations over the landscape from a .del file.
 
-`sim.results.pop` Plots the desired summary statistics from the output .stat file over all generations specified for saving data.
+* `sim.results.pop` Plots the desired summary statistics from the output .stat file over all generations specified for saving data.
 
-`fit.results.landscape` Plots heat maps of total fitness, or fitness for just the quantitative trait or just deleterious mutations, across the landscape from a .fit file.
+* `fit.results.landscape` Plots heat maps of total fitness, or fitness for just the quantitative trait or just deleterious mutations, across the landscape from a .fit file.
 
 ### Developer Notes
 
