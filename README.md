@@ -37,13 +37,13 @@ The main function `make.input` takes all of the parameters that would normally a
 
 `make.nemo.input` makes inputs with deleterious loci and a quantitative trait for the newest release of Nemo, v2.3.46, and hence has no breeding window functionality.
 
-##### Miscellaneous functions used for making inputs
+#### Miscellaneous functions used for making inputs
 
 See `?patch.cap` for details on making an array of patch capacities. Currently only two different *K*'s may be set across the landscape, but more may easily be added, so feel free to request so. This function also works for male and female specific carrying capacities as well as temporally set capacities.
 
 See `?make.kernel.and.matrix` for details on making connectivity matrices and probability kernels for dispersal and breeding windows. The function returns the array for the kernel and prints the connectivity matrix to file.
 
-##### Selection landscape
+#### Selection landscape
 
 See `?make.landscape` for details on making the landscape of phenotypic optima for Nemo's `selection_local_optima` input parameter. The function returns the mean optimum value for the first column of landscape patches, visualizes the landscape, and write to file the matrix to be fed in for input.
 
@@ -51,17 +51,17 @@ See `?step.landscape` for details on making a stepwise gradient landscape of phe
 
 See `?changing.landscape` for details on how to combine landscapes of two types or steepnesses.
 
-##### Useful for running analyses on [Westgrid](https://www.westgrid.ca/) or other similar Grid Engine clusters
+#### Useful for running analyses on [Westgrid](https://www.westgrid.ca/) or other similar Grid Engine clusters
 
 `make.pbs` creates a PBS file for the provided .ini file. It is important that [GrexLine.txt, MiddleLine.txt, and LastLine.txt](https://github.com/kjgilbert/aNEMOne/tree/master/extra) are in the same directory as the .ini file (and the same holds for multi.pbs below).
 
 `multi.pbs` creates PBS files for all .ini files in a directory.
 
-##### Useful for running analyses on [Ubelix](https://docs.id.unibe.ch/ubelix) or other similar slurm clusters
+#### Useful for running analyses on [Ubelix](https://docs.id.unibe.ch/ubelix) or other similar slurm clusters
 
 *forthcoming*
 
-##### Handle outputs
+#### Handle outputs
 
 `dist.delet.effects` Plots histograms of the effect sizes of deleterious mutations from a .del file.
 
@@ -71,6 +71,6 @@ See `?changing.landscape` for details on how to combine landscapes of two types 
 
 `fit.results.landscape` Plots heat maps of total fitness, or fitness for just the quantitative trait or just deleterious mutations, across the landscape from a .fit file.
 
-#### Developer Notes
+### Developer Notes
 
 For sanity's sake, remember that the latest version of roxygen2 is not compatible for its method of creating .Rd documentation files. Current version is using roxygen2 v4.1.0, installed via `install_version("roxygen2", version = "4.1.0", repos = "http://cran.us.r-project.org")`. I think it is most likely just me that has not kept up with the latest R package development tools.
