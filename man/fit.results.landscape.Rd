@@ -17,7 +17,7 @@ fit.results.landscape(input.fit.file, patches.x, patches.y,
 \item{fitness.type}{Which component of fitness to plot: for the quantitative trait, for deleterious mutations, or total fitness.}
 }
 \value{
-Creates four plots of simulation results, showing mean fitness, total number of adults in the metapopulation, mean phenotypic value, and variances across generations.
+Creates a plot over the landscape (heat map style) for fitness of the specified component.
 }
 \description{
 Takes an "ind_seln" output file (with quanti and delet fitness values per individual) and plots fitness over the landscape in several ways.

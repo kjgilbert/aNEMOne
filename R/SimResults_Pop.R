@@ -56,7 +56,7 @@ sim.results.pop <- function(input.stats.file, which.rep=NULL, par.size=c(2,2), s
 #'
 #'  @return
 #'
-#'  Creates four plots of simulation results, showing mean fitness, total number of adults in the metapopulation, mean phenotypic value, and variances across generations.
+#'  Creates a plot over the landscape (heat map style) for fitness of the specified component.
 #'
 #' @author Kimberly J Gilbert
 #'
