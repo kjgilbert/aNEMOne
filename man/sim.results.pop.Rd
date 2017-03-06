@@ -4,17 +4,17 @@
 \alias{sim.results.pop}
 \title{Examine some population parameters from Nemo stat output}
 \usage{
-sim.results.pop(input, out.file = "SimResults.pdf", which.rep = NULL,
-  add = FALSE)
+sim.results.pop(input.stats.file, which.rep = NULL, par.size = c(2, 2),
+  stats.to.plot = c("fitness.mean", "adlt.nbr", "adlt.q1", "adlt.q1.Va"))
 }
 \arguments{
-\item{input}{The stat file output from Nemo.}
-
-\item{out.file}{The name of the file to output the .pdf of figures to, currently not enabled in the function.}
+\item{input.stats.file}{The stat file output from Nemo.}
 
 \item{which.rep}{If there are stats from multiple replicates, state which one to examine here, otherwise leave as NULL.}
 
-\item{add}{If adding to an existing plor, change to TRUE, otherwise leave at default of FALSE I think this will probably not work as is.}
+\item{par.size}{Create the layout/number of plotting windows for making the desired output plots.}
+
+\item{stats.to.plot}{List the stats to be plotted.}
 }
 \value{
 Creates four plots of simulation results, showing mean fitness, total number of adults in the metapopulation, mean phenotypic value, and variances across generations.

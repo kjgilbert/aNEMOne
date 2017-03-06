@@ -3,14 +3,13 @@
 #'
 #' @title Examine some population parameters from Nemo stat output
 #'
-#'
 #'  @param input.stats.file The stat file output from Nemo.
-#'
-#'  @param out.file The name of the file to output the .pdf of figures to, currently not enabled in the function.
 #'
 #'  @param which.rep If there are stats from multiple replicates, state which one to examine here, otherwise leave as NULL.
 #'
-#'  @param add If adding to an existing plor, change to TRUE, otherwise leave at default of FALSE I think this will probably not work as is.
+#'  @param par.size Create the layout/number of plotting windows for making the desired output plots.
+#'
+#'  @param stats.to.plot List the stats to be plotted.
 #'
 #'  @return
 #'
@@ -20,10 +19,10 @@
 #'
 #' @references \href{http://nemo2.sourceforge.net/index.html}{Nemo} is created and maintained by Fred Guillaume. The manual and source files are available online.
 #'
-#' @export
+#' @export sim.results.pop
 
 
-sim.results.pop <- function(input.stats.file, out.file="SimResults.pdf", which.rep=NULL, par.size=c(2,2), stats.to.plot=c("fitness.mean", "adlt.nbr", "adlt.q1", "adlt.q1.Va")){
+sim.results.pop <- function(input.stats.file, which.rep=NULL, par.size=c(2,2), stats.to.plot=c("fitness.mean", "adlt.nbr", "adlt.q1", "adlt.q1.Va")){
 
   input <- read.table(input.stats.file, header=TRUE)
   
