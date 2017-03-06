@@ -4,7 +4,7 @@
 #' @title Examine some population parameters from Nemo stat output
 #'
 #'
-#'  @param input The stat file output from Nemo.
+#'  @param input.stats.file The stat file output from Nemo.
 #'
 #'  @param out.file The name of the file to output the .pdf of figures to, currently not enabled in the function.
 #'
@@ -23,8 +23,10 @@
 #' @export
 
 
-sim.results.pop <- function(input, out.file="SimResults.pdf", which.rep=NULL, add=FALSE){
+sim.results.pop <- function(input.stats.file, out.file="SimResults.pdf", which.rep=NULL, par.size=c(2,2), stats.to.plot=c("fitness.mean", "adlt.nbr", "adlt.q1", "adlt.q1.Va")){
 
+  input <- read.table(input.stats.file, header=TRUE)
+  
 	# separate replicates
 	if(is.null(which.rep)){
 		dat <- input
@@ -32,40 +34,9 @@ sim.results.pop <- function(input, out.file="SimResults.pdf", which.rep=NULL, ad
 		dat <- subset(input, input$replicate == which.rep)
 	}
 
-
-#	pdf(out.file, width=10, height=10)
-
-	par(mfrow=c(2,2))
-
-
-	# MEAN FITNESS
-
-	plot(dat$generation, dat$fitness.mean, ylim=c(0,1), type="o", xlab="Generation", ylab="Mean Fitness", col="blue", add=add)
-
-
-	# TOTAL NUMBER OF ADULTS IN THE METAPOP
-
-	plot(dat$generation, dat$adlt.nbr, type="o", col="blue", xlab="Generation", ylab="Total number adults in metapop", add=add)
-
-
-	# GENETIC STATs
-
-	plot(dat$generation, dat$adlt.q1, ylim=range(dat$adlt.q1), xlab="Generation", ylab="Mean phenotypic value", type="o", col="blue", add=add)		# mean phenotypic value of the trait in the whole metapop
-	points(dat$generation, dat$off.q1, col="lightblue", type="o", pch=2)
-	legend("topright", c("Adult", "Offspring"), col=c("blue", "lightblue"), pch=c(1,2), pt.lwd=2)
-
-
-	# Va, Vb, Vp
-
-	plot(dat$generation, dat$adlt.q1.Va, type="o", ylim=c(0,8), col="black", pch=0, xlab="Generation", ylab="", add=add)	# avg w/n patch additive gen. var.
-	points(dat$generation, dat$adlt.q1.Vb, type="o", col="blue", pch=1) # among patch gen. var.
-	points(dat$generation, dat$adlt.q1.Vp, type="o", col="red", pch=5) # avg w/n patch pheno. var., only if Ve != 0
-	#points(dat$generation, dat$off.q1.Va, type="o", col="black", pch=2, cex=0.5)
-	#points(dat$generation, dat$off.q1.Vb, type="o", col="red", pch=2, cex=0.5)
-	#points(dat$generation, dat$off.q1.Vp, type="o", col="green", pch=2, cex=0.5)
-	legend("topright", c("Va", "Vb", "Vp"), col=c("black", "blue", "red"), pch=c(0,1,5))
-
-
-#	dev.off()
-
+	par(mfrow=par.size)
+	
+	for(i in stats.to.plot){
+	  plot(dat$generation, unlist(dat[i]), type="o", xlab="Generation", ylab=i, col="blue")
+	}
 }
