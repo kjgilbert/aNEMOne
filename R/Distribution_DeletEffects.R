@@ -117,17 +117,17 @@ delet.muts.over.landscape <- function(del.file, patches.x, patches.y, num.loci, 
 	if(count.type == "total" | count.type == "all"){
 		# make total fitness into a matrix matched to the landscape
 		total.mut.mat <- matrix(avg.mut.counts$total.muts, nrow=patches.y, ncol=patches.x, byrow=FALSE)
-		heatmap.2(x=total.mut.mat, dendrogram='none', labRow=NA, labCol=NA, margins=c(2,1), trace='none', na.color="blue", keysize=1, key.ylab=NA, key.title=NA, key.par=list(yaxt="n"), xlab="axis of expansion", col=c(white(40), whiteToYellow(60), yellowToRed(60), redToPurple(15)), main="Mean total number delet muts per ind (within a patch)")
+		heatmap.2(x=total.mut.mat, dendrogram='none', labRow=NA, labCol=NA, margins=c(2,1), trace='none', na.color="blue", keysize=1, key.ylab=NA, key.title=NA, key.par=list(yaxt="n"), xlab="axis of expansion ->", col=c(white(40), whiteToYellow(60), yellowToRed(60), redToPurple(15)), main="Mean total number delet muts per ind (within a patch)")
 	}
 	if(count.type == "homozygous" | count.type == "all"){
 		# make quanti fitness into a matrix matched to the landscape
 		hom.mut.mat <- matrix(avg.mut.counts$num.homs, nrow=patches.y, ncol=patches.x, byrow=FALSE)
-		heatmap.2(x=hom.mut.mat, dendrogram='none', labRow=NA, labCol=NA, margins=c(2,1), trace='none', na.color="blue", keysize=1, key.ylab=NA, key.title=NA, key.par=list(yaxt="n"), xlab="axis of expansion", col=c(white(40), whiteToYellow(60), yellowToRed(60), redToPurple(15)), main="Mean number homozygous delet muts per ind (within a patch)")
+		heatmap.2(x=hom.mut.mat, dendrogram='none', labRow=NA, labCol=NA, margins=c(2,1), trace='none', na.color="blue", keysize=1, key.ylab=NA, key.title=NA, key.par=list(yaxt="n"), xlab="axis of expansion ->", col=c(white(40), whiteToYellow(60), yellowToRed(60), redToPurple(15)), main="Mean number homozygous delet muts per ind (within a patch)")
 	}
 	if(count.type == "heterozygous" | count.type == "all"){
 		# make delet fitness into a matrix matched to the landscape
 		het.mut.mat <- matrix(avg.mut.counts$num.hets, nrow=patches.y, ncol=patches.x, byrow=FALSE)
-		heatmap.2(x=het.mut.mat, dendrogram='none', labRow=NA, labCol=NA, margins=c(2,1), trace='none', na.color="blue", keysize=1, key.ylab=NA, key.title=NA, key.par=list(yaxt="n"), xlab="axis of expansion", col=c(white(40), whiteToYellow(60), yellowToRed(60), redToPurple(15)), main="Mean number heterozygous delet muts per ind (within a patch)")
+		heatmap.2(x=het.mut.mat, dendrogram='none', labRow=NA, labCol=NA, margins=c(2,1), trace='none', na.color="blue", keysize=1, key.ylab=NA, key.title=NA, key.par=list(yaxt="n"), xlab="axis of expansion ->", col=c(white(40), whiteToYellow(60), yellowToRed(60), redToPurple(15)), main="Mean number heterozygous delet muts per ind (within a patch)")
 	}
 
 }
