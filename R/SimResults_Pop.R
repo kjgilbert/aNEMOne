@@ -89,17 +89,17 @@ fit.results.landscape <- function(input.fit.file, patches.x, patches.y, fitness.
 		per.patch.fitness <- per.patch.fitness[order(per.patch.fitness$pop), ]	
 	}
 	  
-	if(fitness.type == "total"){
+	if(fitness.type == "total" | fitness.type == "all"){
 		# make total fitness into a matrix matched to the landscape
 		total.fit.mat <- matrix(per.patch.fitness$total.fitness, nrow=patches.y, ncol=patches.x, byrow=FALSE)
 		heatmap(x=total.fit.mat, col=heat.colors(256), scale="column", margins=c(2,2), xlab="x axis", ylab="y axis", Rowv=NA, Colv=NA, labRow=NA, labCol=NA, main="Mean total fitness per patch")
 	}
-	if(fitness.type == "quanti"){
+	if(fitness.type == "quanti" | fitness.type == "all"){
 		# make quanti fitness into a matrix matched to the landscape
 		quanti.fit.mat <- matrix(per.patch.fitness$trait2, nrow=patches.y, ncol=patches.x, byrow=FALSE)
 		heatmap(x=quanti.fit.mat, col=heat.colors(256), scale="column", margins=c(2,2), xlab="x axis", ylab="y axis", Rowv=NA, Colv=NA, labRow=NA, labCol=NA, main="Mean quanti fitness per patch")
 	}
-	if(fitness.type == "delet"){
+	if(fitness.type == "delet" | fitness.type == "all"){
 		# make delet fitness into a matrix matched to the landscape
 		delet.fit.mat <- matrix(per.patch.fitness$trait1, nrow=patches.y, ncol=patches.x, byrow=FALSE)
 		heatmap(x=delet.fit.mat, col=heat.colors(256), scale="column", margins=c(2,2), xlab="x axis", ylab="y axis", Rowv=NA, Colv=NA, labRow=NA, labCol=NA, main="Mean delet fitness per patch")

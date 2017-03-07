@@ -100,17 +100,17 @@ delet.muts.over.landscape <- function(del.file, patches.x, patches.y, num.loci, 
 		avg.mut.counts <- avg.mut.counts[order(avg.mut.counts$pop.list), ]	
 	}
 	  
-	if(count.type == "total"){
+	if(count.type == "total" | count.type == "all"){
 		# make total fitness into a matrix matched to the landscape
 		total.mut.mat <- matrix(avg.mut.counts$total.muts, nrow=patches.y, ncol=patches.x, byrow=FALSE)
 		heatmap(x=total.mut.mat, col=heat.colors(256), scale="column", margins=c(2,2), xlab="x axis", ylab="y axis", Rowv=NA, Colv=NA, labRow=NA, labCol=NA, main="Mean total number delet muts per ind (within a patch)")
 	}
-	if(count.type == "homozygous"){
+	if(count.type == "homozygous" | count.type == "all"){
 		# make quanti fitness into a matrix matched to the landscape
 		hom.mut.mat <- matrix(avg.mut.counts$num.homs, nrow=patches.y, ncol=patches.x, byrow=FALSE)
 		heatmap(x=hom.mut.mat, col=heat.colors(256), scale="column", margins=c(2,2), xlab="x axis", ylab="y axis", Rowv=NA, Colv=NA, labRow=NA, labCol=NA, main="Mean number homozygous delet muts per ind (within a patch)")
 	}
-	if(count.type == "heterozygous"){
+	if(count.type == "heterozygous" | count.type == "all"){
 		# make delet fitness into a matrix matched to the landscape
 		het.mut.mat <- matrix(avg.mut.counts$num.hets, nrow=patches.y, ncol=patches.x, byrow=FALSE)
 		heatmap(x=het.mut.mat, col=heat.colors(256), scale="column", margins=c(2,2), xlab="x axis", ylab="y axis", Rowv=NA, Colv=NA, labRow=NA, labCol=NA, main="Mean number heterozygous delet muts per ind (within a patch)")
