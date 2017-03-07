@@ -107,8 +107,9 @@ delet.muts.over.landscape <- function(del.file, patches.x, patches.y, num.loci, 
 		# if some patches are empty:
 	if(dim(avg.mut.counts)[1] < total.num.patches){
 		empty.patches <- setdiff(1:total.num.patches, avg.mut.counts$pop.list)
-		empties <- matrix(0, ncol=4, nrow=length(empty.patches))
-		empty.rows <- data.frame(matrix(cbind(empty.patches, empty.patches, empties), ncol=6, byrow=TRUE))
+		empty.rows <- data.frame(matrix(NA, ncol=6, nrow=length(empty.patches)))
+		empty.rows[,1] <- empty.patches
+		empty.rows[,2] <- empty.patches
 		names(empty.rows) <- names(avg.mut.counts)
 		avg.mut.counts <- rbind(avg.mut.counts, empty.rows)
 		avg.mut.counts <- avg.mut.counts[order(avg.mut.counts$pop.list), ]	
