@@ -70,6 +70,20 @@ dist.delet.effects <- function(file, num.loci, xlim.ho=c(0,1), xlim.he=c(0,1)){
 
 delet.muts.over.landscape <- function(del.file, patches.x, patches.y, num.loci, count.type="total"){
 
+	# custom colors
+	purple=rgb(1,0,1)
+	red=rgb(1,0,0)
+	yellow=rgb(1,1,0)
+	green=rgb(0,1,0)
+	teal=rgb(0,1,1)
+	blue=rgb(0,0,1)
+	white=rgb(1,1,1)
+	white <- colorRampPalette(white)
+	whiteToYellow <- colorRampPalette(c(white, yellow))
+	yellowToRed <- colorRampPalette(c(yellow, red))
+	redToPurple <- colorRampPalette(c(red, purple))
+	greenToWhite <- colorRampPalette(c(green, white))
+
 	delet.muts <- matrix(scan(del.file, skip=3, what="character()"), ncol=num.loci+6, byrow=TRUE)
 	# strip the -1's from nemo's extra information
 	# because there are 1000 loci, last 5 spots - age, sex, ped, origin, and some other number
@@ -93,7 +107,7 @@ delet.muts.over.landscape <- function(del.file, patches.x, patches.y, num.loci, 
 		# if some patches are empty:
 	if(dim(avg.mut.counts)[1] < total.num.patches){
 		empty.patches <- setdiff(1:total.num.patches, avg.mut.counts$pop.list)
-		empties <- matrix(0, ncol=4, nrow=length(empty.patches))
+		empties <- matrix(NA, ncol=4, nrow=length(empty.patches))
 		empty.rows <- data.frame(matrix(cbind(empty.patches, empty.patches, empties), ncol=6, byrow=TRUE))
 		names(empty.rows) <- names(avg.mut.counts)
 		avg.mut.counts <- rbind(avg.mut.counts, empty.rows)
@@ -103,17 +117,17 @@ delet.muts.over.landscape <- function(del.file, patches.x, patches.y, num.loci, 
 	if(count.type == "total" | count.type == "all"){
 		# make total fitness into a matrix matched to the landscape
 		total.mut.mat <- matrix(avg.mut.counts$total.muts, nrow=patches.y, ncol=patches.x, byrow=FALSE)
-		heatmap(x=total.mut.mat, col=heat.colors(256), scale="column", margins=c(2,2), xlab="x axis", ylab="y axis", Rowv=NA, Colv=NA, labRow=NA, labCol=NA, main="Mean total number delet muts per ind (within a patch)")
+		heatmap.2(x=total.mut.mat, dendrogram='none', labRow=NA, labCol=NA, margins=c(2,1), trace='none', na.color="blue", keysize=1, key.ylab=NA, key.title=NA, key.par=list(yaxt="n"), xlab="axis of expansion", col=c(white(40), whiteToYellow(60), yellowToRed(60), redToPurple(15)), main="Mean total number delet muts per ind (within a patch)")
 	}
 	if(count.type == "homozygous" | count.type == "all"){
 		# make quanti fitness into a matrix matched to the landscape
 		hom.mut.mat <- matrix(avg.mut.counts$num.homs, nrow=patches.y, ncol=patches.x, byrow=FALSE)
-		heatmap(x=hom.mut.mat, col=heat.colors(256), scale="column", margins=c(2,2), xlab="x axis", ylab="y axis", Rowv=NA, Colv=NA, labRow=NA, labCol=NA, main="Mean number homozygous delet muts per ind (within a patch)")
+		heatmap.2(x=hom.mut.mat, dendrogram='none', labRow=NA, labCol=NA, margins=c(2,1), trace='none', na.color="blue", keysize=1, key.ylab=NA, key.title=NA, key.par=list(yaxt="n"), xlab="axis of expansion", col=c(white(40), whiteToYellow(60), yellowToRed(60), redToPurple(15)), main="Mean number homozygous delet muts per ind (within a patch)")
 	}
 	if(count.type == "heterozygous" | count.type == "all"){
 		# make delet fitness into a matrix matched to the landscape
 		het.mut.mat <- matrix(avg.mut.counts$num.hets, nrow=patches.y, ncol=patches.x, byrow=FALSE)
-		heatmap(x=het.mut.mat, col=heat.colors(256), scale="column", margins=c(2,2), xlab="x axis", ylab="y axis", Rowv=NA, Colv=NA, labRow=NA, labCol=NA, main="Mean number heterozygous delet muts per ind (within a patch)")
+		heatmap.2(x=het.mut.mat, dendrogram='none', labRow=NA, labCol=NA, margins=c(2,1), trace='none', na.color="blue", keysize=1, key.ylab=NA, key.title=NA, key.par=list(yaxt="n"), xlab="axis of expansion", col=c(white(40), whiteToYellow(60), yellowToRed(60), redToPurple(15)), main="Mean number heterozygous delet muts per ind (within a patch)")
 	}
 
 }

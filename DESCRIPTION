@@ -12,7 +12,8 @@ License: GPL-2
 Depends:
     graphics,
     gstat,
-    fields
+    fields,
+    gplots
 Suggests:
     testthat
 Roxygen: list(wrap = FALSE)
