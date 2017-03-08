@@ -110,16 +110,22 @@ fit.results.landscape <- function(input.fit.file, patches.x, patches.y, fitness.
 	if(fitness.type == "total" | fitness.type == "all"){
 		# make total fitness into a matrix matched to the landscape
 		total.fit.mat <- matrix(per.patch.fitness$total.fitness, nrow=patches.y, ncol=patches.x, byrow=FALSE)
-		heatmap.2(x=total.fit.mat, dendrogram='none', labRow=NA, labCol=NA, margins=c(2,1), trace='none', na.color="white", keysize=1, key.ylab=NA, key.title=NA, density.info='none', key.par=list(yaxt="n"), xlab="axis of expansion ->", col=c(whiteToWhite(1), redToYellow(60), yellowToGreen(15), greenToTeal(15), tealToBlue(15)), main="Mean total fitness per patch")
+		# make the scale always the same:
+		total.fit.mat[1,1] <- 1; total.fit.mat[2,1] <- 0
+		image.plot(x=1:patches.x, y=1:patches.y, t(total.fit.mat), col=c(whiteToWhite(1), redToYellow(60), yellowToGreen(15), greenToTeal(15), tealToBlue(15)), ylab="", xlab="Axis of expansion", main="Mean total fitness per patch")
 	}
 	if(fitness.type == "quanti" | fitness.type == "all"){
 		# make quanti fitness into a matrix matched to the landscape
 		quanti.fit.mat <- matrix(per.patch.fitness$trait2, nrow=patches.y, ncol=patches.x, byrow=FALSE)
-		heatmap.2(x=quanti.fit.mat, dendrogram='none', labRow=NA, labCol=NA, margins=c(2,1), trace='none', na.color="white", keysize=1, key.ylab=NA, key.title=NA, density.info='none', key.par=list(yaxt="n"), xlab="axis of expansion ->", col=c(whiteToWhite(1), redToYellow(60), yellowToGreen(15), greenToTeal(15), tealToBlue(15)), main="Mean quanti fitness per patch")
+		# make the scale always the same:
+		quanti.fit.mat[1,1] <- 1; quanti.fit.mat[2,1] <- 0
+		image.plot(x=1:patches.x, y=1:patches.y, t(quanti.fit.mat), col=c(whiteToWhite(1), redToYellow(60), yellowToGreen(15), greenToTeal(15), tealToBlue(15)), ylab="", xlab="Axis of expansion", main="Mean quanti fitness per patch")
 	}
 	if(fitness.type == "delet" | fitness.type == "all"){
 		# make delet fitness into a matrix matched to the landscape
 		delet.fit.mat <- matrix(per.patch.fitness$trait1, nrow=patches.y, ncol=patches.x, byrow=FALSE)
-		heatmap.2(x=delet.fit.mat, dendrogram='none', labRow=NA, labCol=NA, margins=c(2,1), trace='none', na.color="white", keysize=1, key.ylab=NA, key.title=NA, density.info='none', key.par=list(yaxt="n"), xlab="axis of expansion ->", col=c(whiteToWhite(1), redToYellow(60), yellowToGreen(15), greenToTeal(15), tealToBlue(15)), main="Mean delet fitness per patch")
+		# make the scale always the same:
+		delet.fit.mat[1,1] <- 1; delet.fit.mat[2,1] <- 0
+		image.plot(x=1:patches.x, y=1:patches.y, t(delet.fit.mat), col=c(whiteToWhite(1), redToYellow(60), yellowToGreen(15), greenToTeal(15), tealToBlue(15)), ylab="", xlab="Axis of expansion", main="Mean delet fitness per patch")
 	}
 }
