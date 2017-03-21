@@ -293,7 +293,7 @@ plot1D.results <- function(input.fit.file, input.quanti.file=NULL, input.del.fil
     env.change.time <- generation*opt.rate.change
     env <- env + env.change.time
     
-    plot(1:patches.x, env, xlim=xlimits, type="l", lwd=1.5, xlab="Landscape x position", ylab="Quanti trait & env. optimum", main=paste(c("Generation ", generation), collapse=""))
+    plot(1:patches.x, env, xlim=xlimits, ylim=c(min(avg.quanti$pop)-10, max(avg.quanti$pop)+10), type="l", lwd=1.5, xlab="Landscape x position", ylab="Quanti trait & env. optimum", main=paste(c("Generation ", generation), collapse=""))
     points(avg.quanti$pop, avg.quanti$G1, xlim=xlimits, type="l", lwd=2, col="blue")
     points(avg.quanti$pop, avg.quanti$P1, xlim=xlimits, type="l", lwd=4, col="green3")
   }
