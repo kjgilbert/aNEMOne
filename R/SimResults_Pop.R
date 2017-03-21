@@ -241,7 +241,7 @@ plot1D.results <- function(input.fit.file, input.quanti.file=NULL, input.del.fil
     
     if(dim(avg.mut.counts)[1] < total.num.patches){
       empty.patches <- setdiff(1:total.num.patches, avg.mut.counts$pop.list)
-      empty.rows <- data.frame(matrix(NA, ncol=6, nrow=length(empty.patches)))
+      empty.rows <- data.frame(matrix(0, ncol=6, nrow=length(empty.patches)))
       empty.rows[,1] <- empty.patches
       empty.rows[,2] <- empty.patches
       names(empty.rows) <- names(avg.mut.counts)
