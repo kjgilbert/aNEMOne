@@ -214,7 +214,7 @@ plot1D.results <- function(input.fit.file, input.quanti.file=NULL, input.del.fil
   plot(per.patch.fitness$Group.1, per.patch.fitness$total.fitness, type="o", col="black", pch=".", lwd=2, ylim=c(0,1), xlim=xlimits, xlab="Landscape x position", ylab="Mean fitness", main=paste(c("Generation ", generation), collapse=""))
   points(per.patch.fitness$Group.1, per.patch.fitness$trait2, type="o", col="blue", pch=".", lwd=2, ylim=c(0,1), xlim=xlimits)
   points(per.patch.fitness$Group.1, per.patch.fitness$trait1, type="o", col="red", pch=".", lwd=2, ylim=c(0,1), xlim=xlimits)
-  legend("topleft", col=c("black", "blue", "red"), c("total", "quanti trait", "delet muts"))
+  if(plot.legend == TRUE) legend("topleft", col=c("black", "blue", "red"), c("total", "quanti trait", "delet muts"), pch=15)
   
   
   
@@ -250,7 +250,7 @@ plot1D.results <- function(input.fit.file, input.quanti.file=NULL, input.del.fil
     plot(1:patches.x, avg.mut.counts$total.muts, xlim=xlimits, type="l", lwd=2, xlab="Landscape x position", ylab="Mean number deleterious mutations", main=paste(c("Generation ", generation), collapse=""))
     points(avg.mut.counts$pop.list, avg.mut.counts$num.hets, xlim=xlimits, type="l", lwd=2, col="orange")
     points(avg.mut.counts$pop.list, avg.mut.counts$num.homs, xlim=xlimits, type="l", lwd=2, col="red")
-  legend("topleft", col=c("black", "orange", "red"), c("total", "heterozygous", "homozygous"))
+	if(plot.legend == TRUE) legend("topleft", col=c("black", "orange", "red"), c("total", "heterozygous", "homozygous"), pch=15)
   }
  
   
