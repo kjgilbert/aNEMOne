@@ -6,7 +6,8 @@
 \usage{
 plot1D.results(input.fit.file, input.quanti.file = NULL,
   input.del.file = NULL, patches.x, patches.y, slope.opt = NULL,
-  opt.rate.change = NULL, generation, del.loci, xlimits = NULL)
+  opt.rate.change = NULL, generation, del.loci, xlimits = NULL,
+  plot.legend = TRUE)
 }
 \arguments{
 \item{input.fit.file}{The .fit file output from Nemo.}
@@ -28,6 +29,8 @@ plot1D.results(input.fit.file, input.quanti.file = NULL,
 \item{del.loci}{The number of deleterious loci simulated.}
 
 \item{xlimits}{A smaller range on the x-axis to plot, if desired.}
+
+\item{plot.legend}{Whether to include a legend or not on the fitness and deleterious mutation number plots.}
 }
 \value{
 Creates 1-D plots over the landscape for population size, fitness, numbers of deleterious mutations, and environmental optimum match to the quantitative trait.

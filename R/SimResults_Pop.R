@@ -161,6 +161,8 @@ fit.results.landscape <- function(input.fit.file, patches.x, patches.y, fitness.
 #'
 #'  @param xlimits A smaller range on the x-axis to plot, if desired.
 #'
+#'  @param plot.legend Whether to include a legend or not on the fitness and deleterious mutation number plots.
+#'
 #'  @return
 #'
 #'  Creates 1-D plots over the landscape for population size, fitness, numbers of deleterious mutations, and environmental optimum match to the quantitative trait.
@@ -172,7 +174,7 @@ fit.results.landscape <- function(input.fit.file, patches.x, patches.y, fitness.
 #' @export plot1D.results
 
 
-plot1D.results <- function(input.fit.file, input.quanti.file=NULL, input.del.file=NULL, patches.x, patches.y, slope.opt=NULL, opt.rate.change=NULL, generation, del.loci, xlimits=NULL){
+plot1D.results <- function(input.fit.file, input.quanti.file=NULL, input.del.file=NULL, patches.x, patches.y, slope.opt=NULL, opt.rate.change=NULL, generation, del.loci, xlimits=NULL, plot.legend=TRUE){
   
   total.num.patches <- patches.x * patches.y
   if(is.null(xlimits)){
