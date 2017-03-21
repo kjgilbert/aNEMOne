@@ -197,14 +197,14 @@ plot1D.results <- function(input.fit.file, input.quanti.file=NULL, input.del.fil
   # if some patches are empty:
   if(dim(per.patch.fitness)[1] < total.num.patches){
     empty.patches <- setdiff(1:total.num.patches, per.patch.fitness$pop)
-    empty.rows <- data.frame(matrix(0, ncol=7, nrow=length(empty.patches)))
+    empty.rows <- data.frame(matrix(NA, ncol=7, nrow=length(empty.patches)))
     empty.rows[,1] <- empty.patches
     empty.rows[,2] <- empty.patches
     names(empty.rows) <- names(per.patch.fitness)
     per.patch.fitness <- rbind(per.patch.fitness, empty.rows)
     per.patch.fitness <- per.patch.fitness[order(per.patch.fitness$pop), ]
     
-    empty.rows[,2] <- rep(0, length(empty.rows[,1]))
+    empty.rows[,2] <- rep(NA, length(empty.rows[,1]))
     per.patch.pop.size <- rbind(pop.size, empty.rows)
     per.patch.pop.size <- per.patch.pop.size[order(per.patch.pop.size$Group.1), ]
   }
@@ -238,7 +238,7 @@ plot1D.results <- function(input.fit.file, input.quanti.file=NULL, input.del.fil
     
     if(dim(avg.mut.counts)[1] < total.num.patches){
       empty.patches <- setdiff(1:total.num.patches, avg.mut.counts$pop.list)
-      empty.rows <- data.frame(matrix(0, ncol=6, nrow=length(empty.patches)))
+      empty.rows <- data.frame(matrix(NA, ncol=6, nrow=length(empty.patches)))
       empty.rows[,1] <- empty.patches
       empty.rows[,2] <- empty.patches
       names(empty.rows) <- names(avg.mut.counts)
@@ -263,7 +263,7 @@ plot1D.results <- function(input.fit.file, input.quanti.file=NULL, input.del.fil
     
     if(dim(avg.quanti)[1] < total.num.patches){
       empty.patches <- setdiff(1:total.num.patches, avg.quanti$pop)
-      empty.rows <- data.frame(matrix(0, ncol=4, nrow=length(empty.patches)))
+      empty.rows <- data.frame(matrix(NA, ncol=4, nrow=length(empty.patches)))
       empty.rows[,1] <- empty.patches
       empty.rows[,2] <- empty.patches
       names(empty.rows) <- names(avg.quanti)
