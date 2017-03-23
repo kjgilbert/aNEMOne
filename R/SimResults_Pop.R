@@ -292,9 +292,18 @@ plot1D.results <- function(input.fit.file, input.quanti.file=NULL, input.del.fil
     }
     
     # plot the landscape and genotypes and phenotypes on it
-    env.change.time <- generation*opt.rate.change
-    if(!is.null(delay.env.change)) env.change.time <- (generation-delay.env.change)*opt.rate.change
-    env <- env + env.change.time
+    if(is.null(delay.env.change)){							# in this case the environment rate of change is constant throughout the whole sim
+    	env.change.time <- generation*opt.rate.change
+    	env <- env + env.change.time
+    }else{													# in this case the environment rate of change only starts after a specified generation then is constant
+    	if(generation < delay.env.change){					# so if we're plotting an early gernation before the change starts, it's just the normal env
+    		env <- env
+    	}else{												# otherwise adjust the env's level of change to have begun at the specified generation
+    		env.change.time <- (generation-delay.env.change)*opt.rate.change
+    		env <- env + env.change.time
+    	}
+    } 
+    
     
     plot(1:patches.x, env, xlim=xlimits, ylim=c(min(avg.quanti$P1, na.rm=TRUE)-15, max(avg.quanti$P1, na.rm=TRUE)+15), type="l", lwd=1.5, xlab="Landscape x position", ylab="Quanti trait & env. optimum", main=paste(c("Generation ", generation), collapse=""))
     points(avg.quanti$pop, avg.quanti$G1, xlim=xlimits, type="l", lwd=2, col="blue")
