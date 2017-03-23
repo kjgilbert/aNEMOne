@@ -155,6 +155,8 @@ fit.results.landscape <- function(input.fit.file, patches.x, patches.y, fitness.
 #'
 #'  @param opt.rate.change The rate of change of the environment per generation defined in the input file.
 #'
+#'  @param delay.env.change The gneeration at which the environment starts changing, if it is not immediate.
+#'
 #'  @param generation The current generation being plotted.
 #'
 #'  @param del.loci The number of deleterious loci simulated.
@@ -174,7 +176,7 @@ fit.results.landscape <- function(input.fit.file, patches.x, patches.y, fitness.
 #' @export plot1D.results
 
 
-plot1D.results <- function(input.fit.file, input.quanti.file=NULL, input.del.file=NULL, patches.x, patches.y, slope.opt=NULL, opt.rate.change=NULL, generation, del.loci, xlimits=NULL, plot.legend=TRUE){
+plot1D.results <- function(input.fit.file, input.quanti.file=NULL, input.del.file=NULL, patches.x, patches.y, slope.opt=NULL, opt.rate.change=NULL, delay.env.change=NULL, generation, del.loci, xlimits=NULL, plot.legend=TRUE){
   
   total.num.patches <- patches.x * patches.y
   if(is.null(xlimits)){
@@ -291,9 +293,10 @@ plot1D.results <- function(input.fit.file, input.quanti.file=NULL, input.del.fil
     
     # plot the landscape and genotypes and phenotypes on it
     env.change.time <- generation*opt.rate.change
+    if(!is.null(delay.env.change)) env.change.time <- (generation-delay.env.change)*opt.rate.change
     env <- env + env.change.time
     
-    plot(1:patches.x, env, xlim=xlimits, ylim=c(min(avg.quanti$P1, na.rm=TRUE)-10, max(avg.quanti$P1, na.rm=TRUE)+10), type="l", lwd=1.5, xlab="Landscape x position", ylab="Quanti trait & env. optimum", main=paste(c("Generation ", generation), collapse=""))
+    plot(1:patches.x, env, xlim=xlimits, ylim=c(min(avg.quanti$P1, na.rm=TRUE)-15, max(avg.quanti$P1, na.rm=TRUE)+15), type="l", lwd=1.5, xlab="Landscape x position", ylab="Quanti trait & env. optimum", main=paste(c("Generation ", generation), collapse=""))
     points(avg.quanti$pop, avg.quanti$G1, xlim=xlimits, type="l", lwd=2, col="blue")
     points(avg.quanti$pop, avg.quanti$P1, xlim=xlimits, type="l", lwd=4, col="green3")
   }

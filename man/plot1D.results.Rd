@@ -6,8 +6,8 @@
 \usage{
 plot1D.results(input.fit.file, input.quanti.file = NULL,
   input.del.file = NULL, patches.x, patches.y, slope.opt = NULL,
-  opt.rate.change = NULL, generation, del.loci, xlimits = NULL,
-  plot.legend = TRUE)
+  opt.rate.change = NULL, delay.env.change = NULL, generation, del.loci,
+  xlimits = NULL, plot.legend = TRUE)
 }
 \arguments{
 \item{input.fit.file}{The .fit file output from Nemo.}
@@ -23,6 +23,8 @@ plot1D.results(input.fit.file, input.quanti.file = NULL,
 \item{slope.opt}{The slope of the environmental optimum defined in the input file.}
 
 \item{opt.rate.change}{The rate of change of the environment per generation defined in the input file.}
+
+\item{delay.env.change}{The gneeration at which the environment starts changing, if it is not immediate.}
 
 \item{generation}{The current generation being plotted.}
 
