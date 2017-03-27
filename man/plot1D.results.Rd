@@ -7,7 +7,8 @@
 plot1D.results(input.fit.file, input.quanti.file = NULL,
   input.del.file = NULL, patches.x, patches.y, slope.opt = NULL,
   opt.rate.change = NULL, delay.env.change = NULL, generation, del.loci,
-  xlimits = NULL, plot.legend = TRUE)
+  xlimits = NULL, plot.legend = TRUE, Vs = NULL, quantiles = c(0.5,
+  0.1))
 }
 \arguments{
 \item{input.fit.file}{The .fit file output from Nemo.}
@@ -33,6 +34,10 @@ plot1D.results(input.fit.file, input.quanti.file = NULL,
 \item{xlimits}{A smaller range on the x-axis to plot, if desired.}
 
 \item{plot.legend}{Whether to include a legend or not on the fitness and deleterious mutation number plots.}
+
+\item{Vs}{The value of selection variance.}
+
+\item{quantiles}{The value of the two quantiles to plot for the selection distribution around the optimum.}
 }
 \value{
 Creates 1-D plots over the landscape for population size, fitness, numbers of deleterious mutations, and environmental optimum match to the quantitative trait.

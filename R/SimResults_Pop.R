@@ -165,6 +165,10 @@ fit.results.landscape <- function(input.fit.file, patches.x, patches.y, fitness.
 #'
 #'  @param plot.legend Whether to include a legend or not on the fitness and deleterious mutation number plots.
 #'
+#'  @param Vs The value of selection variance.
+#'
+#'  @param quantiles The value of the two quantiles to plot for the selection distribution around the optimum.
+#'
 #'  @return
 #'
 #'  Creates 1-D plots over the landscape for population size, fitness, numbers of deleterious mutations, and environmental optimum match to the quantitative trait.
@@ -176,7 +180,7 @@ fit.results.landscape <- function(input.fit.file, patches.x, patches.y, fitness.
 #' @export plot1D.results
 
 
-plot1D.results <- function(input.fit.file, input.quanti.file=NULL, input.del.file=NULL, patches.x, patches.y, slope.opt=NULL, opt.rate.change=NULL, delay.env.change=NULL, generation, del.loci, xlimits=NULL, plot.legend=TRUE){
+plot1D.results <- function(input.fit.file, input.quanti.file=NULL, input.del.file=NULL, patches.x, patches.y, slope.opt=NULL, opt.rate.change=NULL, delay.env.change=NULL, generation, del.loci, xlimits=NULL, plot.legend=TRUE, Vs=NULL, quantiles=c(0.5,0.1)){
   
   total.num.patches <- patches.x * patches.y
   if(is.null(xlimits)){
@@ -265,17 +269,18 @@ plot1D.results <- function(input.fit.file, input.quanti.file=NULL, input.del.fil
     # col G1 is geno, col P1 is pheno
     quanti.input <- quanti.input[,c("pop", "G1", "P1")]
 
-    avg.quanti <- aggregate(quanti.input, by=list(quanti.input$pop), FUN=mean)
+# plot every point minus the optimum instead
+#    avg.quanti <- aggregate(quanti.input, by=list(quanti.input$pop), FUN=mean)
     
-    if(dim(avg.quanti)[1] < total.num.patches){
-      empty.patches <- setdiff(1:total.num.patches, avg.quanti$pop)
-      empty.rows <- data.frame(matrix(NA, ncol=4, nrow=length(empty.patches)))
-      empty.rows[,1] <- empty.patches
-      empty.rows[,2] <- empty.patches
-      names(empty.rows) <- names(avg.quanti)
-      avg.quanti <- rbind(avg.quanti, empty.rows)
-      avg.quanti <- avg.quanti[order(avg.quanti$pop), ]
-    }
+#    if(dim(avg.quanti)[1] < total.num.patches){
+#      empty.patches <- setdiff(1:total.num.patches, avg.quanti$pop)
+#      empty.rows <- data.frame(matrix(NA, ncol=4, nrow=length(empty.patches)))
+#      empty.rows[,1] <- empty.patches
+#      empty.rows[,2] <- empty.patches
+#      names(empty.rows) <- names(avg.quanti)
+#      avg.quanti <- rbind(avg.quanti, empty.rows)
+#      avg.quanti <- avg.quanti[order(avg.quanti$pop), ]
+#    }
     
     # remake the landscape:
     first.col <- -(slope.opt*patches.x)/2
@@ -302,12 +307,32 @@ plot1D.results <- function(input.fit.file, input.quanti.file=NULL, input.del.fil
     		env.change.time <- (generation-delay.env.change)*opt.rate.change
     		env <- env + env.change.time
     	}
-    } 
+    }
     
+    env <- as.data.frame(env)
+    env$pop <- 1:patches.x
+    temp.quanti <- merge(quanti.input, env, by="pop")
+    # difference between optimum and inds - must be done per patch:
+    temp.quanti$pheno.diffs <- temp.quanti$P1 - temp.quanti$env
     
-    plot(1:patches.x, env, xlim=xlimits, ylim=c(min(avg.quanti$P1, na.rm=TRUE)-15, max(avg.quanti$P1, na.rm=TRUE)+15), type="l", lwd=1.5, xlab="Landscape x position", ylab="Quanti trait & env. optimum", main=paste(c("Generation ", generation), collapse=""))
-    points(avg.quanti$pop, avg.quanti$G1, xlim=xlimits, type="l", lwd=2, col="blue")
-    points(avg.quanti$pop, avg.quanti$P1, xlim=xlimits, type="l", lwd=4, col="green3")
+    # find the quantiles to plot around the env. optimum
+    # fitness eqn ->  w(z) = e^-[(z-z')^2/2Vs]
+	#  Vs <- 7.5
+	#  quantiles <- c(0.5, 0.1)
+    quant1plus <- 0 + sqrt(-2*Vs*log(quantiles[1]))
+    quant1minus <- 0 - sqrt(-2*Vs*log(quantiles[1]))
+    quant2plus <- 0 + sqrt(-2*Vs*log(quantiles[2]))
+    quant2minus <- 0 - sqrt(-2*Vs*log(quantiles[2]))
+    
+#    plot(1:patches.x, env, xlim=xlimits, ylim=c(min(avg.quanti$P1, na.rm=TRUE)-15, max(avg.quanti$P1, na.rm=TRUE)+15), type="l", lwd=1.5, xlab="Landscape x position", ylab="Quanti trait & env. optimum", main=paste(c("Generation ", generation), collapse=""))
+#    points(avg.quanti$pop, avg.quanti$G1, xlim=xlimits, type="l", lwd=2, col="blue")
+#    points(avg.quanti$pop, avg.quanti$P1, xlim=xlimits, type="l", lwd=4, col="green3")
+	plot(1:patches.x, rep(0, patches.x), xlim=xlimits, ylim=c(-15, 15), type="l", lwd=1.5, xlab="Landscape x position", ylab="Quanti trait & env. optimum", main=paste(c("Generation ", generation), collapse=""))
+	abline(h=c(quant1plus, quant1minus), col="blue4", lty=2, lwd=1.25)
+	abline(h=c(quant2plus, quant2minus), col="blue4", lty=3, lwd=1.1)
+##	polygon(x=c(1:patches.x, patches.x:1), y=c(rep(quant1plus, patches.x), rep(quant1minus, patches.x)), col="blue", border=TRUE, density=0)
+##	polygon(x=c(1:patches.x, patches.x:1), y=c(rep(quant2plus, patches.x), rep(quant2minus, patches.x)), col="red", border=TRUE, density=0)
+	points(temp.quanti$pop, temp.quanti$pheno.diffs, col="green3", pch=".", cex=2)
   }
   
 }
