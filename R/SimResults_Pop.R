@@ -201,7 +201,6 @@ plot1D.results <- function(input.fit.file, input.quanti.file=NULL, input.del.fil
   pop.size <- aggregate(fit.input, by=list(fit.input$pop), FUN=length)
   # there shouldn't be any ghost patches in the list because they're culled to pop size zero, but if errors arise down the line, that could be at fault
   if(dim(per.patch.fitness)[1] > total.num.patches) per.patch.fitness <- per.patch.fitness[- (total.num.patches+1),]
-  if(dim(per.patch.fitness)[1] > total.num.patches) per.patch.fitness <- per.patch.fitness[- (total.num.patches+1),]
   # if some patches are empty:
   if(dim(per.patch.fitness)[1] < total.num.patches){
   	if(del.loci > 0){ col.number <- 7 }else{ col.number <- 5 }
@@ -216,6 +215,8 @@ plot1D.results <- function(input.fit.file, input.quanti.file=NULL, input.del.fil
     empty.rows[,2] <- rep(NA, length(empty.rows[,1]))
     per.patch.pop.size <- rbind(pop.size, empty.rows)
     per.patch.pop.size <- per.patch.pop.size[order(per.patch.pop.size$Group.1), ]
+  }else{
+  	per.patch.pop.size <- pop.size
   }
   
   plot(1:total.num.patches, per.patch.pop.size$pop, type="o", col="darkorange", pch=".", lwd=2, ylim=c(0,100), xlim=xlimits, xlab="Landscape x position", ylab="Population size", main=paste(c("Generation ", generation), collapse=""))
