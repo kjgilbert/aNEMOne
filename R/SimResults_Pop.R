@@ -204,8 +204,9 @@ plot1D.results <- function(input.fit.file, input.quanti.file=NULL, input.del.fil
   if(dim(per.patch.fitness)[1] > total.num.patches) per.patch.fitness <- per.patch.fitness[- (total.num.patches+1),]
   # if some patches are empty:
   if(dim(per.patch.fitness)[1] < total.num.patches){
+  	if(del.loci > 0){ col.number <- 7 }else{ col.number <- 5 }
     empty.patches <- setdiff(1:total.num.patches, per.patch.fitness$pop)
-    empty.rows <- data.frame(matrix(NA, ncol=7, nrow=length(empty.patches)))
+    empty.rows <- data.frame(matrix(NA, ncol=col.number, nrow=length(empty.patches)))
     empty.rows[,1] <- empty.patches
     empty.rows[,2] <- empty.patches
     names(empty.rows) <- names(per.patch.fitness)
