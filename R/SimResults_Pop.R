@@ -219,10 +219,15 @@ plot1D.results <- function(input.fit.file, input.quanti.file=NULL, input.del.fil
   
   plot(1:total.num.patches, per.patch.pop.size$pop, type="o", col="darkorange", pch=".", lwd=2, ylim=c(0,100), xlim=xlimits, xlab="Landscape x position", ylab="Population size", main=paste(c("Generation ", generation), collapse=""))
   
-  plot(per.patch.fitness$Group.1, per.patch.fitness$total.fitness, type="o", col="black", pch=".", lwd=2, ylim=c(0,1), xlim=xlimits, xlab="Landscape x position", ylab="Mean fitness", main=paste(c("Generation ", generation), collapse=""))
-  points(per.patch.fitness$Group.1, per.patch.fitness$trait2, type="o", col="blue", pch=".", lwd=2, ylim=c(0,1), xlim=xlimits)
-  points(per.patch.fitness$Group.1, per.patch.fitness$trait1, type="o", col="red", pch=".", lwd=2, ylim=c(0,1), xlim=xlimits)
-  if(plot.legend == TRUE) legend("topleft", col=c("black", "blue", "red"), c("total", "quanti trait", "delet muts"), pch=15)
+  if(del.loci > 0){
+  	plot(per.patch.fitness$Group.1, per.patch.fitness$total.fitness, type="o", col="black", pch=".", lwd=2, ylim=c(0,1), xlim=xlimits, xlab="Landscape x position", ylab="Mean fitness", main=paste(c("Generation ", generation), collapse=""))
+  	points(per.patch.fitness$Group.1, per.patch.fitness$trait2, type="o", col="blue", pch=".", lwd=2, ylim=c(0,1), xlim=xlimits)
+  	points(per.patch.fitness$Group.1, per.patch.fitness$trait1, type="o", col="red", pch=".", lwd=2, ylim=c(0,1), xlim=xlimits)
+	if(plot.legend == TRUE) legend("topleft", col=c("black", "blue", "red"), c("total", "quanti trait", "delet muts"), pch=15)
+  }else{	# then there is only one trait's fitness to plot, b/c no delet loci
+  	plot(per.patch.fitness$Group.1, per.patch.fitness$trait1, type="o", col="black", pch=".", lwd=2, ylim=c(0,1), xlim=xlimits, xlab="Landscape x position", ylab="Mean fitness", main=paste(c("Generation ", generation), collapse=""))
+	if(plot.legend == TRUE) legend("topleft", col="black", c("total trait fitness", pch=15)
+  }  
   
   
   
