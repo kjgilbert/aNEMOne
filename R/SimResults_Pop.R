@@ -313,11 +313,6 @@ plot1D.results <- function(input.fit.file, input.quanti.file=NULL, input.del.fil
     		env.change.time <- (generation-delay.env.change)*opt.rate.change
     		env <- env + env.change.time
     	}
-    }else if (!is.null(input.quanti.file)){
-    	env <- rep(0, patches.x)
-    	quanti.input <- read.table(input.quanti.file, header=TRUE)
-    	# col G1 is geno, col P1 is pheno
-    	quanti.input <- quanti.input[,c("pop", "G1", "P1")]
     }
     
     env <- as.data.frame(env)
@@ -343,6 +338,26 @@ plot1D.results <- function(input.fit.file, input.quanti.file=NULL, input.del.fil
 	abline(h=c(quant2plus, quant2minus), col="blue4", lty=3, lwd=1.1)
 ##	polygon(x=c(1:patches.x, patches.x:1), y=c(rep(quant1plus, patches.x), rep(quant1minus, patches.x)), col="blue", border=TRUE, density=0)
 ##	polygon(x=c(1:patches.x, patches.x:1), y=c(rep(quant2plus, patches.x), rep(quant2minus, patches.x)), col="red", border=TRUE, density=0)
+	points(temp.quanti$pop, temp.quanti$pheno.diffs, col="green3", pch=".", cex=2)
+  }else if(!is.null(input.quanti.file)){
+   	env <- rep(0, patches.x)
+   	quanti.input <- read.table(input.quanti.file, header=TRUE)
+   	# col G1 is geno, col P1 is pheno
+   	quanti.input <- quanti.input[,c("pop", "G1", "P1")]
+    env <- as.data.frame(env)
+    env$pop <- 1:patches.x
+    temp.quanti <- merge(quanti.input, env, by="pop")
+    # difference between optimum and inds - must be done per patch:
+    temp.quanti$pheno.diffs <- temp.quanti$P1 - temp.quanti$env
+    # find the quantiles to plot around the env. optimum
+    quant1plus <- 0 + sqrt(-2*Vs*log(quantiles[1]))
+    quant1minus <- 0 - sqrt(-2*Vs*log(quantiles[1]))
+    quant2plus <- 0 + sqrt(-2*Vs*log(quantiles[2]))
+    quant2minus <- 0 - sqrt(-2*Vs*log(quantiles[2]))
+    # make the plot
+	plot(1:patches.x, rep(0, patches.x), xlim=xlimits, ylim=c(-15, 15), type="l", lwd=1.5, xlab="Landscape x position", ylab="Quanti trait & env. optimum", main=paste(c("Generation ", generation), collapse=""))
+	abline(h=c(quant1plus, quant1minus), col="blue4", lty=2, lwd=1.25)
+	abline(h=c(quant2plus, quant2minus), col="blue4", lty=3, lwd=1.1)
 	points(temp.quanti$pop, temp.quanti$pheno.diffs, col="green3", pch=".", cex=2)
   }
   
