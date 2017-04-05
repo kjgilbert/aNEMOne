@@ -313,6 +313,11 @@ plot1D.results <- function(input.fit.file, input.quanti.file=NULL, input.del.fil
     		env.change.time <- (generation-delay.env.change)*opt.rate.change
     		env <- env + env.change.time
     	}
+    }else if (!is.null(input.quanti.file)){
+    	env <- rep(0, patches.x)
+    	quanti.input <- read.table(input.quanti.file, header=TRUE)
+    	# col G1 is geno, col P1 is pheno
+    	quanti.input <- quanti.input[,c("pop", "G1", "P1")]
     }
     
     env <- as.data.frame(env)
